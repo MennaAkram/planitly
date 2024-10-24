@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+// import 'package:planitly/design_system/app_colors.dart';
+import 'package:planitly/shared/widgets/add_button.dart';
+import 'package:planitly/shared/widgets/app_bar.dart';
+import 'package:planitly/shared/widgets/button.dart';
+import 'package:planitly/shared/widgets/text_field.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -42,7 +48,6 @@ class MyHomePage extends StatefulWidget {
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
-
   // This class is the configuration for the state. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
@@ -55,7 +60,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // int _counter = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -64,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      // _counter++;
     });
   }
 
@@ -77,16 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
+      body: Container(
+        color: Colors.white,
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -103,23 +100,55 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            const SizedBox(height: 15),
+            const CustomAppBar(title: "Subject Name"),
+            const SizedBox(height: 10),
+            const SizedBox(height: 10),
+            CustomTextField(
+                labelText: "Email", controller: TextEditingController()),
+            const SizedBox(
+              height: 10,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            CustomTextField(
+              labelText: "Password",
+              controller: TextEditingController(),
+              isPassword: true,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomButton(
+              text: "SignUp",
+              onPressed: () {},
+              outlined: false,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomButton(
+              text: "SignUp",
+              onPressed: () {},
+              outlined: true,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomButton(
+              text: "add new income",
+              onPressed: () {},
+              outlined: true,
+              addIcon: true,
+              verticalPadding: 0,
+              horizontalPadding: 0,
+              width: 150,
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: AddButton(onPressed: _incrementCounter),
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

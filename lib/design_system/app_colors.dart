@@ -4,7 +4,8 @@ class AppColorsTheme extends ThemeExtension<AppColorsTheme> {
   final Color primary;
   final Color secondary;
   final Color background;
-  final LinearGradient gradient;
+  final LinearGradient gradientLR;
+  final LinearGradient gradientTB;
   final Color black16;
   final Color black37;
   final Color black60;
@@ -23,7 +24,8 @@ class AppColorsTheme extends ThemeExtension<AppColorsTheme> {
     required this.primary,
     required this.secondary,
     required this.background,
-    required this.gradient,
+    required this.gradientLR,
+    required this.gradientTB,
     required this.black16,
     required this.black37,
     required this.black60,
@@ -44,10 +46,17 @@ class AppColorsTheme extends ThemeExtension<AppColorsTheme> {
       primary: Color(0xFFFC5D00),
       secondary: Color(0xFFFFEEE3),
       background: Color(0xFFFFFFFF),
-      gradient: LinearGradient(colors: [
+      gradientLR: LinearGradient(colors: [
         Color(0xFF002FFF),
         Color(0xFFFC5D00),
       ]),
+      gradientTB: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF002FFF),
+            Color(0xFFFC5D00),
+          ]),
       black16: Color(0x29121212),
       black37: Color(0x5E121212),
       black60: Color(0x99121212),
