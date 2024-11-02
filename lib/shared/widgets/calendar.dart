@@ -14,8 +14,7 @@ class CalendarWidget extends StatefulWidget {
   });
 
   @override
-  // ignore: library_private_types_in_public_api
-  _CalendarWidgetState createState() => _CalendarWidgetState();
+  State<CalendarWidget> createState() => _CalendarWidgetState();
 }
 
 class _CalendarWidgetState extends State<CalendarWidget> {
@@ -88,17 +87,17 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 color: Theme.of(context).appColors.black60,
               ),
           todayTextStyle: Theme.of(context).appTexts.bodyMedium.copyWith(
-                color: Theme.of(context).appColors.white100,
+                color: _selectedDay != null ? Theme.of(context).appColors.black60 : Theme.of(context).appColors.white100,
               ),
           selectedTextStyle: Theme.of(context).appTexts.bodyMedium.copyWith(
-                color: Theme.of(context).appColors.black60,
+                color: Theme.of(context).appColors.white100,
               ),
           selectedDecoration: BoxDecoration(
             color: Theme.of(context).appColors.primary,
             shape: BoxShape.circle,
           ),
           todayDecoration: BoxDecoration(
-            color: Theme.of(context).appColors.primary,
+            color: _selectedDay != null ? Theme.of(context).appColors.background : Theme.of(context).appColors.primary,
             shape: BoxShape.circle,
           ),
         ),

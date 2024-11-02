@@ -5,22 +5,16 @@ class CustomButton extends StatelessWidget {
   final String text;
   final bool outlined;
   final VoidCallback onPressed;
-  final double horizontalPadding;
-  final double verticalPadding;
   final IconData icon;
   final bool addIcon;
-  final double width;
 
   const CustomButton(
       {super.key,
       required this.text,
       required this.onPressed,
       required this.outlined,
-      this.horizontalPadding = 48,
-      this.verticalPadding = 14,
       this.icon = Icons.add,
-      this.addIcon = false,
-      this.width = 100});
+      this.addIcon = false});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +25,7 @@ class CustomButton extends StatelessWidget {
             ? Theme.of(context).appColors.white100
             : Theme.of(context).appColors.primary,
         padding: EdgeInsets.symmetric(
-            horizontal: horizontalPadding, vertical: verticalPadding),
+            horizontal: addIcon ? 12 : 48 , vertical: addIcon ? 8 : 14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(35),
           side: BorderSide(
@@ -41,14 +35,13 @@ class CustomButton extends StatelessWidget {
         ),
       ),
       // ignore: sized_box_for_whitespace
-      child: Container(
-        width: width,
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             addIcon
                 ? Container(
-                    margin: const EdgeInsets.only(right: 5),
+                    margin: const EdgeInsets.only(right: 8),
                     child: Icon(
                       icon,
                       color: Theme.of(context).appColors.primary,
@@ -69,7 +62,6 @@ class CustomButton extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }
