@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planitly/design_system/app_colors.dart';
-import 'package:planitly/design_system/app_text.dart';
+import 'package:planitly/design_system/theme.dart';
 
 class CustomTitle extends StatelessWidget {
   final String title;
@@ -25,15 +24,17 @@ class CustomTitle extends StatelessWidget {
         children: [
           Text(
             title,
-            style: AppTextsTheme.main().titleSmall,
+            style: Theme.of(context).appTexts.titleSmall.copyWith(
+                  color: Theme.of(context).appColors.black87,
+                ),
           ),
           seeAll
               ? InkWell(
                   onTap: onPressed,
                   child: Text(
                     'see all',
-                    style: AppTextsTheme.main().labelLarge.copyWith(
-                          color: AppColorsTheme.light().black37,
+                    style: Theme.of(context).appTexts.labelLarge.copyWith(
+                          color: Theme.of(context).appColors.black37,
                         ),
                   ))
               : Container(),

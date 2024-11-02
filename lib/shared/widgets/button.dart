@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planitly/design_system/app_colors.dart';
-import 'package:planitly/design_system/app_text.dart';
-// import 'package:planitly/design_system/app_colors.dart';
+import 'package:planitly/design_system/theme.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -9,8 +7,9 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final double horizontalPadding;
   final double verticalPadding;
+  final IconData icon;
   final bool addIcon;
-  final double? width;
+  final double width;
 
   const CustomButton(
       {super.key,
@@ -19,6 +18,7 @@ class CustomButton extends StatelessWidget {
       required this.outlined,
       this.horizontalPadding = 48,
       this.verticalPadding = 14,
+      this.icon = Icons.add,
       this.addIcon = false,
       this.width = 100});
 
@@ -28,14 +28,14 @@ class CustomButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: outlined
-            ? AppColorsTheme.light().white100
-            : AppColorsTheme.light().primary,
+            ? Theme.of(context).appColors.white100
+            : Theme.of(context).appColors.primary,
         padding: EdgeInsets.symmetric(
             horizontal: horizontalPadding, vertical: verticalPadding),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(35),
           side: BorderSide(
-            color: AppColorsTheme.light().primary,
+            color: Theme.of(context).appColors.primary,
             width: 0.5,
           ),
         ),
@@ -50,25 +50,22 @@ class CustomButton extends StatelessWidget {
                 ? Container(
                     margin: const EdgeInsets.only(right: 5),
                     child: Icon(
-                      Icons.add,
-                      color: AppColorsTheme.light().primary,
+                      icon,
+                      color: Theme.of(context).appColors.primary,
                       size: 16,
                     ),
                   )
                 : const SizedBox(),
             Text(
               text,
-              style: addIcon
-                  ? AppTextsTheme.main().bodySmall.copyWith(
-                        color: outlined
-                            ? AppColorsTheme.light().primary
-                            : AppColorsTheme.light().white100,
-                      )
-                  : AppTextsTheme.main().titleSmall.copyWith(
-                        color: outlined
-                            ? AppColorsTheme.light().primary
-                            : AppColorsTheme.light().white100,
-                      ),
+              style: (addIcon
+                      ? Theme.of(context).appTexts.bodySmall
+                      : Theme.of(context).appTexts.titleSmall)
+                  .copyWith(
+                color: outlined
+                    ? Theme.of(context).appColors.primary
+                    : Theme.of(context).appColors.white100,
+              ),
             ),
           ],
         ),

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:planitly/design_system/app_colors.dart';
-import 'package:planitly/design_system/app_text.dart';
+import 'package:planitly/design_system/theme.dart';
 
 class DropDownList extends StatefulWidget {
   final String hintText;
   final VoidCallback onPressed;
+  final IconData icon;
+
   const DropDownList(
-      {super.key, required this.hintText, this.onPressed = _defualtOnPressed});
+      {super.key,
+      required this.hintText,
+      this.onPressed = _defualtOnPressed,
+      this.icon = Icons.keyboard_arrow_down_outlined});
 
   static void _defualtOnPressed() {}
 
@@ -23,20 +27,21 @@ class _DropDownListState extends State<DropDownList> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          border: Border.all(color: AppColorsTheme.light().black16, width: 1),
+          border:
+              Border.all(color: Theme.of(context).appColors.black16, width: 1),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               widget.hintText,
-              style: AppTextsTheme.main().bodyMedium.copyWith(
-                    color: AppColorsTheme.light().black87,
+              style: Theme.of(context).appTexts.bodyMedium.copyWith(
+                    color: Theme.of(context).appColors.black87,
                   ),
             ),
             Icon(
-              Icons.keyboard_arrow_down_outlined,
-              color: AppColorsTheme.light().black60,
+              widget.icon,
+              color: Theme.of(context).appColors.black60,
             ),
           ],
         ),
