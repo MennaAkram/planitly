@@ -4,7 +4,7 @@ import 'package:planitly/design_system/theme.dart';
 
 class PieChartSample extends StatefulWidget {
   final bool isPieChart;
-  final List<int> data;
+  final List<num> data;
 
   const PieChartSample({
     super.key,

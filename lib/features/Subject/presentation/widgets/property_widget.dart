@@ -7,14 +7,12 @@ import 'package:planitly/features/Subject/presentation/widgets/property.dart';
 import 'list_text_field.dart';
 
 class PropertyWidget extends StatefulWidget {
-  final String propertyName;
-  final List<Property> selectedProperties;
+  final Property selectedProperty;
   final Function(Property) onPropertyUpdated;
 
   const PropertyWidget({
     super.key,
-    required this.propertyName,
-    required this.selectedProperties,
+    required this.selectedProperty,
     required this.onPropertyUpdated,
   });
 
@@ -33,28 +31,12 @@ class _PropertyWidgetState extends State<PropertyWidget> {
   }
 
   void _initializeProperty() {
-    final property = widget.selectedProperties.firstWhere(
-      (property) => property.name == widget.propertyName,
-      orElse: () {
-        final newProperty = Property(
-          name: widget.propertyName,
-          value: "",
-          type: PropertyType.string,
-        );
-        widget.selectedProperties.add(newProperty);
-        return newProperty;
-      },
-    );
-    _controller.text = property.value.toString();
+    _controller.text = widget.selectedProperty.value.toString();
   }
 
   void _updateProperty(PropertyType type, dynamic value) {
     setState(() {
-      final property = widget.selectedProperties
-          .firstWhere(
-            (property) => property.name == widget.propertyName,
-          )
-          .copyWith(type: type, value: value);
+      final property = widget.selectedProperty.copyWith(type: type, value: value);
 
       widget.onPropertyUpdated(property);
     });
@@ -88,7 +70,7 @@ class _PropertyWidgetState extends State<PropertyWidget> {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Text(
-          widget.propertyName,
+          widget.selectedProperty.name,
           style: Theme.of(context).appTexts.bodySmall.copyWith(
                 color: Theme.of(context).appColors.black87,
               ),
@@ -121,30 +103,27 @@ class _PropertyWidgetState extends State<PropertyWidget> {
   }
 
   Widget _getInputField() {
-    switch (widget.propertyName) {
+    switch (widget.selectedProperty.type.name) {
       case 'List' || 'Charts Data':
         return ListTextField(
-            keyboardType: widget.propertyName == PropertyType.list.name
+            keyboardType: widget.selectedProperty.type.name == PropertyType.list.name
                 ? TextInputType.text
                 : TextInputType.number,
             onSubmitted: (chips) {
-              log("Chips: $chips");
-              log("Chips.toInts(): ${chips.toInts()}");
-
               _updateProperty(
-                widget.propertyName == PropertyType.list.name
+                widget.selectedProperty.type.name == PropertyType.list.name
                     ? PropertyType.list
                     : PropertyType.intList,
-                widget.propertyName == PropertyType.list.name
+                widget.selectedProperty.type.name == PropertyType.list.name
                     ? chips
-                    : chips.toInts(),
+                    : chips.toDouble(),
               );
             });
       default:
         return TextField(
           controller: _controller,
           textAlignVertical: TextAlignVertical.center,
-          keyboardType: widget.propertyName == PropertyType.string.name
+          keyboardType: widget.selectedProperty.type.name == PropertyType.string.name
               ? TextInputType.text
               : TextInputType.number,
           decoration: InputDecoration(
@@ -176,7 +155,7 @@ class _PropertyWidgetState extends State<PropertyWidget> {
 }
 
 extension ListExtensions on List<String> {
-  List<int> toInts() {
-    return map((e) => int.tryParse(e) ?? 0).toList();
+  List<double> toDouble() {
+    return map((e) => double.tryParse(e) ?? 0.0).toList();
   }
 }
