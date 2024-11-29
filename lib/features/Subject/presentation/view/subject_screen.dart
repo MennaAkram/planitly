@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/Subject/presentation/widgets/table_widget.dart';
 import 'package:planitly/features/Subject/presentation/widgets/property_widget.dart';
 import 'package:planitly/features/Subject/presentation/widgets/upload_photo_button.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
@@ -258,6 +259,16 @@ class _SubjectScreenState extends State<SubjectScreen> {
       orElse: () => WidgetDefinition(name: "Default", requiredTypes: []),
     );
 
+    if (widgetName == WidgetType.table.name) {
+      setState(() {
+        selectedWidgets.add(WidgetPropertyLink(
+          widgetId: widgetDefinition.id,
+          propertyId: null, // No property linking required for table
+        ));
+      });
+      return; // Exit the function to prevent dialog from opening
+    }
+
     List<Property> intListProperties = properties.where((property) {
       final value = property.value;
       if (widgetDefinition.requiredTypes.contains(List) && value is List) {
@@ -484,14 +495,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
 
   Widget _buildTableWidget(WidgetPropertyLink widgetLink) {
     return _buildWidgetsContainer(
-      const DynamicTableExample(),
+      const CustomTable(),
       widgetLink,
     );
   }
 
   Widget _buildWidgetsContainer(Widget widget, WidgetPropertyLink widgetLink) {
     return SizedBox(
-      height: 250,
       width: double.infinity,
       child: Stack(
         children: [
