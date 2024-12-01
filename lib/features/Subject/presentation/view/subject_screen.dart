@@ -14,6 +14,8 @@ import 'package:planitly/features/Subject/presentation/widgets/property.dart';
 import '../widgets/pie_chart.dart';
 import 'package:collection/collection.dart';
 
+import '../widgets/todo_list.dart';
+
 class WidgetPropertyLink {
   final String widgetId;
   final String? propertyId;
@@ -259,7 +261,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
       orElse: () => WidgetDefinition(name: "Default", requiredTypes: []),
     );
 
-    if (widgetName == WidgetType.table.name) {
+    if (widgetName == WidgetType.table.name ||
+        widgetName == WidgetType.todoList.name) {
       setState(() {
         selectedWidgets.add(WidgetPropertyLink(
           widgetId: widgetDefinition.id,
@@ -467,6 +470,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
         if (linkedWidget != null) {
           if (linkedWidget.name == WidgetType.table.name) {
             return _buildTableWidget(widgetLink);
+          } else if (linkedWidget.name == WidgetType.todoList.name) {
+            return _buildTodoListWidget(widgetLink);
           } else if (linkedWidget.name == WidgetType.picture.name) {
             if (widgetLink.image != null) {
               return _buildPictureWidget(widgetLink.image!.path, widgetLink);
@@ -496,6 +501,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
   Widget _buildTableWidget(WidgetPropertyLink widgetLink) {
     return _buildWidgetsContainer(
       const CustomTable(),
+      widgetLink,
+    );
+  }
+
+  Widget _buildTodoListWidget(WidgetPropertyLink widgetLink) {
+    return _buildWidgetsContainer(
+       const ToDoListScreen(),
       widgetLink,
     );
   }
