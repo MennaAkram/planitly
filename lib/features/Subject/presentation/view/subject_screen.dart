@@ -543,11 +543,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
-          child: Image.file(
-            File(imagePath),
-            fit: BoxFit.cover,
-            height: 250,
-            width: double.infinity,
+          child: AspectRatio(
+            aspectRatio: 16/9,
+            child: Image.file(
+              File(imagePath),
+              fit: BoxFit.cover,
+              width: double.infinity,
+            ),
           ),
         ),
       ),
