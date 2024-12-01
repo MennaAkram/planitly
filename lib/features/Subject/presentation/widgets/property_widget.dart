@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/Subject/presentation/widgets/property.dart';

@@ -135,6 +135,13 @@ class _DynamicTableExampleState extends State<CustomTable> {
                   ),
                 ),
                 child: IconButton(
+                  style: ButtonStyle(
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                  ),
                   onPressed: addRow,
                   icon: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -171,6 +178,11 @@ class _DynamicTableExampleState extends State<CustomTable> {
           readOnly: readOnly,
           textAlign: TextAlign.center,
           initialValue: text,
+          style: isColumnTitle ?
+          Theme.of(context).appTexts.labelLarge.copyWith(
+            color: Theme.of(context).appColors.black60) :
+          Theme.of(context).appTexts.bodyMedium.copyWith(
+            color: Theme.of(context).appColors.black87),
           onChanged: (newValue) {
             if (isColumnTitle) {
               updateColumnTitle(
