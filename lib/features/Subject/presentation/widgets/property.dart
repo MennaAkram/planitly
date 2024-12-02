@@ -60,7 +60,7 @@ enum WidgetType {
   picture,
   textField,
   checkBox,
-  toContacts,
+  contact,
   calender
 }
 
@@ -83,8 +83,8 @@ extension WidgetsName on WidgetType {
         return 'Text Field';
       case WidgetType.checkBox:
         return 'Check Box';
-      case WidgetType.toContacts:
-        return 'To Contacts';
+      case WidgetType.contact:
+        return 'Contact';
       case WidgetType.calender:
         return 'Calendar';
     }

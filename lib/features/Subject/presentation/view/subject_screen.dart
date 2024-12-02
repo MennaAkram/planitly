@@ -4,10 +4,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/Subject/presentation/widgets/contact_card.dart';
 import 'package:planitly/features/Subject/presentation/widgets/table_widget.dart';
 import 'package:planitly/features/Subject/presentation/widgets/property_widget.dart';
 import 'package:planitly/features/Subject/presentation/widgets/upload_photo_button.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
+import 'package:planitly/shared/widgets/drop_down_list.dart';
+import 'package:planitly/shared/widgets/extensions.dart';
 import '../../../../shared/widgets/button.dart';
 import '../widgets/drop_down_menu.dart';
 import 'package:planitly/features/Subject/presentation/widgets/property.dart';
@@ -56,13 +59,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
   String? selectedProperty;
 
   final List<WidgetDefinition> widgets = [
-    WidgetDefinition(
-        name: WidgetType.pieChart.name, requiredTypes: [List, num]),
+    WidgetDefinition(name: WidgetType.pieChart.name, requiredTypes: [List, num]),
     WidgetDefinition(name: WidgetType.donutChart.name, requiredTypes: [List]),
     WidgetDefinition(name: WidgetType.todoList.name, requiredTypes: [String]),
     WidgetDefinition(name: WidgetType.picture.name, requiredTypes: [XFile]),
     WidgetDefinition(name: WidgetType.calender.name, requiredTypes: [String]),
-    WidgetDefinition(name: WidgetType.toContacts.name, requiredTypes: [num]),
+    WidgetDefinition(name: WidgetType.contact.name, requiredTypes: [String]),
     WidgetDefinition(name: WidgetType.table.name, requiredTypes: [Map])
   ];
 
@@ -100,8 +102,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     );
   }
 
-  Widget _buildButton(
-      BuildContext context, String text, LayerLink layerLink,
+  Widget _buildButton(BuildContext context, String text, LayerLink layerLink,
       Function onPressed,
       {IconData icon = Icons.add}) {
     return Padding(
@@ -109,6 +110,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
       child: CompositedTransformTarget(
         link: layerLink,
         child: CustomButton(
+          horizontalPadding: 12,
+          verticalPadding: 8,
           text: text,
           onPressed: () => onPressed(),
           outlined: true,
@@ -257,7 +260,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
 
   void _showPropertySelectionDialog(String widgetName) {
     final WidgetDefinition widgetDefinition = widgets.firstWhere(
-          (widget) => widget.name == widgetName,
+      (widget) => widget.name == widgetName,
       orElse: () => WidgetDefinition(name: "Default", requiredTypes: []),
     );
 
@@ -266,10 +269,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
       setState(() {
         selectedWidgets.add(WidgetPropertyLink(
           widgetId: widgetDefinition.id,
-          propertyId: null, // No property linking required for table
+          propertyId: null,
         ));
       });
-      return; // Exit the function to prevent dialog from opening
+      return;
     }
 
     List<Property> intListProperties = properties.where((property) {
@@ -280,100 +283,74 @@ class _SubjectScreenState extends State<SubjectScreen> {
       return widgetDefinition.requiredTypes.contains(value.runtimeType);
     }).toList();
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        if ((widgetName != WidgetType.calender.name)) {
-          return AlertDialog(
-            backgroundColor: Theme.of(context).appColors.background,
-            title: Text(
-              widgetName == WidgetType.picture.name
-                  ? "Upload Photo"
-                  : "Select Property for $widgetName",
-              style: Theme.of(context).appTexts.titleMedium.copyWith(
-                    color: Theme.of(context).appColors.black87,
-                  ),
-            ),
-            content: widgetName == WidgetType.picture.name
-                ? UploadPhotoButton(
-                    onPressed: () async {
-                      XFile? selectedImage = await pickImage();
-                      if (selectedImage != null) {
-                        setState(() {
-                          selectedWidgets.add(WidgetPropertyLink(
-                            widgetId: widgetDefinition.id,
-                            image: selectedImage,
-                          ));
-                          Navigator.of(context).pop();
-                        });
-                      }
-                    },
-                    image: null,
-                    text: "Select picture from gallery",
-                  )
-                : intListProperties.isEmpty
-                    ? Text(
-                        "No matching properties available.",
-                        style: Theme.of(context).appTexts.bodyMedium.copyWith(
-                            color: Theme.of(context).appColors.black60),
-                      )
-                    : _buildButton(
-                        context,
-                        "Select property",
-                        _dialogLayerLink,
-                        () {
-                          _toggleDropdownMenu(
-                            _dialogLayerLink,
-                            _dialogOverlayEntry,
-                            intListProperties
-                                .map((property) => property.name)
-                                .toList(),
-                          );
-                        },
-                        icon: Icons.arrow_drop_down,
-                      ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Cancel",
-                  style: Theme.of(context)
-                      .appTexts
-                      .bodySmall
-                      .copyWith(color: Theme.of(context).appColors.primary),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  final selected = intListProperties.firstWhereOrNull(
-                      (property) => property.name == selectedProperty);
+    List<String> contactsProperties = properties.where((property) {
+      final value = property.value;
+      if (widgetDefinition.name == WidgetType.contact.name && value is String) {
+        return true;
+      }
+      return false;
+    }).map((property) => property.name).toList();
 
-                  if (selected != null) {
-                    setState(() {
-                      selectedWidgets.add(WidgetPropertyLink(
-                        widgetId: widgetDefinition.id,
-                        propertyId: selected.id,
-                      ));
-                    });
-                  }
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Confirm",
+
+    context.alertDialog(
+      widgetName == WidgetType.picture.name
+          ? "Upload Photo"
+          : "Select Property for $widgetName",
+      "Confirm",
+      "Cancel",
+      () {
+        final selected = intListProperties
+            .firstWhereOrNull((property) => property.name == selectedProperty);
+
+        if (selected != null) {
+          setState(() {
+            selectedWidgets.add(WidgetPropertyLink(
+              widgetId: widgetDefinition.id,
+              propertyId: selected.id,
+            ));
+          });
+        }
+        Navigator.of(context).pop();
+      },
+      () {
+        Navigator.of(context).pop();
+      },
+      widgetName == WidgetType.picture.name
+          ? UploadPhotoButton(
+              onPressed: () async {
+                XFile? selectedImage = await pickImage();
+                if (selectedImage != null) {
+                  setState(() {
+                    selectedWidgets.add(WidgetPropertyLink(
+                      widgetId: widgetDefinition.id,
+                      image: selectedImage,
+                    ));
+                    Navigator.of(context).pop();
+                  });
+                }
+              },
+              image: null,
+              text: "Select picture from gallery",
+            )
+          : intListProperties.isEmpty
+              ? Text(
+                  "No matching properties available.",
                   style: Theme.of(context)
                       .appTexts
-                      .bodySmall
-                      .copyWith(color: Theme.of(context).appColors.primary),
+                      .bodyMedium
+                      .copyWith(color: Theme.of(context).appColors.black60),
+                )
+              : DropDownList(
+                  hintText: 'Select Property',
+                  layerLink: _dialogLayerLink,
+                  onPressed: () => _toggleDropdownMenu(
+                    _dialogLayerLink,
+                    _dialogOverlayEntry,
+                    contactsProperties.isNotEmpty
+                        ? contactsProperties
+                        : intListProperties.map((property) => property.name).toList(),
+                  ),
                 ),
-              ),
-            ],
-          );
-        } else {
-          return _buildCalenderWidget();
-        }
-      },
     );
   }
 
@@ -478,19 +455,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
             } else {
               return const Text("No image selected for Picture widget.");
             }
-          } else if (linkedProperty != null &&
-              linkedProperty.value is List<num>) {
+          } else if (linkedProperty != null && linkedProperty.value is List<num>) {
             return _buildPieChartWidget(linkedProperty.value, widgetLink);
-          } else if (linkedProperty != null && linkedProperty.value is String) {
-            return const Text("Text widgets");
-          } else if (linkedProperty != null && linkedProperty.value is bool) {
-            return const Text("Checkbox widgets");
-          } else if (linkedProperty != null && linkedProperty.value is List) {
-            return const Text("To-Do List widgets");
           } else if (linkedProperty != null && linkedProperty.value is Map) {
             // return _buildCalenderWidget(widgetLink);
-          } else if (linkedProperty != null && linkedProperty.value is int) {
-            return const Text("Contacts widgets");
+          } else if (linkedProperty != null && linkedProperty.value is String) {
+            return _buildContactWidget(linkedProperty.value, widgetLink);
           }
         }
         return const Text("No valid data for the widget.");
@@ -507,7 +477,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
 
   Widget _buildTodoListWidget(WidgetPropertyLink widgetLink) {
     return _buildWidgetsContainer(
-       const ToDoListScreen(),
+      const ToDoListScreen(),
       widgetLink,
     );
   }
@@ -544,7 +514,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: AspectRatio(
-            aspectRatio: 16/9,
+            aspectRatio: 16 / 9,
             child: Image.file(
               File(imagePath),
               fit: BoxFit.cover,
@@ -567,6 +537,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
               WidgetType.pieChart.name,
         ),
         widgetLink);
+  }
+
+  Widget _buildContactWidget(String data, WidgetPropertyLink widgetLink) {
+    return _buildWidgetsContainer(
+        ContactCard(
+          phoneNumber: data,
+        )
+    , widgetLink);
   }
 
   Widget _buildCalenderWidget() {
