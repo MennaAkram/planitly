@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/Subject/presentation/widgets/property.dart';
-
+import 'package:intl/intl.dart';
 import 'list_text_field.dart';
 
 class PropertyWidget extends StatefulWidget {
@@ -34,7 +34,8 @@ class _PropertyWidgetState extends State<PropertyWidget> {
 
   void _updateProperty(PropertyType type, dynamic value) {
     setState(() {
-      final property = widget.selectedProperty.copyWith(type: type, value: value);
+      final property =
+          widget.selectedProperty.copyWith(type: type, value: value);
 
       widget.onPropertyUpdated(property);
     });
@@ -104,9 +105,10 @@ class _PropertyWidgetState extends State<PropertyWidget> {
     switch (widget.selectedProperty.type.name) {
       case 'List' || 'Charts Data':
         return ListTextField(
-            keyboardType: widget.selectedProperty.type.name == PropertyType.list.name
-                ? TextInputType.text
-                : TextInputType.number,
+            keyboardType:
+                widget.selectedProperty.type.name == PropertyType.list.name
+                    ? TextInputType.text
+                    : TextInputType.number,
             onSubmitted: (chips) {
               _updateProperty(
                 widget.selectedProperty.type.name == PropertyType.list.name
@@ -121,9 +123,10 @@ class _PropertyWidgetState extends State<PropertyWidget> {
         return TextField(
           controller: _controller,
           textAlignVertical: TextAlignVertical.center,
-          keyboardType: widget.selectedProperty.type.name == PropertyType.string.name
-              ? TextInputType.text
-              : TextInputType.number,
+          keyboardType:
+              widget.selectedProperty.type.name == PropertyType.string.name
+                  ? TextInputType.text
+                  : TextInputType.number,
           decoration: InputDecoration(
             border: InputBorder.none,
             contentPadding: const EdgeInsets.only(bottom: 6, left: 16),
@@ -141,6 +144,23 @@ class _PropertyWidgetState extends State<PropertyWidget> {
               _updateProperty(PropertyType.string, _inputValue);
             });
           },
+          onTap: () async {
+            if (widget.selectedProperty.type.name == PropertyType.date.name) {
+              final endDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2020, 1, 1),
+                lastDate: DateTime.utc(2030, 12, 31),
+              );
+
+              if (endDate != null) {
+                setState(() {
+                  _controller.text = endDate.format() ?? "";
+                  _updateProperty(PropertyType.date, endDate);
+                });
+              }
+            }
+          },
         );
     }
   }
@@ -157,3 +177,10 @@ extension ListExtensions on List<String> {
     return map((e) => double.tryParse(e) ?? 0.0).toList();
   }
 }
+
+extension DateExtensions on DateTime {
+  String? format() {
+    return DateFormat('yyyy-MM-dd').format(this);
+  }
+}
+

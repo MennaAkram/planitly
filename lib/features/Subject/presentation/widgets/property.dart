@@ -64,7 +64,7 @@ enum WidgetType {
   calender
 }
 
-enum PropertyType { string, number, boolean, list, intList, map, phone }
+enum PropertyType { string, number, boolean, list, intList, map, phone, date }
 
 extension WidgetsName on WidgetType {
   String get name {
@@ -108,6 +108,8 @@ extension PropertiesName on PropertyType {
         return 'Map';
       case PropertyType.phone:
         return 'Phone';
+      case PropertyType.date:
+        return 'Date';
     }
   }
 }

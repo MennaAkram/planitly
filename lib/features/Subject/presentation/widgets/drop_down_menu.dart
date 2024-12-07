@@ -10,63 +10,81 @@ class DropDownMenu {
   ) {
     final scrollController = ScrollController();
 
-    return OverlayEntry(
-      builder: (context) => Positioned(
-        width: 120,
-        child: CompositedTransformFollower(
-          link: layerLink,
-          offset: const Offset(0, 50),
-          showWhenUnlinked: false,
-          child: Material(
-            clipBehavior: Clip.hardEdge,
-            elevation: 4.0,
-            color: Theme.of(context).appColors.white100,
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(16),
-              bottomLeft: Radius.circular(16),
-              bottomRight: Radius.circular(16),
+    late OverlayEntry? overlayEntry;
+    overlayEntry = OverlayEntry(
+      builder: (context) => Stack(
+        children: [
+          GestureDetector(
+            onTap: () {
+              overlayEntry?.remove();
+            },
+            child: Container(
+              color: Colors.transparent,
             ),
-            child: SizedBox(
-              height: 250,
-              child: ScrollbarTheme(
-                data: ScrollbarThemeData(
-                  thumbColor: WidgetStateProperty.all(
-                      Theme.of(context).appColors.black16),
-                  thickness: WidgetStateProperty.all(4),
-                  radius: const Radius.circular(16),
+          ),
+          Positioned(
+            width: 120,
+            child: CompositedTransformFollower(
+              link: layerLink,
+              offset: const Offset(0, 50),
+              showWhenUnlinked: false,
+              child: Material(
+                clipBehavior: Clip.hardEdge,
+                elevation: 4.0,
+                color: Theme.of(context).appColors.white100,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(16),
+                  bottomLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
                 ),
-                child: Scrollbar(
-                  controller: scrollController,
-                  thumbVisibility: false,
-                  scrollbarOrientation: ScrollbarOrientation.left,
-                  child: ListView.separated(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount: data.length,
-                    separatorBuilder: (context, index) => Divider(
-                      height: 1,
-                      indent: 16,
-                      endIndent: 16,
-                      color: Theme.of(context).appColors.secondary,
+                child: SizedBox(
+                  height: 250,
+                  child: ScrollbarTheme(
+                    data: ScrollbarThemeData(
+                      thumbColor: WidgetStateProperty.all(
+                          Theme.of(context).appColors.black16),
+                      thickness: WidgetStateProperty.all(4),
+                      radius: const Radius.circular(16),
                     ),
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(
-                          data[index],
-                          style: Theme.of(context).appTexts.bodyMedium.copyWith(
-                                color: Theme.of(context).appColors.black60,
-                              ),
+                    child: Scrollbar(
+                      controller: scrollController,
+                      thumbVisibility: false,
+                      scrollbarOrientation: ScrollbarOrientation.left,
+                      child: ListView.separated(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        itemCount: data.length,
+                        separatorBuilder: (context, index) => Divider(
+                          height: 1,
+                          indent: 16,
+                          endIndent: 16,
+                          color: Theme.of(context).appColors.secondary,
                         ),
-                        onTap: () => onItemSelected(data[index]),
-                      );
-                    },
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(
+                              data[index],
+                              style: Theme.of(context)
+                                  .appTexts
+                                  .bodyMedium
+                                  .copyWith(
+                                    color: Theme.of(context).appColors.black60,
+                                  ),
+                            ),
+                            onTap: () => onItemSelected(data[index]),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
+
+    return overlayEntry;
   }
 }

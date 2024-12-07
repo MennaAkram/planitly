@@ -80,12 +80,13 @@ extension ContextExtension on BuildContext {
   }
 
   Future alertDialog(
-      String title,
-      String firstButtonText,
-      String secondButtonText,
-      Function onClickFirstButton,
-      Function onClickSecondButton,
-      Widget widget) async {
+    String title,
+    String firstButtonText,
+    String secondButtonText,
+    Function onClickFirstButton,
+    Function onClickSecondButton,
+    Widget widget,
+  ) async {
     await showGeneralDialog(
       context: this,
       barrierLabel: 'Barrier',

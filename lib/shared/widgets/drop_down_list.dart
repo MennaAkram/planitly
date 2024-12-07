@@ -7,14 +7,13 @@ class DropDownList extends StatefulWidget {
   final LayerLink layerLink;
   final IconData icon;
 
-  const DropDownList(
-      {super.key,
-      required this.hintText,
-      required this.onPressed,
-      required this.layerLink,
-      this.icon = Icons.keyboard_arrow_down_outlined});
-
-  static void _defualtOnPressed() {}
+  const DropDownList({
+    super.key,
+    required this.hintText,
+    required this.onPressed,
+    required this.layerLink,
+    this.icon = Icons.keyboard_arrow_down_outlined,
+  });
 
   @override
   State<DropDownList> createState() => _DropDownListState();
@@ -31,8 +30,8 @@ class _DropDownListState extends State<DropDownList> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            border:
-                Border.all(color: Theme.of(context).appColors.black16, width: 1),
+            border: Border.all(
+                color: Theme.of(context).appColors.black16, width: 1),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
