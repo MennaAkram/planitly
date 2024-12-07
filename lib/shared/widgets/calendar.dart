@@ -4,13 +4,17 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
 class CalendarWidget extends StatefulWidget {
+  final DateTime currentDate;
   final IconData leftIcon;
   final IconData rightIcon;
+  final void Function(DateTime selectedDate)? onDateSelected;
 
   const CalendarWidget({
     super.key,
+    required this.currentDate,
     this.leftIcon = Icons.chevron_left,
     this.rightIcon = Icons.chevron_right,
+    this.onDateSelected,
   });
 
   @override
@@ -18,19 +22,25 @@ class CalendarWidget extends StatefulWidget {
 }
 
 class _CalendarWidgetState extends State<CalendarWidget> {
-  DateTime _focusedDay = DateTime.now();
+  DateTime? _focusedDay;
   DateTime? _selectedDay;
+
+  @override
+  void initState() {
+    _focusedDay = widget.currentDate;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      margin: const EdgeInsets.symmetric(vertical: 24),
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       color: Theme.of(context).appColors.white100,
       child: TableCalendar(
         firstDay: DateTime.utc(2020, 1, 1),
         lastDay: DateTime.utc(2030, 12, 31),
-        focusedDay: _focusedDay,
+        focusedDay: _focusedDay!,
         calendarFormat: CalendarFormat.month,
         daysOfWeekHeight: 35.46,
         headerStyle: HeaderStyle(
@@ -48,6 +58,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           ),
           rightChevronIcon: Container(
             decoration: BoxDecoration(
+              shape: BoxShape.circle,
               color: Theme.of(context).appColors.secondary,
             ),
             child: Icon(
@@ -87,7 +98,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                 color: Theme.of(context).appColors.black60,
               ),
           todayTextStyle: Theme.of(context).appTexts.bodyMedium.copyWith(
-                color: _selectedDay != null ? Theme.of(context).appColors.black60 : Theme.of(context).appColors.white100,
+                color: _selectedDay != null
+                    ? Theme.of(context).appColors.black60
+                    : Theme.of(context).appColors.white100,
               ),
           selectedTextStyle: Theme.of(context).appTexts.bodyMedium.copyWith(
                 color: Theme.of(context).appColors.white100,
@@ -97,7 +110,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             shape: BoxShape.circle,
           ),
           todayDecoration: BoxDecoration(
-            color: _selectedDay != null ? Theme.of(context).appColors.background : Theme.of(context).appColors.primary,
+            color: _selectedDay != null
+                ? Theme.of(context).appColors.background
+                : Theme.of(context).appColors.primary,
             shape: BoxShape.circle,
           ),
         ),
@@ -107,13 +122,11 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         onDaySelected: (selectedDay, focusedDay) {
           setState(() {
             _selectedDay = selectedDay;
-            _focusedDay = focusedDay; // update focusedDay too
+            _focusedDay = focusedDay;
           });
-        },
-        onFormatChanged: (format) {
-          setState(() {
-            // Optionally handle format change
-          });
+          if(widget.onDateSelected != null) {
+            widget.onDateSelected!(selectedDay);
+          }
         },
         onPageChanged: (focusedDay) {
           _focusedDay = focusedDay;

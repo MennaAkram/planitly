@@ -11,8 +11,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(top: 24),
       child: Center(
         child: Row(children: [
           IconButton(
@@ -24,7 +23,7 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            width: 10,
+            width: 5,
           ),
           Text(
             title,
