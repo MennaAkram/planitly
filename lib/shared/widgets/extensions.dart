@@ -25,7 +25,7 @@ extension ContextExtension on BuildContext {
         builder: (context) => AnimatedBuilder(
               animation: controller,
               builder: (context, child) => Positioned(
-                  top: (MediaQuery.of(context).viewInsets.top + 50) *
+                  bottom: (MediaQuery.of(context).viewInsets.bottom) *
                       controller.value,
                   child: SlideTransition(
                     position: positionAnimation,
@@ -40,32 +40,26 @@ extension ContextExtension on BuildContext {
                         decoration: BoxDecoration(
                           color: Theme.of(context).appColors.background,
                           borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * .65,
-                              child: Text(
-                                message,
-                                textAlign: TextAlign.right,
-                                style: Theme.of(context)
-                                    .appTexts
-                                    .titleSmall
-                                    .copyWith(
-                                      color:
-                                          Theme.of(context).appColors.primary,
-                                    ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).appColors.black16,
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
                             ),
                           ],
+                        ),
+                        child: Text(
+                          message,
+                          textAlign: TextAlign.left,
+                          style: Theme.of(context)
+                              .appTexts
+                              .bodyMedium
+                              .copyWith(
+                                color:
+                                    Theme.of(context).appColors.black60,
+                              ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),

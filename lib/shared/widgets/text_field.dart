@@ -34,54 +34,50 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: TextFormField(
-        controller: widget.controller,
-        validator: widget.validator,
-        obscureText: _showPassword,
-        keyboardType:
-            widget.isPassword ? TextInputType.text : TextInputType.emailAddress,
-        decoration: InputDecoration(
-          fillColor: Theme.of(context).appColors.white87,
-          labelText: widget.labelText,
-          labelStyle: Theme.of(context).appTexts.bodyMedium.copyWith(
-                color: Theme.of(context).appColors.black37,
-              ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).appColors.black16, width: 1),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).appColors.black16, width: 1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-                color: Theme.of(context).appColors.black16, width: 1),
-          ),
-          suffixIcon: widget.isPassword
-              ? IconButton(
-                  icon: Icon(
-                      !_showPassword
-                          ? widget.passwordVisibleIcon
-                          : widget.passwordHiddenIcon,
-                      color: Theme.of(context).appColors.black60,
-                      size: 20),
-                  onPressed: () {
-                    setState(() {
-                      _showPassword = !_showPassword;
-                    });
-                  },
-                )
-              : null,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 14.5),
+    return TextFormField(
+      controller: widget.controller,
+      validator: widget.validator,
+      obscureText: _showPassword,
+      keyboardType:
+          widget.isPassword ? TextInputType.text : TextInputType.emailAddress,
+      decoration: InputDecoration(
+        fillColor: Theme.of(context).appColors.white87,
+        labelText: widget.labelText,
+        labelStyle: Theme.of(context).appTexts.bodyMedium.copyWith(
+              color: Theme.of(context).appColors.black37,
+            ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: BorderSide(
+              color: Theme.of(context).appColors.black16, width: 1),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: BorderSide(
+              color: Theme.of(context).appColors.black16, width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: BorderSide(
+              color: Theme.of(context).appColors.black16, width: 1),
+        ),
+        suffixIcon: widget.isPassword
+            ? IconButton(
+                icon: Icon(
+                    !_showPassword
+                        ? widget.passwordVisibleIcon
+                        : widget.passwordHiddenIcon,
+                    color: Theme.of(context).appColors.black60,
+                    size: 20),
+                onPressed: () {
+                  setState(() {
+                    _showPassword = !_showPassword;
+                  });
+                },
+              )
+            : null,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14.5),
       ),
     );
   }

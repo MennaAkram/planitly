@@ -98,8 +98,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   }
 
   Widget _buildButton(BuildContext context, String text, LayerLink layerLink,
-      Function onPressed,
-      {IconData icon = Icons.add}) {
+      Function onPressed) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: CompositedTransformTarget(
@@ -110,7 +109,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
           text: text,
           onPressed: () => onPressed(),
           outlined: true,
-          icon: icon,
           addIcon: true,
         ),
       ),

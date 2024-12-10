@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:planitly/design_system/theme.dart';
+
+import '../assets.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
   final bool outlined;
   final VoidCallback onPressed;
-  final IconData icon;
+  final String icon;
   final bool addIcon;
   final double horizontalPadding;
   final double verticalPadding;
@@ -17,7 +20,7 @@ class CustomButton extends StatelessWidget {
       required this.outlined,
       this.horizontalPadding = 48,
       this.verticalPadding = 14,
-      this.icon = Icons.add,
+      this.icon = Assets.iconAdd,
       this.addIcon = false});
   @override
   Widget build(BuildContext context) {
@@ -45,10 +48,14 @@ class CustomButton extends StatelessWidget {
           addIcon
               ? Container(
                   margin: const EdgeInsets.only(right: 8),
-                  child: Icon(
+                  width: 16,
+                  height: 16,
+                  child: SvgPicture.asset(
                     icon,
-                    color: Theme.of(context).appColors.primary,
-                    size: 16,
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).appColors.primary,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 )
               : const SizedBox(),
