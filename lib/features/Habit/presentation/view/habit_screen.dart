@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Habit/presentation/cubit/task_operations.dart';
+import 'package:planitly/features/Habit/presentation/cubit/habit_operations.dart';
 import 'package:planitly/features/Habit/presentation/widgets/dialog.dart';
 import 'package:planitly/features/Habit/presentation/widgets/month_calendar.dart';
 import 'package:planitly/features/Habit/presentation/widgets/switch.dart';
-import 'package:planitly/features/Habit/presentation/widgets/task.dart';
+import 'package:planitly/features/Habit/presentation/widgets/habit.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 import 'package:planitly/shared/widgets/calendar.dart';
 import 'package:planitly/shared/widgets/fab_button.dart';
@@ -17,14 +17,15 @@ class HabitTrackerScreen extends StatefulWidget {
 }
 
 class _HabitTrackerScreenState extends State<HabitTrackerScreen> {
-  final TasksOP _tasks = TasksOP();
+  final HabitsOP _habits = HabitsOP();
   DateTime? _selectedDate;
   DateTime? _selectedMonth;
   bool _isSelected = true;
 
   @override
   void initState() {
-    _selectedDate = _selectedMonth = DateTime.now();
+    _selectedDate = DateTime.now();
+    _selectedMonth = DateTime.now();
     super.initState();
   }
 
@@ -103,7 +104,7 @@ class _HabitTrackerScreenState extends State<HabitTrackerScreen> {
                               currentMonth: _selectedMonth!,
                               onDateSelected: (selectedMonth) => {
                                 setState(() {
-                                  _selectedMonth = _selectedMonth;
+                                  _selectedMonth = selectedMonth;
                                 }),
                               },
                             ),
@@ -114,7 +115,8 @@ class _HabitTrackerScreenState extends State<HabitTrackerScreen> {
               const SizedBox(
                 height: 16,
               ),
-              _tasks.isEmpty(_isSelected? _selectedDate!: _selectedMonth!, compareBy: _isSelected? null:"month")
+              _habits.isEmpty(_isSelected ? _selectedDate! : _selectedMonth!,
+                      compareBy: _isSelected ? null : "month")
                   ? Container(
                       margin: const EdgeInsets.symmetric(vertical: 16),
                       child: Center(
@@ -140,11 +142,24 @@ class _HabitTrackerScreenState extends State<HabitTrackerScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ..._tasks.getTasksByDate(_isSelected? _selectedDate!: _selectedMonth!, compareBy: _isSelected? null:"month").map((task) {
-                            return TaskWidget(
-                              task: task["task"],
-                              checked: task["checked"],
-                              progress: task["progress"],
+                          ..._habits
+                              .getHabitsByDate(
+                                  _isSelected
+                                      ? _selectedDate!
+                                      : _selectedMonth!,
+                                  compareBy: _isSelected ? null : "month")
+                              .map((habit) {
+                            return HabitWidget(
+                              habit: habit,
+                              onChecked: (value) {
+                                setState(() {
+                                  _habits.updateHabit(
+                                    habit["id"],
+                                    checked: value,
+                                    progress: value ? 100 : 0,
+                                  );
+                                });
+                              },
                             );
                           }),
                         ],
@@ -163,22 +178,8 @@ class _HabitTrackerScreenState extends State<HabitTrackerScreen> {
           );
           if (result != null) {
             setState(() {
-              _tasks.addTask(
-                  date: _selectedDate,
-                  task: "Attend a team meeting at work",
-                  progress: 25);
-              _tasks.addTask(
-                  date: _selectedDate,
-                  task: "Attend a team meeting at work",
-                  progress: 100,
-                  checked: true);
-              _tasks.addTask(
-                  date: _selectedDate,
-                  task: "Attend a team meeting at work",
-                  progress: 75);
+              _habits.addHabit(date: _selectedDate, habit: result);
             });
-            debugPrint("Result is $result");
-            debugPrint("task length is ${_tasks.getTasks().length}");
           }
         },
       ),

@@ -15,7 +15,7 @@ class CustomAppBar extends StatelessWidget {
       child: Center(
         child: Row(children: [
           IconButton(
-            onPressed: () => {},
+            onPressed: () => { Navigator.pop(context) },
             icon: Icon(
               icon,
               color: Theme.of(context).appColors.black87,
@@ -29,6 +29,7 @@ class CustomAppBar extends StatelessWidget {
             title,
             style: Theme.of(context).appTexts.titleSmall.copyWith(
                   color: Theme.of(context).appColors.black87,
+                  decoration: TextDecoration.none,
                 ),
           ),
         ]),

@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
+class HabitWidget extends StatefulWidget {
+  final Map<String, dynamic> habit;
+  final void Function(bool checked)? onChecked;
 
-class TaskWidget extends StatefulWidget {
-  final String task;
-  final bool checked;
-  final int progress;
-
-  const TaskWidget(
-      {super.key, required this.task, this.checked = false, this.progress = 0});
+  const HabitWidget({
+    super.key,
+    required this.habit,
+    this.onChecked,
+  });
 
   @override
-  State<TaskWidget> createState() => _TaskWidgetState();
+  State<HabitWidget> createState() => _HabitWidgetState();
 }
 
-class _TaskWidgetState extends State<TaskWidget> {
-  late bool _checked;
+class _HabitWidgetState extends State<HabitWidget> {
 
-  @override
-  void initState() {
-    super.initState();
-    _checked = widget.checked;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +36,11 @@ class _TaskWidgetState extends State<TaskWidget> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Checkbox(
-                value: _checked,
+                value: widget.habit['checked'],
                 onChanged: (value) {
-                  setState(() {
-                    _checked = value!;
-                  });
+                  if (widget.onChecked != null) {
+                    widget.onChecked!(value!);
+                  }
                 },
                 activeColor: Theme.of(context).appColors.primary,
                 checkColor: Theme.of(context).appColors.white100,
@@ -57,7 +52,7 @@ class _TaskWidgetState extends State<TaskWidget> {
             ),
             Expanded(
               child: Text(
-                widget.task,
+                widget.habit['habit'],
                 style: Theme.of(context).appTexts.labelLarge.copyWith(
                       color: Theme.of(context).appColors.black87,
                     ),
@@ -70,10 +65,12 @@ class _TaskWidgetState extends State<TaskWidget> {
             margin: const EdgeInsets.symmetric(horizontal: 16),
             color: Theme.of(context).appColors.secondary,
             alignment: Alignment.centerLeft,
-            child: Container(
-              width: widget.progress / 100 * MediaQuery.of(context).size.width - 16,
-              decoration: BoxDecoration(
-                gradient: Theme.of(context).appColors.gradientLR,
+            child: FractionallySizedBox(
+              widthFactor: widget.habit['progress'] / 100,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: Theme.of(context).appColors.gradientLR,
+                ),
               ),
             ),
           )

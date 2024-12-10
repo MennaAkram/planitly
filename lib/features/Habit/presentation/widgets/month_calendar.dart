@@ -47,7 +47,7 @@ class _MonthCalendarState extends State<MonthCalendar> {
       color: Theme.of(context).appColors.white100,
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         child: Column(
           children: [
             SizedBox(
@@ -85,7 +85,7 @@ class _MonthCalendarState extends State<MonthCalendar> {
                                 horizontal: 10,
                                 vertical: 12,
                               ),
-                              margin: const EdgeInsets.all(24),
+                              margin: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 color: _selectedMonth!.substring(0, 3) ==
                                         month.keys.first

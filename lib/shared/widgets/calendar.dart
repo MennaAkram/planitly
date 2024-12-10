@@ -28,13 +28,14 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   @override
   void initState() {
     _focusedDay = widget.currentDate;
+    _selectedDay = widget.currentDate;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       margin: const EdgeInsets.symmetric(vertical: 8),
       color: Theme.of(context).appColors.white100,
       child: TableCalendar(
@@ -124,7 +125,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             _selectedDay = selectedDay;
             _focusedDay = focusedDay;
           });
-          if(widget.onDateSelected != null) {
+          if (widget.onDateSelected != null) {
             widget.onDateSelected!(selectedDay);
           }
         },
