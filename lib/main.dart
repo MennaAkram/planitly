@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'design_system/app_colors.dart';
 import 'design_system/app_text.dart';
 import 'package:planitly/features/Notifications/presentation/view/notifications_screen.dart';
+import 'package:planitly/features/Emails/presentation/view/emails_screen.dart';
+
 
 void main() {
   runApp(const MyApp());

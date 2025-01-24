@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
-import 'package:planitly/features/Notifications/presentation/cubit/notifications_operations.dart';
 import 'package:planitly/shared/widgets/card.dart';
+import 'package:planitly/features/Notifications/presentation/cubit/notification_operations.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
@@ -76,7 +76,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         children: _notificationsOP
                             .getNotifications()
                             .map((notification) => CardWidget(
-                                  notification: notification,
+                                  icon: notification.icon,
+                                  text: notification.text,
+                                  date: notification.getDate(),
+                                  type: Notify,
                                 ))
                             .toList(),
                       )

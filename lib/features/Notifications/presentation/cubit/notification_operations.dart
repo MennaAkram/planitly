@@ -10,7 +10,7 @@ class Notify {
     required this.text,
     required this.date,
     this.isRead = false,
-    this.icon = 'assets/icons/notification_icon.svg',
+    this.icon = 'assets/icons/notification.svg',
   });
 
   String getDate() {

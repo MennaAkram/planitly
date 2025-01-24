@@ -1,32 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Notifications/presentation/cubit/notifications_operations.dart';
+import 'package:planitly/features/Emails/presentation/cubit/email_operations.dart';
 
 class CardWidget extends StatelessWidget {
-  final Notify notification;
+  final String text;
+  final String date;
+  final String icon;
+  final Type type;
 
-  const CardWidget({super.key, required this.notification});
+  const CardWidget(
+      {super.key,
+      required this.type,
+      required this.text,
+      required this.date,
+      required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(12),
+      padding: type == Email
+          ? const EdgeInsets.symmetric(vertical: 12)
+          : const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Theme.of(context).appColors.background,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.secondary,
-          width: 0.5,
-        ),
+        borderRadius: BorderRadius.circular(type == Email ? 0 : 24),
+        border: type == Email
+            ? Border(
+                bottom: BorderSide(
+                  color: Theme.of(context).colorScheme.secondary,
+                  width: 0.5,
+                ),
+              )
+            : Border.all(
+                color: Theme.of(context).colorScheme.secondary,
+                width: 0.5,
+              ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           SvgPicture.asset(
-            notification.icon,
+            icon,
             width: 32,
             height: 32,
           ),
@@ -38,7 +55,7 @@ class CardWidget extends StatelessWidget {
                 SizedBox(
                   width: 226,
                   child: Text(
-                    notification.text,     
+                    text,
                     style: Theme.of(context).appTexts.bodySmall.copyWith(
                           color: Theme.of(context).appColors.black60,
                         ),
@@ -46,7 +63,7 @@ class CardWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  notification.getDate(),
+                  date,
                   style: Theme.of(context).appTexts.bodySmall.copyWith(
                         color: Theme.of(context).appColors.black37,
                       ),
