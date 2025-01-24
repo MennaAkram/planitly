@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'design_system/app_colors.dart';
 import 'design_system/app_text.dart';
-import 'package:planitly/features/Calendar/presentation/view/calendar_screen.dart';
-import 'package:planitly/features/Graph_View/presentation/view/graph_view_screen.dart';
+import 'package:planitly/features/Notifications/presentation/view/notifications_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,11 +26,7 @@ class MyApp extends StatelessWidget {
           AppTextsTheme.main(),
         ],
       ),
-      initialRoute: '/calendar',
-      routes: {
-        '/calendar': (context) => const CalendarScreen(),
-        '/graph_view': (context) => const GraphViewScreen(),
-      },
+      home: const NotificationsScreen(),
     );
   }
 }
