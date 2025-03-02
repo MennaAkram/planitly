@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
 
-class ToDoListScreen extends StatefulWidget {
-   const ToDoListScreen({super.key});
+class ToDoList extends StatefulWidget {
+   const ToDoList({super.key});
 
   @override
-  State<ToDoListScreen> createState() => _ToDoListScreenState();
+  State<ToDoList> createState() => _ToDoListState();
 }
 
-class _ToDoListScreenState extends State<ToDoListScreen> {
+class _ToDoListState extends State<ToDoList> {
   final List<Map<String, dynamic>> _tasks = [
     {
       'task': '',
