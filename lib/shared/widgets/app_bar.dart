@@ -11,12 +11,11 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(top: 24),
       child: Center(
         child: Row(children: [
           IconButton(
-            onPressed: () => {},
+            onPressed: () => { Navigator.pop(context) },
             icon: Icon(
               icon,
               color: Theme.of(context).appColors.black87,
@@ -24,12 +23,13 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            width: 10,
+            width: 5,
           ),
           Text(
             title,
             style: Theme.of(context).appTexts.titleSmall.copyWith(
                   color: Theme.of(context).appColors.black87,
+                  decoration: TextDecoration.none,
                 ),
           ),
         ]),

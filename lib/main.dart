@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:planitly/features/Habit/presentation/view/habit_screen.dart';
 import 'design_system/app_colors.dart';
 import 'design_system/app_text.dart';
 
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
           AppTextsTheme.main(),
         ],
       ),
+      home: const HabitTrackerScreen(),
     );
   }
 }

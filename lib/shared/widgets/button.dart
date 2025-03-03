@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
             ? Theme.of(context).appColors.white100
             : Theme.of(context).appColors.primary,
         padding: EdgeInsets.symmetric(
-            horizontal: addIcon ? 12 : 48 , vertical: addIcon ? 8 : 14),
+            horizontal: addIcon ? 12 : 48, vertical: addIcon ? 8 : 14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(35),
           side: BorderSide(
@@ -34,34 +34,33 @@ class CustomButton extends StatelessWidget {
           ),
         ),
       ),
-      // ignore: sized_box_for_whitespace
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            addIcon
-                ? Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    child: Icon(
-                      icon,
-                      color: Theme.of(context).appColors.primary,
-                      size: 16,
-                    ),
-                  )
-                : const SizedBox(),
-            Text(
-              text,
-              style: (addIcon
-                      ? Theme.of(context).appTexts.bodySmall
-                      : Theme.of(context).appTexts.titleSmall)
-                  .copyWith(
-                color: outlined
-                    ? Theme.of(context).appColors.primary
-                    : Theme.of(context).appColors.white100,
-              ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          addIcon
+              ? Container(
+                  margin: const EdgeInsets.only(right: 8),
+                  child: Icon(
+                    icon,
+                    color: Theme.of(context).appColors.primary,
+                    size: 16,
+                  ),
+                )
+              : const SizedBox(),
+          Text(
+            text,
+            style: (addIcon
+                    ? Theme.of(context).appTexts.bodySmall
+                    : Theme.of(context).appTexts.titleSmall)
+                .copyWith(
+              color: outlined
+                  ? Theme.of(context).appColors.primary
+                  : Theme.of(context).appColors.white100,
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }
