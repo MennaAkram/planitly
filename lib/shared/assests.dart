@@ -15,4 +15,7 @@ class Assests {
   static const String icon1 = 'assets/icons/icon(1).svg';
   static const String logo = 'assets/images/lpgo.svg';
   static const String passwordIcon = 'assets/icons/Vector.svg';
+  static const String sendicon = 'assets/icons/sendicon.svg';
+  static const String chatbot = 'assets/images/chat bot 1.svg';
+   static const String chatmassage = 'assets/images/chatmassage.svg';
 }
