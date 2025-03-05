@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:planitly/features/bottomNavBar.dart';
 import 'design_system/app_colors.dart';
 import 'design_system/app_text.dart';
+import 'package:planitly/features/Notifications/presentation/view/notifications_screen.dart';
+import 'package:planitly/features/Emails/presentation/view/emails_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -16,11 +19,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: Theme.of(context).copyWith(
         colorScheme: Theme.of(context).colorScheme.copyWith(
-          primary: AppColorsTheme.light().primary,
-          secondary: AppColorsTheme.light().secondary,
-          surface: AppColorsTheme.light().background,
-          error: AppColorsTheme.light().red,
-        ),
+              primary: AppColorsTheme.light().primary,
+              secondary: AppColorsTheme.light().secondary,
+              surface: AppColorsTheme.light().background,
+              error: AppColorsTheme.light().red,
+            ),
         extensions: [
           AppColorsTheme.light(),
           AppTextsTheme.main(),
