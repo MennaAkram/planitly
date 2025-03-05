@@ -8,15 +8,14 @@ class most_visited extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(15),
-      margin: const EdgeInsets.all(3),
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      width: double.infinity,
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(15)),
           color: Theme.of(context).appColors.secondary,
           border: Border.all(
               color: Theme.of(context).appColors.black16, width: 0.5)),
-      height: 52,
-      width: 329,
       child: Text(name,
           style: Theme.of(context)
               .appTexts

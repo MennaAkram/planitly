@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'package:planitly/design_system/theme.dart';
+import '../../../../shared/assests.dart';
+import 'package:flutter_svg/svg.dart';
+
+class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String imageAssetPath;
+  final String name;
+  const HomeAppBar({super.key, required this.imageAssetPath, required this.name});
+  @override
+  Size get preferredSize => const Size.fromHeight(56.0);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(
+        "Hello, $name",
+        style: Theme.of(context)
+            .appTexts
+            .titleSmall
+            .copyWith(color: Theme.of(context).appColors.black87),
+      ),
+      titleSpacing: 0,
+      leading: IconButton(
+        onPressed: () {},
+        padding: const EdgeInsets.all(0),
+        icon: ClipOval(
+          child: SizedBox.fromSize(
+            size: const Size.fromRadius(17.5),
+            child: Image.asset(imageAssetPath, fit: BoxFit.fitWidth),
+          ),
+        ),
+      ),
+      backgroundColor: Theme.of(context).appColors.white100,
+      elevation: 0.0,
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: SvgPicture.asset(Assests.notification),
+          color: Theme.of(context).appColors.black60,
+        ),
+      ],
+    );
+  }
+}

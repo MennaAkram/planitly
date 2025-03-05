@@ -17,20 +17,24 @@ class Expenses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 84,
-      width: 150,
+    return AspectRatio(
+      aspectRatio: 16 / 9,
       child: Card(
+        elevation: 0,
         color: Theme.of(context).appColors.purple,
-        child: ListTile(
-          title: Text(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+          Text(
             name,
             style: Theme.of(context).appTexts.bodyLarge.copyWith(
                   color: Theme.of(context).appColors.white100,
                 ),
           ),
-          subtitle: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 value,
@@ -38,13 +42,13 @@ class Expenses extends StatelessWidget {
                       color: Theme.of(context).appColors.white100,
                     ),
               ),
+              const SizedBox(width: 8),
               state == false
                   ? SvgPicture.asset(Assests.arrow_down)
                   : SvgPicture.asset(Assests.arrow_up),
-            ],
-          ),
+            ])
+          ]),
         ),
-      ),
     );
   }
 }

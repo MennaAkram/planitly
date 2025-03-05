@@ -66,10 +66,10 @@ class AppColorsTheme extends ThemeExtension<AppColorsTheme> {
       white60: Color(0x99FFFFFF),
       white37: Color(0x5EFFFFFF),
       white16: Color(0x29FFFFFF),
-      red: Color(0xFFE53935),
-      green: Color(0xFF43A047),
-      blue: Color(0xFF1E88E5),
-      purple: Color(0xFF8E24AA),
+      red: Color(0xFFEB1418),
+      green: Color(0xFF079500),
+      blue: Color(0xFF8F9CE8),
+      purple: Color(0xFFBB98E7),
     );
   }
 
