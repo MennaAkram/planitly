@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:planitly/features/bottomNavBar.dart';
 import 'design_system/app_colors.dart';
 import 'design_system/app_text.dart';
 import 'package:planitly/features/Notifications/presentation/view/notifications_screen.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           AppTextsTheme.main(),
         ],
       ),
-      home: const NotificationsScreen(),
+      home: const Bottomnavbar(),
     );
   }
 }
