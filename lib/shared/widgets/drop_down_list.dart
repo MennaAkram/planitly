@@ -72,7 +72,7 @@ class _DropDownListState extends State<DropDownList> {
         topLeft: Radius.zero,
         topRight: Radius.circular(16),
         bottomLeft: Radius.circular(16),
-        bottomRight: Radius.circular(16),  
+        bottomRight: Radius.circular(16),
       ),
     ),
     child: Container(
@@ -100,5 +100,4 @@ class _DropDownListState extends State<DropDownList> {
     ),
     );
   }
-  
 }

@@ -1,0 +1,23 @@
+{
+  "finance": "Finance",
+  "income": "Income",
+  "incomes": "Incomes",
+  "incomeName": "Income name",
+  "incomeAmount": "Income amount",
+  "incomeDate": "Income date",
+  "addIncome": "Add income",
+  "addExpense": "Add expense",
+  "expenses": "Expenses",
+  "expense": "Expense",
+  "expenseName": "Expense name",
+  "expenseAmount": "Expense amount",
+  "expenseDate": "Expense date",
+  "amount": "Amount",
+  "add": "Add",
+  "addNew": "add new",
+  "cancel": "Cancel",
+  "date": "Date",
+  "cantBeEmpty": "This field cannot be empty",
+  "mustBeANumber": "The field should be only number",
+  "amountNotEnough": "You can't spend more than you have!"
+}

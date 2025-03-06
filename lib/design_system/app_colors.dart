@@ -19,6 +19,8 @@ class AppColorsTheme extends ThemeExtension<AppColorsTheme> {
   final Color green;
   final Color blue;
   final Color purple;
+  final List<Color> errorGradient;
+  final List<Color> successGradient;
 
   const AppColorsTheme._internal({
     required this.primary,
@@ -39,6 +41,8 @@ class AppColorsTheme extends ThemeExtension<AppColorsTheme> {
     required this.green,
     required this.blue,
     required this.purple,
+    required this.errorGradient,
+    required this.successGradient,
   });
 
   factory AppColorsTheme.light() {
@@ -57,6 +61,14 @@ class AppColorsTheme extends ThemeExtension<AppColorsTheme> {
             Color(0xFF002FFF),
             Color(0xFFFC5D00),
           ]),
+      errorGradient: [
+           Color(0x1FFC5D00),
+           Color(0x00fc5d00),
+        ],
+      successGradient: [
+             Color(0x1F079500),
+             Color(0x00079500),
+          ],
       black16: Color(0x29121212),
       black37: Color(0x5E121212),
       black60: Color(0x99121212),
