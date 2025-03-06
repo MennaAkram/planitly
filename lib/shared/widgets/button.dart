@@ -8,7 +8,7 @@ class CustomButton extends StatelessWidget {
   final String text;
   final bool outlined;
   final VoidCallback onPressed;
-  final IconData icon;
+  final String icon;
   final bool addIcon;
   final double horizontalPadding;
   final double verticalPadding;
@@ -41,34 +41,6 @@ class CustomButton extends StatelessWidget {
           ),
         ),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          addIcon
-              ? Container(
-                  margin: const EdgeInsets.only(right: 8),
-                  child: Icon(
-                    icon,
-                    color: Theme.of(context).appColors.primary,
-                    size: 16,
-                  ),
-                )
-              : const SizedBox(),
-          Text(
-            text,
-            style: (addIcon
-                    ? Theme.of(context).appTexts.bodySmall
-                    : Theme.of(context).appTexts.titleSmall)
-                .copyWith(
-              color: outlined
-                  ? Theme.of(context).appColors.primary
-                  : Theme.of(context).appColors.white100,
-            ),
-          ),
-        ],
-      ),
-      // ignore: sized_box_for_whitespace
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,

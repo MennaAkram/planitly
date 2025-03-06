@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final IconData icon;
 
   const CustomAppBar(
       {super.key, required this.title, this.icon = Icons.arrow_back_ios_new});
+
+  @override
+  Size get preferredSize => const Size.fromHeight(70.0);
 
   @override
   Widget build(BuildContext context) {
