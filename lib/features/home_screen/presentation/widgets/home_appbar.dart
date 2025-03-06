@@ -6,7 +6,9 @@ import 'package:flutter_svg/svg.dart';
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String imageAssetPath;
   final String name;
-  const HomeAppBar({super.key, required this.imageAssetPath, required this.name});
+  final Function onPressed;
+
+  const HomeAppBar({super.key, required this.imageAssetPath, required this.name, required this.onPressed});
   @override
   Size get preferredSize => const Size.fromHeight(56.0);
 
@@ -22,7 +24,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       titleSpacing: 0,
       leading: IconButton(
-        onPressed: () {},
+        onPressed:() {},
         padding: const EdgeInsets.all(0),
         icon: ClipOval(
           child: SizedBox.fromSize(
@@ -35,7 +37,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0.0,
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () { onPressed(); },
           icon: SvgPicture.asset(Assests.notification),
           color: Theme.of(context).appColors.black60,
         ),

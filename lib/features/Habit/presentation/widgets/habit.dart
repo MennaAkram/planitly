@@ -21,7 +21,7 @@ class _HabitWidgetState extends State<HabitWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      padding: const EdgeInsets.only(right: 8, left: 8, bottom: 16),
       decoration: BoxDecoration(
         color: Theme.of(context).appColors.white100,
         borderRadius: BorderRadius.circular(16),
@@ -33,21 +33,18 @@ class _HabitWidgetState extends State<HabitWidget> {
       child: Column(
         children: [
           Row(children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Checkbox(
-                value: widget.habit['checked'],
-                onChanged: (value) {
-                  if (widget.onChecked != null) {
-                    widget.onChecked!(value!);
-                  }
-                },
-                activeColor: Theme.of(context).appColors.primary,
-                checkColor: Theme.of(context).appColors.white100,
-                side: BorderSide(
-                  color: Theme.of(context).appColors.black60,
-                  width: 2,
-                ),
+            Checkbox(
+              value: widget.habit['checked'],
+              onChanged: (value) {
+                if (widget.onChecked != null) {
+                  widget.onChecked!(value!);
+                }
+              },
+              activeColor: Theme.of(context).appColors.primary,
+              checkColor: Theme.of(context).appColors.white100,
+              side: BorderSide(
+                color: Theme.of(context).appColors.black60,
+                width: 2,
               ),
             ),
             Expanded(
@@ -59,7 +56,6 @@ class _HabitWidgetState extends State<HabitWidget> {
               ),
             ),
           ]),
-          const SizedBox(height: 16),
           Container(
             height: 4,
             margin: const EdgeInsets.symmetric(horizontal: 16),

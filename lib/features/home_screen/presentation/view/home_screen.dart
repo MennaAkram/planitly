@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:planitly/features/Calendar/presentation/view/calendar_screen.dart';
+import 'package:planitly/features/Habit/presentation/view/habit_screen.dart';
+import 'package:planitly/features/Notifications/presentation/view/notifications_screen.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/cards.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/categories.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/expenses.dart';
@@ -9,6 +12,7 @@ import 'package:planitly/features/home_screen/presentation/widgets/most_visited.
 import 'package:planitly/features/home_screen/presentation/widgets/today_task_card.dart';
 import 'package:planitly/shared/assests.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/shared/navigator_helper.dart';
 import 'package:planitly/shared/widgets/title.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,9 +26,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const HomeAppBar(imageAssetPath: Assests.person, name: "Menna"),
-        backgroundColor: Theme.of(context).appColors.background,
-        body: Stack(children: [
+      appBar: HomeAppBar(
+        imageAssetPath: Assests.person,
+        name: "Menna",
+        onPressed: () {
+          NavigatorHelper.push(const NotificationsScreen());
+        },
+      ),
+      backgroundColor: Theme.of(context).appColors.background,
+      body: Stack(
+        children: [
           Container(
             height: double.infinity,
             width: double.infinity,
@@ -45,12 +56,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       MyCards(
                         imageAssetPath: Assests.calendar,
                         name: "Calender",
-                        onPressed: () {},
+                        onPressed: () {
+                          NavigatorHelper.push(const CalendarScreen());
+                        },
                       ),
                       MyCards(
                         imageAssetPath: Assests.habit,
                         name: "Habit Tracker",
-                        onPressed: () {},
+                        onPressed: () {
+                          NavigatorHelper.push(const HabitTrackerScreen());
+                        },
                       ),
                       MyCards(
                         imageAssetPath: Assests.finance,

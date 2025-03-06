@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/Emails/presentation/view/emails_screen.dart';
 import 'package:planitly/features/home_screen/presentation/view/home_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:planitly/shared/assests.dart';
@@ -14,11 +15,19 @@ class Bottomnavbar extends StatefulWidget {
 class _BottomnavbarState extends State<Bottomnavbar> {
   GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
   int selectedindex = 0;
+  PageController _pageController = PageController();
+
   List<Widget> listwidget = [
      const HomeScreen(),
     const Text("chat"),
-    const Text("Email")
+    const EmailsScreen()
   ];
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +37,11 @@ class _BottomnavbarState extends State<Bottomnavbar> {
                 onTap: (val) {
                   setState(() {
                     selectedindex = val;
+                    _pageController.animateToPage(
+                      val,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
                   });
                 },
                 selectedItemColor: Theme.of(context).appColors.primary,
@@ -45,8 +59,6 @@ class _BottomnavbarState extends State<Bottomnavbar> {
                         padding: const EdgeInsets.all(4.0),
                         child: SvgPicture.asset(
                           Assests.home,
-                          height: 20,
-                          width: 20,
                           color: selectedindex == 0
                               ? Theme.of(context).appColors.primary
                               : Theme.of(context).appColors.black60,
@@ -73,8 +85,15 @@ class _BottomnavbarState extends State<Bottomnavbar> {
                       ),
                       label: "Email"),
                 ]),
-            body: Container(
-              child: listwidget.elementAt(selectedindex),
-            ));
+            body: PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  selectedindex = index;
+                });
+              },
+              children: listwidget,
+            ),
+    );
   }
 }

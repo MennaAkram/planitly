@@ -76,66 +76,6 @@ class _EmailsScreenState extends State<EmailsScreen> {
         'icon': 'assets/icons/tinder.svg',
         'date': DateTime(2024, 6, 15),
       },
-      {
-        'text':
-            '"Local Community Center Offers Free Cooking Classes for Families"',
-        'icon': 'assets/icons/adobe_photoshop.svg',
-        'date': DateTime(2024, 6, 15),
-      },
-      {
-        'text':
-            '"Local Community Center Offers Free Cooking Classes for Families"',
-        'icon': 'assets/icons/slack.svg',
-        'date': DateTime(2024, 6, 15),
-      },
-      {
-        'text':
-            '"Local Community Center Offers Free Cooking Classes for Families"',
-        'icon': 'assets/icons/google_drive.svg',
-        'date': DateTime(2024, 6, 15),
-      },
-      {
-        'text':
-            '"Local Community Center Offers Free Cooking Classes for Families"',
-        'icon': 'assets/icons/ms_powerpoint.svg',
-        'date': DateTime(2024, 6, 15),
-      },
-      {
-        'text':
-            '"Local Community Center Offers Free Cooking Classes for Families"',
-        'icon': 'assets/icons/tinder.svg',
-        'date': DateTime(2024, 6, 15),
-      },
-      {
-        'text':
-            '"Local Community Center Offers Free Cooking Classes for Families"',
-        'icon': 'assets/icons/adobe_photoshop.svg',
-        'date': DateTime(2024, 6, 15),
-      },
-      {
-        'text':
-            '"Local Community Center Offers Free Cooking Classes for Families"',
-        'icon': 'assets/icons/slack.svg',
-        'date': DateTime(2024, 6, 15),
-      },
-      {
-        'text':
-            '"Local Community Center Offers Free Cooking Classes for Families"',
-        'icon': 'assets/icons/google_drive.svg',
-        'date': DateTime(2024, 6, 15),
-      },
-      {
-        'text':
-            '"Local Community Center Offers Free Cooking Classes for Families"',
-        'icon': 'assets/icons/ms_powerpoint.svg',
-        'date': DateTime(2024, 6, 15),
-      },
-      {
-        'text':
-            '"Local Community Center Offers Free Cooking Classes for Families"',
-        'icon': 'assets/icons/tinder.svg',
-        'date': DateTime(2024, 6, 15),
-      },
     ].reversed.toList();
 
     for (var email in emails) {
@@ -159,7 +99,7 @@ class _EmailsScreenState extends State<EmailsScreen> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(
-                left: 16.0, right: 16.0, top: 58.0, bottom: 8),
+                left: 16.0, right: 16.0, top: 32.0, bottom: 8),
             child: _emailsOP.isEmpty()
                 ? const Center(
                     child: Text('No emails yet'),

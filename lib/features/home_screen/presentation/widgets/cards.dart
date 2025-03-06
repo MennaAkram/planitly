@@ -4,7 +4,7 @@ import 'package:planitly/design_system/theme.dart';
 class MyCards extends StatelessWidget {
   final String imageAssetPath;
   final String name;
-  final VoidCallback onPressed;
+  final Function onPressed;
 
   const MyCards({
     super.key,
@@ -17,7 +17,7 @@ class MyCards extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: InkWell(
-          onTap: onPressed,
+          onTap: () => onPressed(),
           child: Card(
             elevation: 0,
             clipBehavior: Clip.antiAlias,

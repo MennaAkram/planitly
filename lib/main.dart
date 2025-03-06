@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/features/bottomNavBar.dart';
+import 'package:planitly/shared/navigator_helper.dart';
+import 'app/di.dart';
 import 'design_system/app_colors.dart';
 import 'design_system/app_text.dart';
-import 'package:planitly/features/Notifications/presentation/view/notifications_screen.dart';
-import 'package:planitly/features/Emails/presentation/view/emails_screen.dart';
-
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupServiceLocator();
   runApp(const MyApp());
 }
 
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: getIt<NavigationService>().navigatorKey,
       theme: Theme.of(context).copyWith(
         colorScheme: Theme.of(context).colorScheme.copyWith(
               primary: AppColorsTheme.light().primary,
