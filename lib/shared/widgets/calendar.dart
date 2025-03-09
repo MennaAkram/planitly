@@ -39,6 +39,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       margin: const EdgeInsets.symmetric(vertical: 8),
       color: Theme.of(context).appColors.white100,
       child: TableCalendar(
+        key: ValueKey(_selectedDay),
         firstDay: DateTime.utc(2020, 1, 1),
         lastDay: DateTime.utc(2030, 12, 31),
         focusedDay: _focusedDay!,
@@ -125,12 +126,15 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             _selectedDay = selectedDay;
             _focusedDay = focusedDay;
           });
+
           if (widget.onDateSelected != null) {
             widget.onDateSelected!(selectedDay);
           }
         },
         onPageChanged: (focusedDay) {
-          _focusedDay = focusedDay;
+          setState(() {
+            _focusedDay = focusedDay;
+          });
         },
       ),
     );

@@ -364,45 +364,45 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       .copyWith(color: Theme.of(context).appColors.black60),
                 )
               : widgetName == WidgetType.calender.name
-                  ? Column(
+                  ?  const Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        DropDownList(
-                          hintText: 'Select Start Date',
-                          layerLink: _dialogLayerLink,
-                          onPressed: () => _toggleDropdownMenu(
-                            _dialogLayerLink,
-                            _dialogOverlayEntry,
-                            dateProperties.map((property) => property.format() ?? '')
-                                .toList(),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        DropDownList(
-                          hintText: 'Select End Date',
-                          layerLink: _dialogLayerLink2,
-                          onPressed: () => _toggleDropdownMenu(
-                            _dialogLayerLink2,
-                            _dialogOverlayEntry,
-                            dateProperties.map((property) => property.format() ?? '')
-                                .toList(),
-                          ),
-                        ),
+                    //     DropDownList(
+                    //       hintText: 'Select Start Date',
+                    //       layerLink: _dialogLayerLink,
+                    //       onPressed: () => _toggleDropdownMenu(
+                    //         _dialogLayerLink,
+                    //         _dialogOverlayEntry,
+                    //         dateProperties.map((property) => property.format() ?? '')
+                    //             .toList(),
+                    //       ),
+                    //     ),
+                    //     const SizedBox(height: 16),
+                    //     DropDownList(
+                    //       hintText: 'Select End Date',
+                    //       layerLink: _dialogLayerLink2,
+                    //       onPressed: () => _toggleDropdownMenu(
+                    //         _dialogLayerLink2,
+                    //         _dialogOverlayEntry,
+                    //         dateProperties.map((property) => property.format() ?? '')
+                    //             .toList(),
+                    //       ),
+                    //     ),
                       ],
-                    )
-                  : DropDownList(
-                      hintText: 'Select Property',
-                      layerLink: _dialogLayerLink,
-                      onPressed: () => _toggleDropdownMenu(
-                        _dialogLayerLink,
-                        _dialogOverlayEntry,
-                        contactsProperties.isNotEmpty
-                            ? contactsProperties
-                            : intListProperties
-                                .map((property) => property.name)
-                                .toList(),
-                      ),
-                    ),
+                    ): const SizedBox(),
+                  // : DropDownList(
+                  //     hintText: 'Select Property',
+                  //     layerLink: _dialogLayerLink,
+                  //     onPressed: () => _toggleDropdownMenu(
+                  //       _dialogLayerLink,
+                  //       _dialogOverlayEntry,
+                  //       contactsProperties.isNotEmpty
+                  //           ? contactsProperties
+                  //           : intListProperties
+                  //               .map((property) => property.name)
+                  //               .toList(),
+                  //     ),
+                  //   ),
     );
   }
 

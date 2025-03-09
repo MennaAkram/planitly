@@ -30,6 +30,7 @@ class _GraphViewWidgetState extends State<GraphViewWidget> {
 
   @override
   void didUpdateWidget(covariant GraphViewWidget oldWidget) {
+    _graphNodes = widget.graphNodes;
     _placeWidgets();
     super.didUpdateWidget(oldWidget);
   }
@@ -179,11 +180,7 @@ class _GraphViewWidgetState extends State<GraphViewWidget> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Stack(
               clipBehavior: Clip.none,
-              children: [
-                ..._children(),
-                const Positioned(
-                    top: 1750, child: NodeWidget(node: "asivjhjkgjgasb"))
-              ],
+              children: _children(),
             ),
           )),
     );
