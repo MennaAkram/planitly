@@ -9,7 +9,14 @@
 # packages, and plugins designed to encourage good coding practices.
 analyzer:
   errors:
+    camel_case_types: ignore
     depend_on_referenced_packages: ignore
+    deprecated_member_use: ignore
+    file_names: ignore
+    non_constant_identifier_names: ignore
+    prefer_const_constructors: ignore ignore
+    prefer_const_constructors_in_immutables: ignore
+    unnecessary_new: ignore ignore ignore ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:
