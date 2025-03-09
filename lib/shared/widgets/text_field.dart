@@ -35,8 +35,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: TextFormField(
         controller: widget.controller,
         validator: widget.validator,
@@ -44,9 +44,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
         keyboardType:
             widget.isPassword ? TextInputType.text : TextInputType.emailAddress,
         decoration: InputDecoration(
+          filled: true,
           fillColor: Theme.of(context).appColors.white87,
           labelText: widget.labelText,
-          labelStyle: Theme.of(context).appTexts.bodyMedium.copyWith(
+          labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).appColors.black37,
               ),
           border: OutlineInputBorder(
