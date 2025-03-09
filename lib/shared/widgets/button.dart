@@ -18,18 +18,19 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return
+    ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: outlined
-            ? Theme.of(context).appColors.white100
-            : Theme.of(context).appColors.primary,
+            ? Color(0xFFFFFFFF)
+            : Color(0xFFFC5D00),
         padding: EdgeInsets.symmetric(
             horizontal: addIcon ? 12 : 48 , vertical: addIcon ? 8 : 14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(35),
           side: BorderSide(
-            color: Theme.of(context).appColors.primary,
+            color: Color(0xFFFC5D00),
             width: 0.5,
           ),
         ),
@@ -44,7 +45,7 @@ class CustomButton extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 8),
                     child: Icon(
                       icon,
-                      color: Theme.of(context).appColors.primary,
+                      color: Color(0xFFFC5D00),
                       size: 16,
                     ),
                   )
@@ -52,12 +53,12 @@ class CustomButton extends StatelessWidget {
             Text(
               text,
               style: (addIcon
-                      ? Theme.of(context).appTexts.bodySmall
-                      : Theme.of(context).appTexts.titleSmall)
-                  .copyWith(
+                      ? Theme.of(context).textTheme.bodySmall
+                      : Theme.of(context).textTheme.titleSmall)
+                  ?.copyWith(
                 color: outlined
-                    ? Theme.of(context).appColors.primary
-                    : Theme.of(context).appColors.white100,
+                    ? Color(0xFFFC5D00)
+                    : Color(0xFFFFFFFF),
               ),
             ),
           ],
@@ -65,3 +66,4 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+                  

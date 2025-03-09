@@ -1,56 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/chatbotscreen/chatbot.dart';
-import 'package:planitly/features/loginscreen.dart';
-import 'package:planitly/features/signupscreen.dart';
+import 'package:planitly/features/Login/view/login_screen.dart';
 import 'package:planitly/shared/assests.dart';
 import 'package:planitly/shared/widgets/button.dart';
 import 'package:planitly/shared/widgets/text_field.dart';
-import 'design_system/app_colors.dart';
-import 'design_system/app_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-void main() {
-  runApp(const MyApp());
+class signup extends StatefulWidget {
+  const signup({super.key});
+
+  @override
+  State<signup> createState() => _signupState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+TextEditingController UsernameController = TextEditingController();
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
 
+class _signupState extends State<signup> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: Theme.of(context).copyWith(
-        colorScheme: Theme.of(context).colorScheme.copyWith(
-              primary: AppColorsTheme.light().primary,
-              secondary: AppColorsTheme.light().secondary,
-              surface: AppColorsTheme.light().background,
-              error: AppColorsTheme.light().red,
-            ),
-        extensions: [
-          AppColorsTheme.light(),
-          AppTextsTheme.main(),
-        ],
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  @override
-  Widget build(BuildContext context) {
-    return  MaterialApp(
-        home: Scaffold(
+    return 
+         Scaffold(
       body: Container(
         height: double.maxFinite,
         width: double.maxFinite,
@@ -152,6 +123,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),)
       ),
-    ));
-}
+    );
+  }
 }
