@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/shared/assests.dart';
+import 'package:planitly/shared/assets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePlaceHolder extends StatelessWidget {
@@ -24,7 +24,7 @@ class HomePlaceHolder extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset(Assests.homePlaceholder),
+          SvgPicture.asset(Assets.homePlaceholder),
           const SizedBox(height: 16),
           Text(
             "Let’s start organizing",

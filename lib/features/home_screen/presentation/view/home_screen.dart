@@ -11,7 +11,7 @@ import 'package:planitly/features/home_screen/presentation/widgets/homePlacehold
 import 'package:planitly/features/home_screen/presentation/widgets/home_appbar.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/most_visited.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/today_task_card.dart';
-import 'package:planitly/shared/assests.dart';
+import 'package:planitly/shared/assets.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/shared/navigator_helper.dart';
 import 'package:planitly/shared/widgets/title.dart';
@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HomeAppBar(
-        imageAssetPath: Assests.person,
+        imageAssetPath: Assets.person,
         name: "Menna",
         onPressed: () {
           NavigatorHelper.push(const NotificationsScreen());
@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             width: double.infinity,
             color: Theme.of(context).appColors.white100,
             child: FittedBox(
-                fit: BoxFit.cover, child: SvgPicture.asset(Assests.background)),
+                fit: BoxFit.cover, child: SvgPicture.asset(Assets.background)),
           ),
           SingleChildScrollView(
             child: Column(
@@ -55,28 +55,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     children: [
                       MyCards(
-                        imageAssetPath: Assests.calendar,
+                        imageAssetPath: Assets.calendar,
                         name: "Calender",
                         onPressed: () {
                           NavigatorHelper.push(const CalendarScreen());
                         },
                       ),
                       MyCards(
-                        imageAssetPath: Assests.habit,
+                        imageAssetPath: Assets.habit,
                         name: "Habit Tracker",
                         onPressed: () {
                           NavigatorHelper.push(const HabitTrackerScreen());
                         },
                       ),
                       MyCards(
-                        imageAssetPath: Assests.finance,
+                        imageAssetPath: Assets.finance,
                         name: "Finance",
                         onPressed: () {
                           NavigatorHelper.push(const FinanceScreen());
                         },
                       ),
                       MyCards(
-                        imageAssetPath: Assests.studywork,
+                        imageAssetPath: Assets.studywork,
                         name: "Study&Work",
                         onPressed: () {},
                       ),
@@ -125,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(Assests.add),
+                                SvgPicture.asset(Assets.add),
                                 const SizedBox(height: 8),
                                 Text(
                                   "Add new Category",
@@ -190,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {},
                       child: Row(
                         children: [
-                          SvgPicture.asset(Assests.add, height: 24, width: 24, color: Theme.of(context).appColors.black87,),
+                          SvgPicture.asset(Assets.add, height: 24, width: 24, color: Theme.of(context).appColors.black87,),
                           const SizedBox(width: 8),
                           Text(
                             "add new item",

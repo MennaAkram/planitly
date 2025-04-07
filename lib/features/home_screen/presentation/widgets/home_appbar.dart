@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import '../../../../shared/assests.dart';
+import '../../../../shared/assets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -38,7 +38,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: () { onPressed(); },
-          icon: SvgPicture.asset(Assests.notification),
+          icon: SvgPicture.asset(Assets.notification),
           color: Theme.of(context).appColors.black60,
         ),
       ],

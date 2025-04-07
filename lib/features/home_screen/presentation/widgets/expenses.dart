@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/shared/assests.dart';
+import 'package:planitly/shared/assets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Expenses extends StatelessWidget {
@@ -44,8 +44,8 @@ class Expenses extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               state == false
-                  ? SvgPicture.asset(Assests.arrow_down)
-                  : SvgPicture.asset(Assests.arrow_up),
+                  ? SvgPicture.asset(Assets.arrow_down)
+                  : SvgPicture.asset(Assets.arrow_up),
             ])
           ]),
         ),

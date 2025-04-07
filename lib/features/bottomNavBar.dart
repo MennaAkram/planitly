@@ -3,7 +3,7 @@ import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/Emails/presentation/view/emails_screen.dart';
 import 'package:planitly/features/home_screen/presentation/view/home_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:planitly/shared/assests.dart';
+import 'package:planitly/shared/assets.dart';
 
 class Bottomnavbar extends StatefulWidget {
   const Bottomnavbar({super.key});
@@ -58,7 +58,7 @@ class _BottomnavbarState extends State<Bottomnavbar> {
                       icon: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: SvgPicture.asset(
-                          Assests.home,
+                          Assets.home,
                           color: selectedindex == 0
                               ? Theme.of(context).appColors.primary
                               : Theme.of(context).appColors.black60,
@@ -69,7 +69,7 @@ class _BottomnavbarState extends State<Bottomnavbar> {
                   BottomNavigationBarItem(
                       icon: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: SvgPicture.asset(Assests.chat,
+                        child: SvgPicture.asset(Assets.chat,
                             color: selectedindex == 1
                                 ? Theme.of(context).appColors.primary
                                 : Theme.of(context).appColors.black60),
@@ -78,7 +78,7 @@ class _BottomnavbarState extends State<Bottomnavbar> {
                   BottomNavigationBarItem(
                       icon: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: SvgPicture.asset(Assests.email,
+                        child: SvgPicture.asset(Assets.email,
                             color: selectedindex == 2
                                 ? Theme.of(context).appColors.primary
                                 : Theme.of(context).appColors.black60),
