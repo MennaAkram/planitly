@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/Graph_View/presentation/widgets/graph_view.dart';
+import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 import 'package:planitly/shared/widgets/calendar.dart';
 import 'package:planitly/shared/widgets/fab_button.dart';
@@ -61,8 +62,7 @@ class _CalenderScreenState extends State<CalendarScreen> {
                         child: Center(
                             child: Column(
                           children: [
-                            Image.asset(
-                                "assets/images/undraw_add_tasks_re_s5yj.png"),
+                            Image.asset(Assets.calendarPlaceholder),
                             const SizedBox(
                               height: 16,
                             ),

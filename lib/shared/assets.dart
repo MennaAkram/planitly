@@ -8,18 +8,21 @@ class Assets {
   static const String calendar = 'assets/images/calendar.png';
   static const String finance = 'assets/images/finance.png';
   static const String habit = 'assets/images/habit.png';
-  static const String studywork = 'assets/images/studywork.png';
+  static const String studyWork = 'assets/images/studywork.png';
   static const String background = 'assets/images/Group 7.svg';
   static const String person = 'assets/images/person.png';
-  static const String arrow_down = 'assets/icons/arrow-down-Regular.svg';
-  static const String arrow_up = 'assets/icons/arrow-up.svg';
+  static const String arrowDown = 'assets/icons/arrow-down-Regular.svg';
+  static const String arrowUp = 'assets/icons/arrow-up.svg';
   static const String add = 'assets/icons/add.svg';
   static const String icon1 = 'assets/icons/icon(1).svg';
   static const String logo = 'assets/images/lpgo.svg';
   static const String passwordIcon = 'assets/icons/Vector.svg';
-  static const String sendicon = 'assets/icons/sendicon.svg';
+  static const String sendIcon = 'assets/icons/sendicon.svg';
   static const String chatbot = 'assets/images/chat bot 1.svg';
-  static const String chatmassage = 'assets/images/chatmassage.svg';
+  static const String chatMassage = 'assets/images/chatmassage.svg';
   static const String notification = 'assets/icons/bell.svg';
   static const String homePlaceholder = 'assets/images/home_placeholder.svg';
+  static const String calendarPlaceholder = 'assets/images/undraw_add_tasks_re_s5yj.png';
+  static const String picture = 'assets/images/Frame 1597882199.png';
+  static const String icon = 'assets/icons/icon.svg';
 }

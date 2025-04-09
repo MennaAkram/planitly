@@ -40,10 +40,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscureText: _showPassword,
       keyboardType:
           widget.isPassword ? TextInputType.text : TextInputType.emailAddress,
+      style: Theme.of(context).appTexts.bodyMedium.copyWith(
+        color: Theme.of(context).appColors.black60
+      ),
       decoration: InputDecoration(
+        filled: true,
         fillColor: Theme.of(context).appColors.white87,
-        labelText: widget.labelText,
-        labelStyle: Theme.of(context).appTexts.bodyMedium.copyWith(
+        hintText: widget.labelText,
+        hintStyle: Theme.of(context).appTexts.bodyMedium.copyWith(
               color: Theme.of(context).appColors.black37,
             ),
         border: OutlineInputBorder(

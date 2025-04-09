@@ -44,8 +44,8 @@ class Expenses extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               state == false
-                  ? SvgPicture.asset(Assets.arrow_down)
-                  : SvgPicture.asset(Assets.arrow_up),
+                  ? SvgPicture.asset(Assets.arrowDown)
+                  : SvgPicture.asset(Assets.arrowUp),
             ])
           ]),
         ),
