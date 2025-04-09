@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:planitly/design_system/theme.dart';
-
 import '../assets.dart';
 
 class CustomButton extends StatelessWidget {
