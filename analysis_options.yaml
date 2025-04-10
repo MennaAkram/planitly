@@ -14,9 +14,9 @@ analyzer:
     deprecated_member_use: ignore
     file_names: ignore
     non_constant_identifier_names: ignore
-    prefer_const_constructors: ignore ignore
+    prefer_const_constructors: ignore
     prefer_const_constructors_in_immutables: ignore
-    unnecessary_new: ignore ignore ignore ignore
+    unnecessary_new: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:

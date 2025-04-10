@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Emails/presentation/view/emails_screen.dart';
+import 'package:planitly/features/emails/presentation/view/emails_screen.dart';
 import 'package:planitly/features/home_screen/presentation/view/home_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:planitly/shared/assets.dart';
@@ -15,7 +15,7 @@ class Bottomnavbar extends StatefulWidget {
 class _BottomnavbarState extends State<Bottomnavbar> {
   GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
   int selectedindex = 0;
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
 
   List<Widget> listwidget = [
      const HomeScreen(),

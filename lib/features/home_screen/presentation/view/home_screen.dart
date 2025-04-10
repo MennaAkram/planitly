@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:planitly/features/Calendar/presentation/view/calendar_screen.dart';
-import 'package:planitly/features/Finance/presentation/view/finance_screen.dart';
-import 'package:planitly/features/Habit/presentation/view/habit_screen.dart';
-import 'package:planitly/features/Notifications/presentation/view/notifications_screen.dart';
+import 'package:planitly/features/calendar/presentation/view/calendar_screen.dart';
+import 'package:planitly/features/finance/presentation/view/finance_screen.dart';
+import 'package:planitly/features/habit/presentation/view/habit_screen.dart';
+import 'package:planitly/features/notifications/presentation/view/notifications_screen.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/cards.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/categories.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/expenses.dart';

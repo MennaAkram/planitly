@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Calendar/presentation/widgets/dialog_button.dart';
+import 'package:planitly/features/calendar/presentation/widgets/dialog_button.dart';
 import 'package:planitly/shared/widgets/drop_down_list.dart';
 
 class CustomDialog extends StatefulWidget {

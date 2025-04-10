@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Subject/presentation/widgets/property.dart';
+import 'package:planitly/features/subject/presentation/widgets/property.dart';
 import 'package:intl/intl.dart';
 import 'list_text_field.dart';
 

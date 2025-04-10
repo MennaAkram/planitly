@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Habit/presentation/cubit/habit_operations.dart';
-import 'package:planitly/features/Habit/presentation/widgets/dialog.dart';
-import 'package:planitly/features/Habit/presentation/widgets/month_calendar.dart';
-import 'package:planitly/features/Habit/presentation/widgets/switch.dart';
-import 'package:planitly/features/Habit/presentation/widgets/habit.dart';
+import 'package:planitly/features/habit/presentation/cubit/habit_operations.dart';
+import 'package:planitly/features/habit/presentation/widgets/dialog.dart';
+import 'package:planitly/features/habit/presentation/widgets/month_calendar.dart';
+import 'package:planitly/features/habit/presentation/widgets/switch.dart';
+import 'package:planitly/features/habit/presentation/widgets/habit.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 import 'package:planitly/shared/widgets/calendar.dart';
 import 'package:planitly/shared/widgets/fab_button.dart';

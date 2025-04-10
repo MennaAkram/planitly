@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 import 'package:planitly/shared/widgets/card.dart';
-import 'package:planitly/features/Notifications/presentation/cubit/notification_operations.dart';
+import 'package:planitly/features/notifications/presentation/cubit/notification_operations.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});

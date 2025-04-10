@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Emails/presentation/cubit/email_operations.dart';
+import 'package:planitly/features/emails/presentation/cubit/email_operations.dart';
 
 class CardWidget extends StatelessWidget {
   final String text;
