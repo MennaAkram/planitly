@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Graph_View/presentation/cubit/graph_view_operations.dart';
+import 'package:planitly/features/graph_view/presentation/cubit/graph_view_operations.dart';
 
 class Arrow extends StatelessWidget {
   final String relation;

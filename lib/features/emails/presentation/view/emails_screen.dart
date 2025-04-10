@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Emails/presentation/cubit/email_operations.dart';
+import 'package:planitly/features/emails/presentation/cubit/email_operations.dart';
 import 'package:planitly/shared/widgets/card.dart';
 
 class EmailsScreen extends StatefulWidget {

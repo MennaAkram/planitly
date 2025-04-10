@@ -55,7 +55,7 @@ class _DynamicTableExampleState extends State<CustomTable> {
     setState(() {
       savedRows = List.from(data);
     });
-    print("Table data saved: $savedRows");
+    debugPrint("Table data saved: $savedRows");
   }
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:planitly/features/Graph_View/presentation/cubit/graph_view_operations.dart';
-import 'package:planitly/features/Graph_View/presentation/widgets/arrow.dart';
-import 'package:planitly/features/Graph_View/presentation/widgets/node.dart';
+import 'package:planitly/features/graph_view/presentation/cubit/graph_view_operations.dart';
+import 'package:planitly/features/graph_view/presentation/widgets/arrow.dart';
+import 'package:planitly/features/graph_view/presentation/widgets/node.dart';
 
 class GraphViewWidget extends StatefulWidget {
   final List<Node> graphNodes;

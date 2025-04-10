@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Graph_View/presentation/cubit/graph_view_operations.dart';
-import 'package:planitly/features/Graph_View/presentation/widgets/graph_view.dart';
+import 'package:planitly/features/graph_view/presentation/cubit/graph_view_operations.dart';
+import 'package:planitly/features/graph_view/presentation/widgets/graph_view.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 
 class GraphViewScreen extends StatelessWidget {
