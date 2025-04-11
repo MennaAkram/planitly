@@ -5,12 +5,12 @@ import 'package:planitly/features/graph_view/presentation/widgets/graph_view.dar
 import 'package:planitly/shared/widgets/app_bar.dart';
 
 class GraphViewScreen extends StatelessWidget {
-  const GraphViewScreen({super.key});
+final GraphView graphView;
+
+  const GraphViewScreen({super.key, required this.graphView});
 
   @override
   Widget build(BuildContext context) {
-    final GraphView graphView =
-        ModalRoute.of(context)!.settings.arguments as GraphView;
 
     return Container(
       color: Theme.of(context).appColors.background,

@@ -1,83 +1,109 @@
-import 'package:intl/intl.dart';
 
-class HabitsOP {
-  final List<Map<String, dynamic>> _habits = [];
+class Habit {
+  final int id;
+  final DateTime date;
+  final String habit;
+  double progress;
+  bool checked;
+  List<Task> tasks;
+
+  Habit(
+      {required this.id,
+      required this.date,
+      required this.habit,
+      this.progress = 0,
+      this.checked = false,
+      List<Task>? tasks})
+      : tasks = tasks ?? [];
+
   int _id = 0;
 
-  List<Map<String, dynamic>> getHabits() {
-    return _habits;
+  int _generateId() => _id++;
+
+  void addTask(String task) {
+    tasks.add(Task(id: _generateId(), task: task));
+    updateProgress();
   }
 
-  Map<String, int> getHabitsCountByDate() {
-    Map<String, int> habitsCount = {};
-    for (var habit in _habits) {
-      String date = DateFormat('yyyy-MM-dd').format(habit["date"]);
-      if (habitsCount.containsKey(date)) {
-        habitsCount[date] = habitsCount[date]! + 1;
-      } else {
-        habitsCount[date] = 1;
-      }
-    }
-    return habitsCount;
+  Task getTask(int id) => tasks.firstWhere((task) => task.id == id);
+
+  void updateTask(int id, bool checked) {
+    final task = getTask(id);
+    task.checked = checked;
+    updateProgress();
   }
 
-  List<Map<String, dynamic>> getHabitsByDate(DateTime date,
-      {String? compareBy}) {
-    if (compareBy == "month") {
-      return _habits
-          .where((habit) => habit["date"].month == date.month)
-          .toList();
+  void updateProgress({bool? allChecked}) {
+    if (allChecked != null) {
+      progress = allChecked ? 1 : 0;
+      for (Task task in tasks) {
+        task.checked = allChecked;
+        }
+    } else {
+      final int checkedTasks = tasks.where((task) => task.checked).length;
+      progress = checkedTasks / tasks.length;
+      checked = checkedTasks == tasks.length;
     }
-    return _habits
-        .where((habit) =>
-            habit["date"].toIso8601String().split('T')[0] ==
-            date.toIso8601String().split('T')[0])
-        .toList();
   }
+}
+
+class Task {
+  final int id;
+  final String task;
+  bool checked;
+
+  Task({required this.id, required this.task, this.checked = false});
+}
+
+class HabitsOP {
+  final List<Habit> _habits = [];
+  int _id = 0;
+
+  int _generateId() => _id++;
+
+  Habit getHabit(int id) => _habits.firstWhere((habit) => habit.id == id);
 
   bool isEmpty(DateTime date, {String? compareBy}) {
     if (compareBy == "month") {
-      return getHabitsByDate(date, compareBy: "month").isEmpty;
+      return getHabits(date: date, compareBy: "month").isEmpty;
     }
-    return getHabitsByDate(date).isEmpty;
+    return getHabits(date: date).isEmpty;
   }
 
-  int generateId() {
-    return _id++;
+  List<Habit> getHabits({DateTime? date, String compareBy = "day"}) {
+  if (date == null) {
+    return _habits;
   }
 
-  int findIndexById(int id) {
-    return _habits.indexWhere((habit) => habit["id"] == id);
-  }
+  return _habits.where((habit) {
+    if (compareBy == "month") {
+      return habit.date.month == date.month && habit.date.year == date.year;
+    }
+    return habit.date.year == date.year &&
+           habit.date.month == date.month &&
+           habit.date.day == date.day;
+  }).toList();
+}
 
   void addHabit(
-      {DateTime? date, String? habit, int progress = 0, bool checked = false}) {
-    int id = generateId();
-    _habits.add({
-      "id": id,
-      "date": date,
-      "habit": habit,
-      "progress": progress,
-      "checked": checked
-    });
+      {DateTime? date,
+      String? habit,
+      double progress = 0,
+      bool checked = false}) {
+    _habits.add(Habit(
+      id: _generateId(),
+      date: date ?? DateTime.now(),
+      habit: habit ?? "",
+      progress: progress,
+      checked: checked,
+    ));
   }
 
-  void updateHabit(int id,
-      {DateTime? date, String? habit, int? progress, bool? checked}) {
-    int index = findIndexById(id);
-
-    if (index != -1) {
-      _habits[index]["date"] = date ?? _habits[index]["date"];
-      _habits[index]["habit"] = habit ?? _habits[index]["habit"];
-      _habits[index]["progress"] = progress ?? _habits[index]["progress"];
-      _habits[index]["checked"] = checked ?? _habits[index]["checked"];
-    }
-  }
-
-  void deleteHabit(int id) {
-    int index = findIndexById(id);
-    if (index != -1) {
-      _habits.removeAt(index);
-    }
+  void updateHabit(int id, {double? progress, bool? checked, List<Task>? tasks}) {
+    final habit = getHabit(id);
+    habit
+      ..progress = progress ?? habit.progress
+      ..checked = checked ?? habit.checked
+      ..tasks = tasks ?? habit.tasks;
   }
 }

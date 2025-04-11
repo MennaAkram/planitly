@@ -179,9 +179,10 @@ class GraphViewOP {
     if (date == null) {
       return _graphViews.isEmpty;
     }
-    return !_graphViews.any((element) =>
-        element.date.toIso8601String().split('T')[0] ==
-        date.toIso8601String().split('T')[0]);
+    return !_graphViews.any((graph) =>
+        graph.date.day == date.day &&
+        graph.date.month == date.month &&
+        graph.date.year == date.year);
   }
 
   List<GraphView> getGraphViews({DateTime? date}) {
@@ -189,9 +190,10 @@ class GraphViewOP {
       return _graphViews;
     }
     return _graphViews
-        .where((element) =>
-            element.date.toIso8601String().split('T')[0] ==
-            date.toIso8601String().split('T')[0])
+        .where((graph) =>
+            graph.date.day == date.day &&
+            graph.date.month == date.month &&
+            graph.date.year == date.year)
         .toList();
   }
 

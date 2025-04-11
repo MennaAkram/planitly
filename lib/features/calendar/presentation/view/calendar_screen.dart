@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/Graph_View/presentation/view/graph_view_screen.dart';
+import 'package:planitly/features/Graph_View/presentation/widgets/graph_view.dart';
+import 'package:planitly/shared/navigator_helper.dart';
 import 'package:planitly/features/graph_view/presentation/widgets/graph_view.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
@@ -91,11 +94,9 @@ class _CalenderScreenState extends State<CalendarScreen> {
                                     height: 8,
                                   ),
                                   InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, '/graph_view',
-                                          arguments: graphView.clone());
-                                    },
+                                    onTap: () => NavigatorHelper.push(
+                                        GraphViewScreen(
+                                            graphView: graphView.clone())),
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 16),

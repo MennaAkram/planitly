@@ -143,20 +143,21 @@ class _HabitTrackerScreenState extends State<HabitTrackerScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ..._habits
-                              .getHabitsByDate(
-                                  _isSelected
+                              .getHabits(
+                                  date: _isSelected
                                       ? _selectedDate!
                                       : _selectedMonth!,
-                                  compareBy: _isSelected ? null : "month")
+                                  compareBy: _isSelected ? "day" : "month")
                               .map((habit) {
                             return HabitWidget(
                               habit: habit,
-                              onChecked: (value) {
+                              onUpdate: ({double? progress, bool? checked, List<Task>? tasks}) {
                                 setState(() {
                                   _habits.updateHabit(
-                                    habit["id"],
-                                    checked: value,
-                                    progress: value ? 100 : 0,
+                                    habit.id,
+                                    checked: checked,
+                                    progress: progress,
+                                    tasks: tasks,
                                   );
                                 });
                               },
