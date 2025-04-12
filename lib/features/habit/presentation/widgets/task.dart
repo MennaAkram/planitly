@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Habit/presentation/cubit/habit_operations.dart';
+import 'package:planitly/features/habit/presentation/cubit/habit_operations.dart';
 
 class TaskWidget extends StatefulWidget {
   final Task task;

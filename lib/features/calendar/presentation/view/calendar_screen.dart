@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Graph_View/presentation/view/graph_view_screen.dart';
-import 'package:planitly/features/Graph_View/presentation/widgets/graph_view.dart';
+import 'package:planitly/features/graph_View/presentation/view/graph_view_screen.dart';
+import 'package:planitly/features/graph_View/presentation/widgets/graph_view.dart';
 import 'package:planitly/shared/navigator_helper.dart';
-import 'package:planitly/features/graph_view/presentation/widgets/graph_view.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 import 'package:planitly/shared/widgets/calendar.dart';

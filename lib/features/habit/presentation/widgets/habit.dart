@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Habit/presentation/cubit/habit_operations.dart';
-import 'package:planitly/features/Habit/presentation/view/habit_tasks_screen.dart';
+import 'package:planitly/features/habit/presentation/cubit/habit_operations.dart';
+import 'package:planitly/features/habit/presentation/view/habit_tasks_screen.dart';
 import 'package:planitly/shared/navigator_helper.dart';
 
 class HabitWidget extends StatefulWidget {

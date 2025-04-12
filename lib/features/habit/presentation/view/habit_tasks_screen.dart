@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Habit/presentation/widgets/task.dart';
-import 'package:planitly/features/Habit/presentation/widgets/tasks_dialog.dart';
+import 'package:planitly/features/habit/presentation/widgets/task.dart';
+import 'package:planitly/features/habit/presentation/widgets/tasks_dialog.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
-import 'package:planitly/features/Habit/presentation/cubit/habit_operations.dart';
+import 'package:planitly/features/habit/presentation/cubit/habit_operations.dart';
 import 'package:planitly/shared/widgets/fab_button.dart';
 
 class HabitTasksScreen extends StatefulWidget {
