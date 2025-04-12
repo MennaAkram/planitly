@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/register/view/signup_screen.dart';
+import 'package:planitly/features/authentication/presentation/register/presentation/view/signup_screen.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/navigator_helper.dart';
 import 'package:planitly/shared/widgets/button.dart';
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextButton(
                       onPressed: () {
-                        NavigatorHelper.push(const SignUpScreen());
+                        NavigatorHelper.push(SignUpScreen());
                       },
                       child: Text(
                         'SignUp',

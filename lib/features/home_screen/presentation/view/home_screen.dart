@@ -11,7 +11,7 @@ import 'package:planitly/features/home_screen/presentation/widgets/homePlacehold
 import 'package:planitly/features/home_screen/presentation/widgets/home_appbar.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/most_visited.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/today_task_card.dart';
-import 'package:planitly/features/login/view/login_screen.dart';
+import 'package:planitly/features/authentication/presentation/login/view/login_screen.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/shared/navigator_helper.dart';

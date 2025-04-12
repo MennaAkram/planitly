@@ -7,8 +7,11 @@ abstract class BaseCubit extends Cubit<BaseState> {
   BaseCubit(super.state);
 
   void handleException(NetworkException exception) {
-    if(exception is NoInternetError){
+    if (exception is NoInternetError) {
       emit(NoInternetErrorState());
+      return;
+    } else {
+      emit(ErrorState<BadRequest>(msg: exception.message));
       return;
     }
   }

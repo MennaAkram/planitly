@@ -16,13 +16,12 @@ abstract class BaseRepository {
       return right<NetworkException, T>(mappedResponse);
     } on DioException catch (e) {
       if (e.response?.statusCode == 400) {
-        return left(BadRequest(e.response?.data['Message'] ?? ''));
+        return left(BadRequest(e.response?.data['detail'] ?? ''));
       } else if (e.response?.statusCode == 401) {
         return left(UnAuthorizedFailure(e.response?.data['Message']??"InternalServerError"));
       }  else if (e.response?.statusCode == 204) {
         return left(SuccessfulRequest('Successful Request'));
-      }
-      else if (e.response?.statusCode == 403) {
+      } else if (e.response?.statusCode == 403) {
         return left(AccessDeniedException(e.response?.data['Message']??"Access Denied"));
       } else if(e.response?.statusCode == 409) {
         return left(AlreadyExistException(e.response?.data['Message'] ?? 'Conflict'));

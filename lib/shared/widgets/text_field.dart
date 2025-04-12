@@ -82,6 +82,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             : null,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14.5),
+        errorMaxLines: 2,
       ),
     );
   }
