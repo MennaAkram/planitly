@@ -12,7 +12,7 @@ abstract class AuthenticationRepository {
       required String password});
 
   Future<Either<NetworkException, TokenEntity>> refreshToken(
-      String token, String refreshToken);
+      String accesToken, String refreshToken);
 
   void logout();
 }
