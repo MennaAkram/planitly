@@ -10,8 +10,17 @@ abstract class BaseCubit extends Cubit<BaseState> {
     if (exception is NoInternetError) {
       emit(NoInternetErrorState());
       return;
+    } else if (exception is BadRequest) {
+      emit(BadRequestState(massege: exception.message));
+      return;
+    } else if (exception is Conflict) {
+      emit(ConflictState(massege: exception.message));
+      return;
+    } else if (exception is AlreadyExistException) {
+      emit(AlreadyExistState(message: exception.message));
+      return;
     } else {
-      emit(ErrorState<BadRequest>(msg: exception.message));
+      emit(ErrorState(msg: exception.message));
       return;
     }
   }

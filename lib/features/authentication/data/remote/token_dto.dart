@@ -18,8 +18,8 @@ class TokenDto extends BaseMapper<TokenDto> {
   @override
   TokenDto fromJson(Map<String, dynamic> json) {
     return TokenDto(
-      accessToken: json['accessToken'] as String?,
-      refreshToken: json['refreshToken'] as String?,
+      accessToken: json['token'] as String?,
+      refreshToken: json['token'] as String?,
     );
   }
 

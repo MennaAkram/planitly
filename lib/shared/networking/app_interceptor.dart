@@ -3,7 +3,7 @@ import 'package:planitly/shared/local_storage_manager.dart';
 
 import '../../app/di.dart';
 import '../../features/authentication/domain/repositories/authentication_repo.dart';
-import '../../features/authentication/presentation/login/view/login_screen.dart';
+import '../../features/authentication/presentation/login/presentation/view/login_screen.dart';
 import '../navigator_helper.dart';
 
 class AppInterceptor extends Interceptor {

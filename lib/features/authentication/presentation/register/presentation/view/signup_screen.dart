@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/cubit/register_cubit.dart';
-import 'package:planitly/features/bottomNavBar.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/navigator_helper.dart';
@@ -11,7 +10,7 @@ import 'package:planitly/shared/validators.dart';
 import 'package:planitly/shared/widgets/button.dart';
 import 'package:planitly/shared/widgets/text_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../login/view/login_screen.dart';
+import '../../../login/presentation/view/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -58,7 +57,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             );
           } else if (state is DoneState) {
-            NavigatorHelper.pushReplacement(Bottomnavbar());
+            NavigatorHelper.pushReplacement(LoginScreen(isVerified: true,));
           }
         },
         child: Container(
@@ -128,9 +127,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           onPressed: () {
                             if (_stateform.currentState!.validate()) {
                               _cubit.register(
-                                usernameController.text,
-                                emailController.text,
-                                passwordController.text,
+                                username: usernameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
                               );
                             } else {
                               if (!_submitting) {
@@ -157,11 +156,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
-                        );
+                        NavigatorHelper.pushReplacement(LoginScreen());
                       },
                       child: Text(
                         'Login',

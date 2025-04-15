@@ -33,7 +33,7 @@ class Validators {
     }
 
     if (!AppRegex.username.hasMatch(value)) {
-      return AppLocalizations.current.notContainSpecialCharacters;
+      return AppLocalizations.current.invalidUsername;
     }
     return null;
   }
@@ -59,7 +59,7 @@ class Validators {
     }
 
     if (!AppRegex.password.hasMatch(value)) {
-      return AppLocalizations.current.passwordNotValid;
+      return AppLocalizations.current.invalidPasssword;
     }
     return null;
   }
@@ -69,13 +69,14 @@ class AppRegex {
   static final RegExp numericalField = RegExp(
     r'^[0-9]+$',
   );
-  static final RegExp username = RegExp(r'^[a-zA-Z0-9_]+$');
+  static final RegExp username = RegExp(r'^(?=.*[A-Za-z])[A-Za-z0-9_.-]+$');
 
   static final RegExp email = RegExp(
-    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    r'^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$',
   );
 
   static final RegExp password = RegExp(
-    r'^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z0-9!@#$%^&*(),.?":{}|<>]{8,}$',
+    r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$',
   );
+
 }

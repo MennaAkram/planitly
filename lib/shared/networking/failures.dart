@@ -43,3 +43,7 @@ class RedirectException extends NetworkException {
 class NoInternetError extends NetworkException {
   NoInternetError(super.message);
 }
+
+class Conflict extends NetworkException {
+  Conflict(super.message);
+}

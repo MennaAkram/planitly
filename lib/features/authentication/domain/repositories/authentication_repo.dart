@@ -4,7 +4,7 @@ import 'package:planitly/shared/networking/failures.dart';
 
 abstract class AuthenticationRepository {
   Future<Either<NetworkException, TokenEntity>> login(
-      {required String email, required String password});
+      {required String usernameOremail, required String password});
 
   Future<Either<NetworkException, bool>> register(
       {required String username,
@@ -13,4 +13,6 @@ abstract class AuthenticationRepository {
 
   Future<Either<NetworkException, TokenEntity>> refreshToken(
       String token, String refreshToken);
+
+  void logout();
 }
