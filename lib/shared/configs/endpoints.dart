@@ -1,6 +1,7 @@
 class EndPoints {
-  static String baseUrl = "https://planitly-backend.vercel.app/docs#/";
+  static String baseUrl = "https://planitly-backend.vercel.app/";
 
   static const String login = 'auth/login';
   static const String register = 'auth/register';
+  static const String refreshToken = 'auth/refresh-token';
 }

@@ -28,6 +28,24 @@ class NoInternetErrorState<T> extends BaseState<T> {
   NoInternetErrorState();
 }
 
+class BadRequestState<T> extends ErrorState<T> {
+  final String? massege;
+
+  BadRequestState({required this.massege}) : super(msg: massege);
+}
+
+class ConflictState<T> extends ErrorState<T> {
+  final String? massege;
+
+  ConflictState({required this.massege}) : super(msg: massege);
+}
+
+class AlreadyExistState<T> extends ErrorState<T> {
+  final String? message;
+
+  AlreadyExistState({required this.message}) : super(msg: message);
+}
+
 class DoneState<T> extends BaseState<T> {
   const DoneState();
 }
