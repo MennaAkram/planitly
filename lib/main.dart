@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planitly/features/splash/presentation/view/splash_screen.dart';
+import 'package:planitly/features/authentication/presentation/splash/presentation/view/splash_screen.dart';
 import 'package:planitly/shared/navigator_helper.dart';
 import 'app/di.dart';
 import 'design_system/app_colors.dart';
