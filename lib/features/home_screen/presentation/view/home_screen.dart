@@ -11,7 +11,6 @@ import 'package:planitly/features/home_screen/presentation/widgets/homePlacehold
 import 'package:planitly/features/home_screen/presentation/widgets/home_appbar.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/most_visited.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/today_task_card.dart';
-import 'package:planitly/features/authentication/presentation/login/presentation/view/login_screen.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/shared/navigator_helper.dart';
@@ -80,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         imageAssetPath: Assets.studyWork,
                         name: "Study&Work",
                         onPressed: () {
-                          NavigatorHelper.push(const LoginScreen());
+                          
                         },
                       ),
                     ],
