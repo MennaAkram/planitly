@@ -48,8 +48,4 @@ void setupServiceLocator() {
   getIt.registerFactory<RegisterCubit>(() => RegisterCubit(
         getIt<AuthenticationRepository>(),
       ));
-
-  getIt.registerFactory<SplashCubit>(() => SplashCubit(
-        getIt<AuthenticationRepository>(),
-      ));
 }
