@@ -3,7 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/authentication/presentation/login/presentation/view/login_screen.dart';
-import 'package:planitly/features/authentication/presentation/splash/presentation/cubit/splash_cubit.dart';
+import 'package:planitly/features/splash/presentation/cubit/splash_cubit.dart';
 import 'package:planitly/features/bottomNavBar.dart';
 import 'package:planitly/shared/navigator_helper.dart';
 
