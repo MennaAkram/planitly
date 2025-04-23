@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/notifications/presentation/cubit/notifications_cubit.dart';
+import 'package:planitly/shared/assets.dart';
+import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 import 'package:planitly/shared/widgets/card.dart';
-import 'package:planitly/features/notifications/presentation/cubit/notification_operations.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
@@ -12,77 +16,104 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  final NotificationsOP _notificationsOP = NotificationsOP();
+  final ScrollController _scrollController = ScrollController();
+  final NotificationsCubit _cubit = getIt.get<NotificationsCubit>();
 
   @override
   void initState() {
-    Map<DateTime, String> notificationsData = {
-      DateTime(2025, 7, 10):
-          '"Summer Music and Arts Festival Brings Vibrant Performances to the City"',
-      DateTime(2025, 8, 25):
-          '"Farmers\' Market Opens at Downtown Plaza with Fresh Local Produce"',
-      DateTime(2025, 9, 5):
-          '"City Park Hosts Annual Charity Run to Support Local Animal Shelters"',
-      DateTime(2025, 10, 18):
-          '"Tech Conference on Innovations in AI and Robotics Comes to Town"',
-      DateTime(2025, 11, 12):
-          '"Food Truck Festival Offers Culinary Delights from Around the World"',
-      DateTime(2025, 12, 1):
-          '"Winter Wonderland Holiday Fair Kicks Off with Ice Skating and Festive Stalls"',
-      DateTime(2026, 1, 15):
-          '"City\'s First Indoor Climbing Gym Opens with State-of-the-Art Facilities"',
-      DateTime(2026, 2, 20):
-          '"Community Garden Opens to Encourage Sustainable Urban Farming"',
-      DateTime(2025, 6, 2):
-          '"Music Festival Featuring Emerging Artists Takes Place in City Square"',
-      DateTime(2025, 4, 17):
-          '"Volunteer Cleanup Event Planned to Beautify Local Riverbank"',
-      DateTime(2025, 3, 9):
-          '"City Library Launches Reading Program for Children to Foster Love for Books"',
-      DateTime(2025, 1, 28):
-          '"Art Exhibition Showcasing Local Artists\' Work Opens at Community Gallery"',
-      DateTime(2024, 12, 12):
-          '"Local Park Hosts Outdoor Yoga Sessions for Stress Relief and Mindfulness"',
-      DateTime(2024, 11, 5):
-          '"Popular Cafe Introduces Vegan Menu Options to Cater to Diverse Customers"',
-      DateTime(2024, 9, 21):
-          '"New Gym Opens in Downtown Area with State-of-the-Art Equipment"',
-      DateTime(2024, 6, 15):
-          '"Local Community Center Offers Free Cooking Classes for Families"',
-    };
-    notificationsData.forEach((date, text) {
-      _notificationsOP.addNotification(text, date: date);
-    });
     super.initState();
+    _cubit.getNotifications(initial: true);
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.7 && !_cubit.isLoading && _cubit.hasMore) {
+      _cubit.getNotifications();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Theme.of(context).appColors.background,
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
+      body: BlocListener<NotificationsCubit, BaseState>(
+        bloc: _cubit,
+        listener: (context, state) {
+          if (state is ErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.msg!,
+                    style: Theme.of(context).appTexts.bodySmall.copyWith(
+                          color: Theme.of(context).appColors.red,
+                        )),
+                backgroundColor: Theme.of(context).appColors.white100,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                behavior: SnackBarBehavior.floating,
+                margin: const EdgeInsets.all(24),
+              ),
+            );
+          }
+        },
+        child: Container(
+          color: Theme.of(context).appColors.background,
+          width: double.infinity,
+          height: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: Column(
               children: [
                 const CustomAppBar(title: 'Notifications'),
                 const SizedBox(height: 16),
-                _notificationsOP.isEmpty()
-                    ? const Center(child: Text('No notifications'))
-                    : Column(
-                        children: _notificationsOP
-                            .getNotifications()
-                            .map((notification) => CardWidget(
-                                  icon: notification.icon,
-                                  text: notification.text,
-                                  date: notification.getDate(),
-                                  type: Notify,
-                                ))
-                            .toList(),
-                      )
+                Expanded(
+                  child: BlocBuilder<NotificationsCubit, BaseState>(
+                    bloc: _cubit,
+                    builder: (context, state) {
+                      if (state is LoadingState || state is InitState) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is ErrorState) {
+                        return const Center(
+                          child: Text('Error loading notifications'),
+                        );
+                      } else {
+                        if (_cubit.notifications.isEmpty) {
+                          return const Center(
+                            child: Text('No notifications available'),
+                          );
+                        }
+                        return ListView.builder(
+                            controller: _scrollController,
+                            itemCount: _cubit.notifications.length +
+                                (_cubit.hasMore ? 1 : 0),
+                            itemBuilder: (context, index) {
+                              if (index == _cubit.notifications.length) {
+                                return const Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Center(
+                                      child: CircularProgressIndicator()),
+                                );
+                              }
+                              final notification = _cubit.notifications[index];
+                              return CardWidget(
+                                icon: Assets.notificationCircularOutline,
+                                text: notification.message,
+                                date: notification.created_at,
+                                type: 'Notify',
+                              );
+                            });
+                      }
+                    },
+                  ),
+                )
               ],
             ),
           ),

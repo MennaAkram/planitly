@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/emails/presentation/cubit/email_operations.dart';
-import 'package:planitly/shared/widgets/card.dart';
 
 class EmailsScreen extends StatefulWidget {
   const EmailsScreen({super.key});
@@ -11,11 +9,9 @@ class EmailsScreen extends StatefulWidget {
 }
 
 class _EmailsScreenState extends State<EmailsScreen> {
-  final EmailsOP _emailsOP = EmailsOP();
-
   @override
   void initState() {
-    List<Map<String, dynamic>> emails = [
+    [
       {
         'text':
             '"Local Community Center Offers Free Cooking Classes for Families"',
@@ -78,14 +74,6 @@ class _EmailsScreenState extends State<EmailsScreen> {
       },
     ].reversed.toList();
 
-    for (var email in emails) {
-      _emailsOP.addEmail(
-        email['text'],
-        icon: email['icon'],
-        date: email['date'],
-      );
-    }
-
     super.initState();
   }
 
@@ -98,22 +86,11 @@ class _EmailsScreenState extends State<EmailsScreen> {
         color: Theme.of(context).appColors.background,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(
-                left: 16.0, right: 16.0, top: 32.0, bottom: 8),
-            child: _emailsOP.isEmpty()
-                ? const Center(
-                    child: Text('No emails yet'),
-                  )
-                : Column(
-                    children: _emailsOP.getEmails().map((email) {
-                      return CardWidget(
-                          icon: email.icon,
-                          text: email.text,
-                          date: email.getDate(),
-                          type: Email);
-                    }).toList(),
-                  ),
-          ),
+              padding: const EdgeInsets.only(
+                  left: 16.0, right: 16.0, top: 32.0, bottom: 8),
+              child: const Center(
+                child: Text('No emails yet'),
+              )),
         ),
       ),
     );
