@@ -13,8 +13,6 @@ abstract class AuthenticationRepository {
 
   Future<Either<NetworkException, TokenEntity>> refreshToken(
       String accesToken, String refreshToken);
-
-  Future<Either<NetworkException, bool>> isUserLoggedIn();
   
   void logout();
 }

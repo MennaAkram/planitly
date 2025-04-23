@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:planitly/features/authentication/presentation/splash/presentation/view/splash_screen.dart';
+import 'package:planitly/features/splash/presentation/view/splash_screen.dart';
+import 'package:planitly/shared/local_storage_manager.dart';
 import 'package:planitly/shared/navigator_helper.dart';
 import 'app/di.dart';
 import 'design_system/app_colors.dart';
@@ -7,17 +8,21 @@ import 'design_system/app_text.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
-  runApp(const MyApp());
+  final storageManager = getIt<LocalStorageManager>();
+  var isLoggedIn = await storageManager.getLoginToken() != null;
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
+  const MyApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: getIt<NavigationService>().navigatorKey,
@@ -43,7 +48,7 @@ class MyApp extends StatelessWidget {
           AppTextsTheme.main(),
         ],
       ),
-      home: const SplashScreen(),
+      home: SplashScreen(isLoggedIn: isLoggedIn),
     );
   }
 }
