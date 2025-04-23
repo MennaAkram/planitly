@@ -6,7 +6,8 @@ import 'package:planitly/features/bottomNavBar.dart';
 import 'package:planitly/shared/navigator_helper.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  final bool isLoggedIn;
+  const SplashScreen({super.key, required this.isLoggedIn});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -22,9 +23,11 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _checkUserAndNavigate() async {
     
     await Future.delayed(const Duration(seconds: 2));
-
-    NavigatorHelper.push(LoginScreen());
-    
+    if (widget.isLoggedIn) {
+      NavigatorHelper.pushReplacement(Bottomnavbar());
+    } else {
+      NavigatorHelper.pushReplacement(LoginScreen());
+    }
   }
 
   @override
