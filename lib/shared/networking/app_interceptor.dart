@@ -31,8 +31,7 @@ class AppInterceptor extends Interceptor {
 
         if (token != null) {
           final authRepo = getIt<AuthenticationRepository>();
-          final newToken = await authRepo.refreshToken(
-              token.accessToken, token.refreshToken);
+          final newToken = await authRepo.refreshToken(token.refreshToken);
           if (newToken.isRight()) {
             err.requestOptions.headers["Authorization"] =
                 "Bearer ${newToken.getOrElse(() => throw Exception()).accessToken}";
@@ -49,7 +48,8 @@ class AppInterceptor extends Interceptor {
         }
       } else if (err.response?.statusCode == 404 &&
           err.response?.data['Message'] != null &&
-          err.response?.data['Message'].contains("doesn't exist in the database")) {
+          err.response?.data['Message']
+              .contains("doesn't exist in the database")) {
         _storageManager.clearLoginToken();
         NavigatorHelper.pushReplacement(const LoginScreen());
         return handler.reject(err);
