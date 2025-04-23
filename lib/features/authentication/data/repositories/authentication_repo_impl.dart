@@ -74,12 +74,6 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
   }
 
   @override
-  Future<Either<NetworkException, bool>> isUserLoggedIn() async {
-    final token = await _storageManager.getLoginToken();
-    return right(token != null);
-  }
-
-  @override
   void logout() {
     _storageManager.clearLoginToken();
   }
