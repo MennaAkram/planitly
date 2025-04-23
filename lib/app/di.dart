@@ -6,6 +6,7 @@ import 'package:planitly/features/authentication/domain/repositories/authenticat
 import 'package:planitly/features/authentication/presentation/login/presentation/cubit/login_cubit.dart';
 
 import 'package:planitly/features/authentication/presentation/register/presentation/cubit/register_cubit.dart';
+import 'package:planitly/features/authentication/presentation/splash/presentation/cubit/splash_cubit.dart';
 import 'package:planitly/shared/local_storage_manager.dart';
 import 'package:planitly/shared/networking/app_dio.dart';
 import 'package:planitly/shared/networking/app_interceptor.dart';
@@ -45,6 +46,10 @@ void setupServiceLocator() {
       ));
 
   getIt.registerFactory<RegisterCubit>(() => RegisterCubit(
+        getIt<AuthenticationRepository>(),
+      ));
+
+  getIt.registerFactory<SplashCubit>(() => SplashCubit(
         getIt<AuthenticationRepository>(),
       ));
 }
