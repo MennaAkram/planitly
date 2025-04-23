@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:planitly/features/notifications/domain/entity/notification_entity.dart';
+import 'package:planitly/features/notifications/domain/entity/notifications_info_entity.dart';
 
 import '../features/authentication/domain/entity/token_entity.dart';
 
@@ -9,6 +13,7 @@ class LocalStorageManager {
 
   final _accessTokenKey = "access_token";
   final _refreshTokenKey = "refresh_token";
+  final _notificationsInfoKey = "notifications_info";
 
   Future<TokenEntity?> getLoginToken() async {
     final accessToken = await storage.read(key: _accessTokenKey);
@@ -31,5 +36,51 @@ class LocalStorageManager {
   void clearLoginToken() {
     storage.delete(key: _accessTokenKey);
     storage.delete(key: _refreshTokenKey);
+  }
+
+  Future<void> saveNotificationsInfo(
+      NotificationsInfoEntity notificationsInfo) {
+    final jsonMap = {
+      'total': notificationsInfo.total,
+      'notifications': notificationsInfo.notifications
+          .map((notify) => {
+                'id': notify.id,
+                'message': notify.message,
+                'created_at': notify.created_at
+              })
+          .toList()
+    };
+    return storage.write(
+      key: _notificationsInfoKey,
+      value: jsonEncode(jsonMap),
+    );
+  }
+
+    Future<NotificationsInfoEntity?> getNotificationsInfo() async {
+    final raw = await storage.read(key: _notificationsInfoKey);
+    if (raw == null) return null;
+
+    final Map<String, dynamic> jsonMap = jsonDecode(raw);
+    final List<dynamic> listJson = jsonMap['notifications'];
+    final items = listJson
+        .map((m) => NotificationEntity(
+              id: m['id'],
+              message: m['message'],
+              created_at: m['created_at'],
+            ))
+        .toList();
+
+    return NotificationsInfoEntity(
+      total: jsonMap['total'] as int,
+      notifications: items,
+    );
+  }
+
+  void clearNotificationsInfo() {
+    storage.delete(key: _notificationsInfoKey);
+  }
+
+  void clearAll() {
+    storage.deleteAll();
   }
 }
