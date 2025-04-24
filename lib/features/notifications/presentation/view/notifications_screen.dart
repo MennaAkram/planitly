@@ -90,8 +90,29 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         );
                       } else {
                         if (_cubit.notifications.isEmpty) {
-                          return const Center(
-                            child: Text('No notifications available'),
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage(
+                                      Assets.notificationPlaceholder),
+                                  width: 200,
+                                  height: 200,
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  'No notifications found',
+                                  style: Theme.of(context)
+                                      .appTexts
+                                      .bodyLarge
+                                      .copyWith(
+                                          color: Theme.of(context)
+                                              .appColors
+                                              .black87),
+                                ),
+                              ],
+                            ),
                           );
                         }
                         return ListView.builder(
