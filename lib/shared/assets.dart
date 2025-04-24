@@ -5,16 +5,17 @@ class Assets {
   static const String finance = 'assets/images/finance.png';
   static const String habit = 'assets/images/habit.png';
   static const String studyWork = 'assets/images/studywork.png';
-  static const String background = 'assets/images/Group 7.svg';
   static const String person = 'assets/images/person.png';
-  static const String logo = 'assets/images/lpgo.svg';
-  static const String chatbot = 'assets/images/chat bot 1.svg';
-  static const String chatMassage = 'assets/images/chatmassage.svg';
-  static const String homePlaceholder = 'assets/images/home_placeholder.svg';
-  static const String calendarPlaceholder = 'assets/images/undraw_add_tasks_re_s5yj.png';
   static const String picture = 'assets/images/Frame 1597882199.png';
+  static const String calendarPlaceholder = 'assets/images/undraw_add_tasks_re_s5yj.png';
+  static const String notificationPlaceholder = 'assets/images/undraw_my-notifications_fy5v.png';
 
   // Icons
+  static const String homePlaceholder = 'assets/images/home_placeholder.svg';
+  static const String chatMassage = 'assets/images/chatmassage.svg';
+  static const String logo = 'assets/images/lpgo.svg';
+  static const String chatbot = 'assets/images/chat bot 1.svg';
+  static const String background = 'assets/images/Group 7.svg';
   static const String iconCalender = 'assets/icons/ic_calendar.svg';
   static const String iconAdd = 'assets/icons/ic_add.svg';
   static const String iconBackArrow = 'assets/icons/ic_back_arrow.svg';
