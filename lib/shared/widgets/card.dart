@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/emails/presentation/cubit/email_operations.dart';
 
 class CardWidget extends StatelessWidget {
   final String text;
   final String date;
   final String icon;
-  final Type type;
+  final String type;
 
   const CardWidget(
       {super.key,
@@ -20,13 +19,13 @@ class CardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      padding: type == Email
+      padding: type == 'Email'
           ? const EdgeInsets.symmetric(vertical: 12)
           : const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Theme.of(context).appColors.background,
-        borderRadius: BorderRadius.circular(type == Email ? 0 : 24),
-        border: type == Email
+        borderRadius: BorderRadius.circular(type == 'Email' ? 0 : 24),
+        border: type == 'Email'
             ? Border(
                 bottom: BorderSide(
                   color: Theme.of(context).colorScheme.secondary,
@@ -55,7 +54,7 @@ class CardWidget extends StatelessWidget {
                 SizedBox(
                   width: 226,
                   child: Text(
-                    text,
+                    '"$text"',
                     style: Theme.of(context).appTexts.bodySmall.copyWith(
                           color: Theme.of(context).appColors.black60,
                         ),

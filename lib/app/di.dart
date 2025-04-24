@@ -6,6 +6,9 @@ import 'package:planitly/features/authentication/domain/repositories/authenticat
 import 'package:planitly/features/authentication/presentation/login/presentation/cubit/login_cubit.dart';
 
 import 'package:planitly/features/authentication/presentation/register/presentation/cubit/register_cubit.dart';
+import 'package:planitly/features/notifications/data/repositories/notifications_repo_impl.dart';
+import 'package:planitly/features/notifications/domain/repositories/notifications_repo.dart';
+import 'package:planitly/features/notifications/presentation/cubit/notifications_cubit.dart';
 import 'package:planitly/shared/local_storage_manager.dart';
 import 'package:planitly/shared/networking/app_dio.dart';
 import 'package:planitly/shared/networking/app_interceptor.dart';
@@ -39,6 +42,13 @@ void setupServiceLocator() {
     ),
   );
 
+  getIt.registerSingleton<NotificationsRepository>(
+    NotificationsRepositoryImpl(
+      getIt<Dio>(instanceName: planitlyService),
+      getIt<LocalStorageManager>(),
+    ),
+  );
+
   // CUBITS
   getIt.registerFactory<LoginCubit> (() => LoginCubit(
         getIt<AuthenticationRepository>(),
@@ -46,5 +56,9 @@ void setupServiceLocator() {
 
   getIt.registerFactory<RegisterCubit>(() => RegisterCubit(
         getIt<AuthenticationRepository>(),
+      ));
+
+  getIt.registerFactory<NotificationsCubit>(() => NotificationsCubit(
+        getIt<NotificationsRepository>(),
       ));
 }

@@ -55,11 +55,10 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
   }
 
   @override
-  Future<Either<NetworkException, TokenEntity>> refreshToken(
-      String accesToken, String refreshToken) async {
+  Future<Either<NetworkException, TokenEntity>> refreshToken(String refreshToken) async {
+
     final result = await tryToExecute<TokenEntity>(
       () => dio.post(EndPoints.refreshToken, data: {
-        "accessToken": accesToken,
         "refreshToken": refreshToken,
       }),
       (response) => TokenDto().fromJson(response).toEntity(),
