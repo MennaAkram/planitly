@@ -69,7 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
         bloc: _cubit,
         listener: (context, state) {
           if (state is ErrorState) {
-            if (state.msg != "Token has expired") {
               ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.msg!,
@@ -84,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.all(24),
               ),
             );
-            }
+            
           } else if (state is DoneState) {
             NavigatorHelper.pushReplacement(Bottomnavbar());
           }

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:planitly/shared/configs/endpoints.dart';
 import 'package:planitly/shared/local_storage_manager.dart';
-
 import '../../app/di.dart';
 import '../../features/authentication/domain/repositories/authentication_repo.dart';
 import '../../features/authentication/presentation/login/presentation/view/login_screen.dart';
@@ -24,11 +24,23 @@ class AppInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
+    if ((err.requestOptions.path).endsWith(EndPoints.refreshToken) ||
+        err.requestOptions.extra['retried'] == true) {
+      _storageManager.clearLoginToken();
+      NavigatorHelper.pushReplacement(const LoginScreen());
+      return handler.reject(err);
+    }
+
+    if (err.response?.statusCode == 401 &&
+        err.requestOptions.headers["Authorization"] != null &&
+        (err.requestOptions.extra["retried"]) != true) {
+      err.requestOptions.extra['retried'] = true;
+    }
+
     try {
       if (err.response?.statusCode == 401 &&
           err.requestOptions.headers["Authorization"] != null) {
         final token = await _storageManager.getLoginToken();
-
         if (token != null) {
           final authRepo = getIt<AuthenticationRepository>();
           final newToken = await authRepo.refreshToken(token.refreshToken);
@@ -37,7 +49,8 @@ class AppInterceptor extends Interceptor {
                 "Bearer ${newToken.getOrElse(() => throw Exception()).accessToken}";
 
             return handler.resolve(
-              await getIt<Dio>().fetch(err.requestOptions),
+              await getIt<Dio>(instanceName: 'planitlyService')
+                  .fetch(err.requestOptions),
             );
           }
           if (newToken.isLeft()) {

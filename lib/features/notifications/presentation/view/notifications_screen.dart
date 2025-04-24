@@ -34,7 +34,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   void _onScroll() {
     if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.7 && !_cubit.isLoading && _cubit.hasMore) {
+            _scrollController.position.maxScrollExtent * 0.7 &&
+        !_cubit.isLoading &&
+        _cubit.hasMore) {
       _cubit.getNotifications();
     }
   }
@@ -46,20 +48,22 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         bloc: _cubit,
         listener: (context, state) {
           if (state is ErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.msg!,
-                    style: Theme.of(context).appTexts.bodySmall.copyWith(
-                          color: Theme.of(context).appColors.red,
-                        )),
-                backgroundColor: Theme.of(context).appColors.white100,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+            if (state.msg != "Token has expired") {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.msg!,
+                      style: Theme.of(context).appTexts.bodySmall.copyWith(
+                            color: Theme.of(context).appColors.red,
+                          )),
+                  backgroundColor: Theme.of(context).appColors.white100,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  margin: const EdgeInsets.all(24),
                 ),
-                behavior: SnackBarBehavior.floating,
-                margin: const EdgeInsets.all(24),
-              ),
-            );
+              );
+            }
           }
         },
         child: Container(
