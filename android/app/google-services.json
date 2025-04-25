@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "64584877094",
+    "project_id": "planitly-158e7",
+    "storage_bucket": "planitly-158e7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64584877094:android:901fdc3526bf62b79592e7",
+        "android_client_info": {
+          "package_name": "com.example.planitly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7CJTEacq6_X8_2ougqF5C-u5AlpgOJNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

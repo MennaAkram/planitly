@@ -6,6 +6,8 @@ import 'package:planitly/shared/bases/base_repo.dart';
 import 'package:planitly/shared/networking/failures.dart';
 import '../../../../../shared/configs/endpoints.dart';
 import '../../../../../shared/local_storage_manager.dart';
+import '../../domain/entity/fcm_token_entity.dart';
+import '../remote/fcm_token_dto.dart';
 
 class AuthenticationRepositoryImpl extends BaseRepository implements AuthenticationRepository {
   final LocalStorageManager _storageManager;
@@ -68,6 +70,22 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
       (token) {
         _storageManager.saveLoginToken(token);
         return right(token);
+      },
+    );
+  }
+
+  @override
+  Future<Either<NetworkException, FcmTokenEntity>> sendFcmToken({required String fcmToken}) {
+    return tryToExecute(
+          () => dio.post(
+        EndPoints.fcmToken,
+        data: {
+          "fcm_token": fcmToken,
+        },
+      ),
+          (response) {
+        final fcmTokenEntity = FcmTokenDto().fromJson(response).toEntity();
+        return fcmTokenEntity;
       },
     );
   }
