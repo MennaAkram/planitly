@@ -73,6 +73,21 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
   }
 
   @override
+  Future<Either<NetworkException, bool>> verifyEmail({required String email}) async {
+    return await tryToExecute(
+      () => dio.post(
+        EndPoints.forgetPassword,
+        data: {
+          "email": email,
+        },
+      ),
+      (response) {
+        return true;
+      },
+    );
+  }
+
+  @override
   void logout() {
     _storageManager.clearLoginToken();
   }
