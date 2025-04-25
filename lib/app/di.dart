@@ -7,6 +7,7 @@ import 'package:planitly/features/authentication/presentation/forget_password/pr
 import 'package:planitly/features/authentication/presentation/login/presentation/cubit/login_cubit.dart';
 
 import 'package:planitly/features/authentication/presentation/register/presentation/cubit/register_cubit.dart';
+import 'package:planitly/features/authentication/presentation/reset_password/presentation/cubit/reset_password_cubit.dart';
 import 'package:planitly/features/notifications/data/repositories/notifications_repo_impl.dart';
 import 'package:planitly/features/notifications/domain/repositories/notifications_repo.dart';
 import 'package:planitly/features/notifications/presentation/cubit/notifications_cubit.dart';
@@ -64,6 +65,10 @@ void setupServiceLocator() {
       ));
 
   getIt.registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(
+        getIt<AuthenticationRepository>(),
+      ));
+
+  getIt.registerFactory<ResetPasswordCubit>(() => ResetPasswordCubit(
         getIt<AuthenticationRepository>(),
       ));
 }

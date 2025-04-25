@@ -1,6 +1,7 @@
 import 'package:planitly/features/authentication/domain/repositories/authentication_repo.dart';
 import 'package:planitly/shared/bases/base_cubit.dart';
 import 'package:planitly/shared/bases/base_state.dart';
+import 'package:planitly/shared/networking/failures.dart';
 
 class ForgetPasswordCubit extends BaseCubit {
   final AuthenticationRepository _authRepo;
@@ -13,7 +14,7 @@ class ForgetPasswordCubit extends BaseCubit {
     final result = await _authRepo.verifyEmail(email: email);
 
     return result.fold(
-      (exception) {
+      (NetworkException exception) {
         handleException(exception);
       },
       (data) {
