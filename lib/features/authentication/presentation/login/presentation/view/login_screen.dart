@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/authentication/presentation/forget_password/presentation/view/forget_password_screen.dart';
 import 'package:planitly/features/authentication/presentation/login/presentation/cubit/login_cubit.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/view/signup_screen.dart';
 import 'package:planitly/shared/assets.dart';
@@ -69,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
         bloc: _cubit,
         listener: (context, state) {
           if (state is ErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.msg!,
                     style: Theme.of(context).appTexts.bodySmall.copyWith(
@@ -83,7 +84,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.all(24),
               ),
             );
-            
           } else if (state is DoneState) {
             NavigatorHelper.pushReplacement(Bottomnavbar());
           }
@@ -136,7 +136,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             alignment: Alignment.centerLeft,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                NavigatorHelper.push(ForgetPasswordScreen());
+                              },
                               child: Text(
                                 "Forget your password? ",
                                 style: Theme.of(context)
