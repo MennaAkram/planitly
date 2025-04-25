@@ -17,5 +17,8 @@ abstract class AuthenticationRepository {
   Future<Either<NetworkException, bool>> verifyEmail(
       {required String email});
 
+  Future<Either<NetworkException, bool>> resetNewPassword(
+      {required String newPassword});
+
   void logout();
 }

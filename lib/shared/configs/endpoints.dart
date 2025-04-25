@@ -5,6 +5,7 @@ class EndPoints {
   static const String register = 'auth/register';
   static const String refreshToken = 'auth/refresh-token';
   static const String forgetPassword = 'auth/forget-password';
+  static const String resetPassword = 'auth/reset-password';
 
   static const String notifications = 'notifications';
 }
