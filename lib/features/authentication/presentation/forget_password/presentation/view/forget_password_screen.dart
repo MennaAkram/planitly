@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/authentication/presentation/reset_password/presentation/view/reset_password_screen.dart';
 import 'package:planitly/shared/assets.dart';
+import 'package:planitly/shared/navigator_helper.dart';
 import 'package:planitly/shared/validators.dart';
 import 'package:planitly/shared/widgets/button.dart';
 import 'package:planitly/shared/widgets/text_field.dart';
@@ -65,10 +67,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     text: "Verify",
                     onPressed: () {
                       if (_stateform.currentState!.validate()) {
+                        NavigatorHelper.pushReplacement(ResetPasswordScreen());
                       } else {
-                        setState(() {
-                          _submitting = true;
-                        });
+                        if (!_submitting) {
+                          setState(() {
+                            _submitting = true;
+                          });
+                        }
                       }
                     },
                     outlined: false),
