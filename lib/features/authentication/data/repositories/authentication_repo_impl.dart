@@ -76,7 +76,7 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
   Future<Either<NetworkException, bool>> verifyEmail({required String email}) async {
     return await tryToExecute(
       () => dio.post(
-        EndPoints.forgetPassword,
+        EndPoints.forgotPassword,
         data: {
           "email": email,
         },
