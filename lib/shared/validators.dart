@@ -63,6 +63,17 @@ class Validators {
     }
     return null;
   }
+
+  static String? phoneNumberValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return AppLocalizations.current.cantBeEmpty;
+    }
+
+    if (!AppRegex.phoneNumber.hasMatch(value)) {
+      return AppLocalizations.current.invalidPhoneNumber;
+    }
+    return null;
+  }
 }
 
 class AppRegex {
@@ -79,4 +90,7 @@ class AppRegex {
     r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$',
   );
 
+  static final RegExp phoneNumber = RegExp(
+    r'^(0\d{10})$',
+  );
 }

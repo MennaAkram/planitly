@@ -4,6 +4,7 @@ import 'package:planitly/design_system/theme.dart';
 class CustomTextField extends StatefulWidget {
   final String labelText;
   final bool isPassword;
+  final TextInputType keyboardType;
   final IconData passwordVisibleIcon;
   final IconData passwordHiddenIcon;
   final TextEditingController controller;
@@ -14,6 +15,7 @@ class CustomTextField extends StatefulWidget {
     required this.labelText,
     required this.controller,
     this.isPassword = false,
+    this.keyboardType = TextInputType.text,
     this.passwordVisibleIcon = Icons.visibility_off_outlined,
     this.passwordHiddenIcon = Icons.remove_red_eye_outlined,
     this.validator,
@@ -38,11 +40,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
       controller: widget.controller,
       validator: widget.validator,
       obscureText: _showPassword,
-      keyboardType:
-          widget.isPassword ? TextInputType.text : TextInputType.emailAddress,
-      style: Theme.of(context).appTexts.bodyMedium.copyWith(
-        color: Theme.of(context).appColors.black60
-      ),
+      keyboardType: widget.keyboardType,
+      style: Theme.of(context)
+          .appTexts
+          .bodyMedium
+          .copyWith(color: Theme.of(context).appColors.black60),
       decoration: InputDecoration(
         filled: true,
         fillColor: Theme.of(context).appColors.white87,
@@ -52,18 +54,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
-          borderSide: BorderSide(
-              color: Theme.of(context).appColors.black16, width: 1),
+          borderSide:
+              BorderSide(color: Theme.of(context).appColors.black16, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
-          borderSide: BorderSide(
-              color: Theme.of(context).appColors.black16, width: 1),
+          borderSide:
+              BorderSide(color: Theme.of(context).appColors.black16, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
-          borderSide: BorderSide(
-              color: Theme.of(context).appColors.black16, width: 1),
+          borderSide:
+              BorderSide(color: Theme.of(context).appColors.black16, width: 1),
         ),
         suffixIcon: widget.isPassword
             ? IconButton(
