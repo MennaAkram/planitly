@@ -30,9 +30,17 @@ class _DateTextFieldState extends State<DateTextField> {
         FocusScope.of(context).requestFocus(FocusNode());
         final date = await showDatePicker(
           context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2020, 1, 1),
-          lastDate: DateTime.utc(2030, 12, 31),
+          initialDate: DateTime(
+            DateTime.now().year - 13,
+            DateTime.now().month,
+            DateTime.now().day,
+          ),
+          firstDate: DateTime(1900, 1, 1),
+          lastDate: DateTime(
+            DateTime.now().year - 13,
+            DateTime.now().month,
+            DateTime.now().day,
+          ),
         );
         if (date != null) {
           widget.controller.text = DateFormat("MMM dd, yyyy").format(date);
@@ -46,22 +54,22 @@ class _DateTextFieldState extends State<DateTextField> {
         fillColor: Theme.of(context).appColors.white87,
         hintText: widget.labelText,
         hintStyle: Theme.of(context).appTexts.bodyMedium.copyWith(
-          color: Theme.of(context).appColors.black37,
-        ),
+              color: Theme.of(context).appColors.black37,
+            ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
-          borderSide: BorderSide(
-              color: Theme.of(context).appColors.black16, width: 1),
+          borderSide:
+              BorderSide(color: Theme.of(context).appColors.black16, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
-          borderSide: BorderSide(
-              color: Theme.of(context).appColors.black16, width: 1),
+          borderSide:
+              BorderSide(color: Theme.of(context).appColors.black16, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
-          borderSide: BorderSide(
-              color: Theme.of(context).appColors.black16, width: 1),
+          borderSide:
+              BorderSide(color: Theme.of(context).appColors.black16, width: 1),
         ),
         suffixIcon: IconButton(
           iconSize: 24,
@@ -75,9 +83,17 @@ class _DateTextFieldState extends State<DateTextField> {
           onPressed: () async {
             final date = await showDatePicker(
               context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2100),
+              initialDate: DateTime(
+                DateTime.now().year - 13,
+                DateTime.now().month,
+                DateTime.now().day,
+              ),
+              firstDate: DateTime(1900),
+              lastDate: DateTime(
+                DateTime.now().year - 13,
+                DateTime.now().month,
+                DateTime.now().day,
+              ),
             );
             if (date != null) {
               widget.controller.text = DateFormat("MMM dd, yyyy").format(date);
@@ -85,7 +101,7 @@ class _DateTextFieldState extends State<DateTextField> {
           },
         ),
         contentPadding:
-        const EdgeInsets.symmetric(horizontal: 16, vertical: 14.5),
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14.5),
       ),
     );
   }
