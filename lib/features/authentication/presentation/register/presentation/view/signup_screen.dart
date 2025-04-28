@@ -277,11 +277,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 _submitting = false;
                               });
                             } else {
-                              // _cubit.register(
-                              //   username: usernameController.text,
-                              //   email: emailController.text,
-                              //   password: passwordController.text,
-                              // );
+                              _cubit.register(
+                                firstName: firstNameController.text,
+                                lastName: lastNameController.text,
+                                phoneNumber: phoneController.text,
+                                birthdayDate: birthdateController.text,
+                                username: usernameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
                             }
                           } else {
                             if (!_submitting) {

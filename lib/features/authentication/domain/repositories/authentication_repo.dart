@@ -7,7 +7,11 @@ abstract class AuthenticationRepository {
       {required String usernameOremail, required String password});
 
   Future<Either<NetworkException, bool>> register(
-      {required String username,
+      {required String firstName,
+      required String lastName,
+      required String phoneNumber,
+      required String birthdayDate,
+      required String username,
       required String email,
       required String password});
 

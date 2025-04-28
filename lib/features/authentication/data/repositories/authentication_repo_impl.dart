@@ -35,6 +35,10 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
 
   @override
   Future<Either<NetworkException, bool>> register({
+    required String firstName,
+    required String lastName,
+    required String phoneNumber,
+    required String birthdayDate,
     required String username,
     required String email,
     required String password,
@@ -43,6 +47,10 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
       () => dio.post(
         EndPoints.register,
         data: {
+          "firstName": firstName,
+          "lastName": lastName,
+          "phoneNumber": phoneNumber,
+          "birthdayDate": birthdayDate,
           "username": username,
           "email": email,
           "password": password,
