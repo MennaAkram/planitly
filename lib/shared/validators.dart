@@ -74,6 +74,18 @@ class Validators {
     }
     return null;
   }
+
+  static String? nameValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return AppLocalizations.current.cantBeEmpty;
+    }
+
+    if (!AppRegex.name.hasMatch(value)) {
+      return AppLocalizations.current.invalidName;
+    }
+
+    return null;
+  }
 }
 
 class AppRegex {
@@ -93,4 +105,6 @@ class AppRegex {
   static final RegExp phoneNumber = RegExp(
     r'^(0\d{10})$',
   );
+
+  static final RegExp name = RegExp(r'^[A-Za-z]+$');
 }
