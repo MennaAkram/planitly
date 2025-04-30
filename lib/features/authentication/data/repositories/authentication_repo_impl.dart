@@ -50,7 +50,7 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
           "firstName": firstName,
           "lastName": lastName,
           "phoneNumber": phoneNumber,
-          "birthdayDate": birthdayDate,
+          "birthday": birthdayDate,
           "username": username,
           "email": email,
           "password": password,

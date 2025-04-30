@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/cubit/register_cubit.dart';
@@ -222,7 +223,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             labelText: "Phone Number",
                             controller: phoneController,
                             keyboardType: TextInputType.phone,
-                            validator: Validators.phoneNumberValidator,
+                            validator: Validators.cantBeEmpty,
                           ),
                           const SizedBox(height: 16),
                           DateTextField(
@@ -281,7 +282,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 firstName: firstNameController.text,
                                 lastName: lastNameController.text,
                                 phoneNumber: phoneController.text,
-                                birthdayDate: birthdateController.text,
+                                birthdayDate: (DateFormat("MMM dd, yyyy")
+                                        .parse(birthdateController.text))
+                                    .toIso8601String(),
                                 username: usernameController.text,
                                 email: emailController.text,
                                 password: passwordController.text,
