@@ -289,7 +289,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 lastName: lastNameController.text,
                                 phoneNumber:
                                     '$_countryCode${phoneController.text}',
-                                birthdayDate: (DateFormat("MMM dd, yyyy")
+                                birthdayDate: (DateFormat("d/M/y")
                                         .parse(birthdateController.text))
                                     .toIso8601String(),
                                 username: usernameController.text,

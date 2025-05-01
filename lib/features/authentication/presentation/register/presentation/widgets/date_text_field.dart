@@ -43,7 +43,7 @@ class _DateTextFieldState extends State<DateTextField> {
           ),
         );
         if (date != null) {
-          widget.controller.text = DateFormat("MMM dd, yyyy").format(date);
+          widget.controller.text = DateFormat("d/M/y").format(date);
         }
       },
       controller: widget.controller,
@@ -96,7 +96,7 @@ class _DateTextFieldState extends State<DateTextField> {
               ),
             );
             if (date != null) {
-              widget.controller.text = DateFormat("MMM dd, yyyy").format(date);
+              widget.controller.text = DateFormat("d/M/y").format(date);
             }
           },
         ),
