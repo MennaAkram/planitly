@@ -88,21 +88,6 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
   }
 
   @override
-  Future<Either<NetworkException, bool>> resetNewPassword({required String newPassword}) async {
-    return await tryToExecute(
-      () => dio.post(
-        EndPoints.resetPassword,
-        data: {
-          "newPassword": newPassword,
-        },
-      ),
-      (response) {
-        return true;
-      },
-    );
-  }
-
-  @override
   void logout() {
     _storageManager.clearLoginToken();
   }

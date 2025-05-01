@@ -63,18 +63,6 @@ class Validators {
     }
     return null;
   }
-
-  static String? confirmPasswordValidator(
-      String? value, String password) {
-    if (value == null || value.trim().isEmpty) {
-      return AppLocalizations.current.cantBeEmpty;
-    }
-
-    if (value != password) {
-      return AppLocalizations.current.passwordsDoNotMatch;
-    }
-    return null;
-  }
 }
 
 class AppRegex {
