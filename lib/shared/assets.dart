@@ -9,6 +9,7 @@ class Assets {
   static const String picture = 'assets/images/Frame 1597882199.png';
   static const String calendarPlaceholder = 'assets/images/undraw_add_tasks_re_s5yj.png';
   static const String notificationPlaceholder = 'assets/images/undraw_my-notifications_fy5v.svg';
+  static const String resendEmailPlaceholder = 'assets/images/undraw_emails_085h 1.svg';
 
   // Icons
   static const String homePlaceholder = 'assets/images/home_placeholder.svg';

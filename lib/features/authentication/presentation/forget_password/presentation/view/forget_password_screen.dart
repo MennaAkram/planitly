@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/authentication/presentation/forget_password/presentation/cubit/forget_password_cubit.dart';
-import 'package:planitly/features/authentication/presentation/reset_password/presentation/view/reset_password_screen.dart';
+import 'package:planitly/features/authentication/presentation/forget_password/presentation/view/resend_email_screen.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/navigator_helper.dart';
@@ -53,7 +53,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               ),
             );
           } else if (state is DoneState) {
-            NavigatorHelper.pushReplacement(ResetPasswordScreen());
+            NavigatorHelper.pushReplacement(ResendEmailScreen(email: emailConteoller.text,));
           }
         },
         child: Container(
