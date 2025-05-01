@@ -233,7 +233,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           const SizedBox(height: 16),
                           DateTextField(
-                            labelText: "Birthdate Date",
+                            labelText: "Birthday Date",
                             controller: birthdateController,
                             validator: Validators.cantBeEmpty,
                           )
