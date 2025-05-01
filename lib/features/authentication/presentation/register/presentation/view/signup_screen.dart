@@ -5,6 +5,7 @@ import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/cubit/register_cubit.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/widgets/date_text_field.dart';
+import 'package:planitly/features/authentication/presentation/register/presentation/widgets/phone_text_field.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/navigator_helper.dart';
@@ -31,6 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _stateform = GlobalKey<FormState>();
   final RegisterCubit _cubit = getIt.get<RegisterCubit>();
+  String _countryCode = '+20';
   bool _submitting = false;
   int _currentStep = 0;
 
@@ -175,7 +177,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Form(
                   key: _stateform,
                   autovalidateMode: _submitting
-                      ? AutovalidateMode.onUserInteraction
+                      ? AutovalidateMode.always
                       : AutovalidateMode.disabled,
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
@@ -219,11 +221,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          CustomTextField(
+                          PhoneNumberTextField(
                             labelText: "Phone Number",
                             controller: phoneController,
-                            keyboardType: TextInputType.phone,
-                            validator: Validators.cantBeEmpty,
+                            validator: Validators.phoneNumberValidator,
+                            onChanged: (countryCode, number) {
+                              setState(() {
+                                _countryCode = countryCode;
+                              });
+                            },
                           ),
                           const SizedBox(height: 16),
                           DateTextField(
@@ -281,7 +287,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               _cubit.register(
                                 firstName: firstNameController.text,
                                 lastName: lastNameController.text,
-                                phoneNumber: phoneController.text,
+                                phoneNumber:
+                                    '$_countryCode${phoneController.text}',
                                 birthdayDate: (DateFormat("MMM dd, yyyy")
                                         .parse(birthdateController.text))
                                     .toIso8601String(),

@@ -103,7 +103,7 @@ class AppRegex {
   );
 
   static final RegExp phoneNumber = RegExp(
-    r'^(0\d{10})$',
+    r'^\d{8,15}$',
   );
 
   static final RegExp name = RegExp(r'^[A-Za-z]+$');
