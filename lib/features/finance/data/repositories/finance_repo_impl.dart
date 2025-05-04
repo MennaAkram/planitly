@@ -1,6 +1,6 @@
 
 import 'package:dartz/dartz.dart';
-import 'package:planitly/features/finance/domain/data/remote/finance_info_dto.dart';
+import 'package:planitly/features/finance/data/remote/finance_info_dto.dart';
 import 'package:planitly/features/finance/domain/entity/finance_info_entity.dart';
 import 'package:planitly/features/finance/domain/repositories/finance_repo.dart';
 import 'package:planitly/shared/bases/base_repo.dart';

@@ -1,4 +1,4 @@
-import 'package:planitly/features/finance/domain/data/remote/expense_dto.dart';
+import 'package:planitly/features/finance/data/remote/expense_dto.dart';
 import 'package:planitly/features/finance/domain/entity/expense_info_entity.dart';
 import 'package:planitly/shared/bases/base_mapper.dart';
 

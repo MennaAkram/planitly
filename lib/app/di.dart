@@ -6,7 +6,7 @@ import 'package:planitly/features/authentication/domain/repositories/authenticat
 import 'package:planitly/features/authentication/presentation/login/presentation/cubit/login_cubit.dart';
 
 import 'package:planitly/features/authentication/presentation/register/presentation/cubit/register_cubit.dart';
-import 'package:planitly/features/finance/domain/data/repositories/finance_repo_impl.dart';
+import 'package:planitly/features/finance/data/repositories/finance_repo_impl.dart';
 import 'package:planitly/features/finance/domain/repositories/finance_repo.dart';
 import 'package:planitly/features/notifications/data/repositories/notifications_repo_impl.dart';
 import 'package:planitly/features/notifications/domain/repositories/notifications_repo.dart';
