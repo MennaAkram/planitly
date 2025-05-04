@@ -4,10 +4,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:planitly/features/authentication/data/repositories/authentication_repo_impl.dart';
 import 'package:planitly/features/authentication/domain/repositories/authentication_repo.dart';
 import 'package:planitly/features/authentication/presentation/login/presentation/cubit/login_cubit.dart';
-
 import 'package:planitly/features/authentication/presentation/register/presentation/cubit/register_cubit.dart';
 import 'package:planitly/features/finance/data/repositories/finance_repo_impl.dart';
 import 'package:planitly/features/finance/domain/repositories/finance_repo.dart';
+import 'package:planitly/features/finance/presentation/cubit/finance_cubit.dart';
 import 'package:planitly/features/notifications/data/repositories/notifications_repo_impl.dart';
 import 'package:planitly/features/notifications/domain/repositories/notifications_repo.dart';
 import 'package:planitly/features/notifications/presentation/cubit/notifications_cubit.dart';
@@ -69,5 +69,9 @@ void setupServiceLocator() {
 
   getIt.registerFactory<NotificationsCubit>(() => NotificationsCubit(
         getIt<NotificationsRepository>(),
+      ));
+
+  getIt.registerFactory<FinanceCubit>(() => FinanceCubit(
+        getIt<FinanceRepository>(),
       ));
 }
