@@ -6,4 +6,6 @@ class EndPoints {
   static const String refreshToken = 'auth/refresh-token';
 
   static const String notifications = 'notifications';
+
+  static const String finance = 'finance';
 }

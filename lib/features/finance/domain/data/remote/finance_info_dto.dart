@@ -1,5 +1,6 @@
 import 'package:planitly/features/finance/domain/data/remote/expense_info_dto.dart';
 import 'package:planitly/features/finance/domain/data/remote/income_info_dto.dart';
+import 'package:planitly/features/finance/domain/entity/finance_info_entity.dart';
 import 'package:planitly/shared/bases/base_mapper.dart';
 
 class FinanceInfoDto extends BaseMapper<FinanceInfoDto> {
@@ -24,6 +25,13 @@ class FinanceInfoDto extends BaseMapper<FinanceInfoDto> {
     return FinanceInfoDto(
       incomeInfo: IncomeInfoDto().fromJson(json['incomeInfo']),
       expenseInfo: ExpenseInfoDto().fromJson(json['expenseInfo']),
+    );
+  }
+
+  FinanceInfoEntity toEntity() {
+    return FinanceInfoEntity(
+      incomeInfo: incomeInfo!.toEntity(),
+      expenseInfo: expenseInfo!.toEntity(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:planitly/features/finance/domain/data/remote/income_dto.dart';
+import 'package:planitly/features/finance/domain/entity/income_info_entity.dart';
 import 'package:planitly/shared/bases/base_mapper.dart';
 
 class IncomeInfoDto extends BaseMapper<IncomeInfoDto> {
@@ -22,6 +23,12 @@ class IncomeInfoDto extends BaseMapper<IncomeInfoDto> {
       incomes: (json['incomes'] as List<dynamic>?)
           ?.map((income) => IncomeDto().fromJson(income))
           .toList(),
+    );
+  }
+
+  IncomeInfoEntity toEntity() {
+    return IncomeInfoEntity(
+      incomeList: incomes?.map((income) => income.toEntity()).toList() ?? [],
     );
   }
 }
