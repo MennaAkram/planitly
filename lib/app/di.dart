@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:planitly/features/authentication/data/repositories/authentication_repo_impl.dart';
@@ -16,6 +17,7 @@ import 'package:planitly/shared/networking/app_dio.dart';
 import 'package:planitly/shared/networking/app_interceptor.dart';
 
 import '../shared/navigator_helper.dart';
+import '../shared/notification_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -26,6 +28,8 @@ void setupServiceLocator() {
   getIt.registerSingleton<NavigationService>(NavigationService());
   getIt.registerSingleton<FlutterSecureStorage>(const FlutterSecureStorage());
   getIt.registerSingleton<LocalStorageManager>(LocalStorageManager(getIt()));
+  getIt.registerSingleton<NotificationService>(NotificationService());
+  getIt.registerSingleton<FirebaseMessaging>(FirebaseMessaging.instance);
 
   // NETWORK INTERCEPTOR
   getIt.registerSingleton<AppInterceptor>(AppInterceptor(getIt<LocalStorageManager>()));

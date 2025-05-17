@@ -1,7 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:planitly/features/splash/presentation/view/splash_screen.dart';
 import 'package:planitly/shared/local_storage_manager.dart';
 import 'package:planitly/shared/navigator_helper.dart';
+import 'package:planitly/shared/notification_service.dart';
 import 'app/di.dart';
 import 'design_system/app_colors.dart';
 import 'design_system/app_text.dart';
@@ -10,7 +12,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   setupServiceLocator();
+  getIt<NotificationService>().initialize();
   final storageManager = getIt<LocalStorageManager>();
   var isLoggedIn = await storageManager.getLoginToken() != null;
   runApp(MyApp(isLoggedIn: isLoggedIn));
