@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:planitly/shared/configs/endpoints.dart';
 import 'package:planitly/shared/local_storage_manager.dart';
 import '../../app/di.dart';
 import '../../features/authentication/domain/repositories/authentication_repo.dart';
@@ -24,19 +23,6 @@ class AppInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if ((err.requestOptions.path).endsWith(EndPoints.refreshToken) ||
-        err.requestOptions.extra['retried'] == true) {
-      _storageManager.clearLoginToken();
-      NavigatorHelper.pushReplacement(const LoginScreen());
-      return handler.reject(err);
-    }
-
-    if (err.response?.statusCode == 401 &&
-        err.requestOptions.headers["Authorization"] != null &&
-        (err.requestOptions.extra["retried"]) != true) {
-      err.requestOptions.extra['retried'] = true;
-    }
-
     try {
       if (err.response?.statusCode == 401 &&
           err.requestOptions.headers["Authorization"] != null) {

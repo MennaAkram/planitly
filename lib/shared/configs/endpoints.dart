@@ -4,6 +4,6 @@ class EndPoints {
   static const String login = 'auth/login';
   static const String register = 'auth/register';
   static const String refreshToken = 'auth/refresh-token';
-
   static const String notifications = 'notifications';
+  static const String fcmToken = 'notifications/register-fcm-token';
 }
