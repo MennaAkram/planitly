@@ -28,6 +28,7 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
       (response) {
         final token = TokenDto().fromJson(response).toEntity();
         _storageManager.saveLoginToken(token);
+        _storageManager.saveFinanceId(response['defualt_subjects']["financial_tracker"]);
         return token;
       },
     );

@@ -14,6 +14,7 @@ class LocalStorageManager {
   final _accessTokenKey = "access_token";
   final _refreshTokenKey = "refresh_token";
   final _notificationsInfoKey = "notifications_info";
+  final _financeIdKey = "finance_id";
 
   Future<TokenEntity?> getLoginToken() async {
     final accessToken = await storage.read(key: _accessTokenKey);
@@ -78,6 +79,20 @@ class LocalStorageManager {
 
   void clearNotificationsInfo() {
     storage.delete(key: _notificationsInfoKey);
+  }
+
+  Future<void> saveFinanceId(String financeId) {
+    return Future.wait([
+      storage.write(key: _financeIdKey, value: financeId),
+    ]);
+  }
+
+  Future<String?> getFinanceId() async {
+    return await storage.read(key: _financeIdKey);
+  }
+
+  void clearFinanceId() {
+    storage.delete(key: _financeIdKey);
   }
 
   void clearAll() {

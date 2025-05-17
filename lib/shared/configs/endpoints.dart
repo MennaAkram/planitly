@@ -7,5 +7,7 @@ class EndPoints {
 
   static const String notifications = 'notifications';
 
-  static const String finance = 'finance';
+  static String subjects(String id) => 'subjects/$id/full-data';
+  
+  static String data_transfer = 'datatransfers/';
 }

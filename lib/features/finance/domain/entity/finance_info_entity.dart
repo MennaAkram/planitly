@@ -1,9 +1,8 @@
-import 'package:planitly/features/finance/domain/entity/expense_info_entity.dart';
-import 'package:planitly/features/finance/domain/entity/income_info_entity.dart';
+import 'package:planitly/features/finance/domain/entity/finance_table_entity.dart';
 
 class FinanceInfoEntity {
-  final IncomeInfoEntity incomeInfo;
-  final ExpenseInfoEntity expenseInfo;
+  final FinanceTableEntity incomeInfo;
+  final FinanceTableEntity expenseInfo;
 
   FinanceInfoEntity({
     required this.incomeInfo,
