@@ -10,12 +10,20 @@ class RegisterCubit extends BaseCubit {
   RegisterCubit(this._authRepo) : super(const InitState());
 
   register(
-      {required String username,
+      {required String firstName,
+      required String lastName,
+      required String phoneNumber,
+      required String birthdayDate,
+      required String username,
       required String email,
       required String password}) async {
     emit(const LoadingState());
 
     Either<NetworkException, void> result = await _authRepo.register(
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: phoneNumber,
+      birthdayDate: birthdayDate,
       username: username,
       email: email,
       password: password,

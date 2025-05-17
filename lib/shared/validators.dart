@@ -63,6 +63,29 @@ class Validators {
     }
     return null;
   }
+
+  static String? phoneNumberValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return AppLocalizations.current.cantBeEmpty;
+    }
+
+    if (!AppRegex.phoneNumber.hasMatch(value)) {
+      return AppLocalizations.current.invalidPhoneNumber;
+    }
+    return null;
+  }
+
+  static String? nameValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return AppLocalizations.current.cantBeEmpty;
+    }
+
+    if (!AppRegex.name.hasMatch(value)) {
+      return AppLocalizations.current.invalidName;
+    }
+
+    return null;
+  }
 }
 
 class AppRegex {
@@ -79,4 +102,9 @@ class AppRegex {
     r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$',
   );
 
+  static final RegExp phoneNumber = RegExp(
+    r'^\d{8,15}$',
+  );
+
+  static final RegExp name = RegExp(r'^[A-Za-z]+$');
 }
