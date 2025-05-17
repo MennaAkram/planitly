@@ -5,9 +5,10 @@ import 'package:planitly/design_system/theme.dart';
 class GraphWidget extends StatefulWidget {
   final List<FlSpot> data;
   final double maxX;
+  final double miny;
   final double maxy;
   final bool isIncreasing;
-  const GraphWidget({super.key, required this.data, required this.maxX, required this.maxy, required this.isIncreasing});
+  const GraphWidget({super.key, required this.data, required this.maxX, required this.miny, required this.maxy, required this.isIncreasing});
 
   @override
   State<GraphWidget> createState() => _GraphWidgetState();
@@ -58,7 +59,7 @@ class _GraphWidgetState extends State<GraphWidget> {
       borderData: FlBorderData(show: false),
       maxX: widget.maxX,
       maxY: widget.maxy,
-      minY: -30,
+      minY: widget.miny,
       lineBarsData: [
         LineChartBarData(
           spots: widget.data,

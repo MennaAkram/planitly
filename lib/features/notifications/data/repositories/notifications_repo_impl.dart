@@ -47,6 +47,7 @@ class NotificationsRepositoryImpl extends BaseRepository
         if (offset == 0) {
           _storageManager.saveNotificationsInfo(notificationsInfoEntity);
         } else {
+          _storageManager.clearNotificationsInfo();
           final existing = cachedNotificationsInfo?.notifications ?? [];
           final merged = [
             ...existing,

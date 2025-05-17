@@ -75,7 +75,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             child: Column(
               children: [
                 const CustomAppBar(title: 'Notifications'),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 Expanded(
                   child: BlocBuilder<NotificationsCubit, BaseState>(
                     bloc: _cubit,
