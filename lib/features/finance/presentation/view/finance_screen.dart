@@ -1,10 +1,13 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/finance/presentation/cubit/finance_cubit.dart';
 import 'package:planitly/features/finance/presentation/widgets/date_text_field.dart';
 import 'package:planitly/features/finance/presentation/widgets/graph.dart';
 import 'package:planitly/generated/l10n.dart';
+import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/validators.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 import 'package:planitly/shared/widgets/button.dart';
@@ -20,83 +23,40 @@ class FinanceScreen extends StatefulWidget {
 }
 
 class _FinanceScreenState extends State<FinanceScreen> {
-  final List<Map<String, String>> _incomeData = [];
-  final List<Map<String, String>> _expenseData = [];
-  List<FlSpot> _graphData = [const FlSpot(0, 0), const FlSpot(1, 0)];
-  double _maxY = 10;
-  bool get _showIncomeTable => _incomeData.isNotEmpty;
-  bool get _showExpenseTable => _expenseData.isNotEmpty;
-  bool isIncreasing = false;
+  final FinanceCubit _cubit = getIt.get<FinanceCubit>();
 
   @override
   void initState() {
     super.initState();
-    _updateGraphData(isIncreasing);
+    _cubit.getFinance();
   }
 
   void _addRecord(bool isIncome, Map<String, String> newRecord) {
-    setState(() {
-      if (isIncome) {
-        _incomeData.add(newRecord);
-        _incomeData.sort((a, b) {
-          final dateA = DateFormat("MMM dd, yyyy").parse(a[AppLocalizations.current.date] ?? '');
-          final dateB = DateFormat("MMM dd, yyyy").parse(b[AppLocalizations.current.date] ?? '');
-          return dateA.compareTo(dateB);
-        });
-      } else {
-        final expenseAmount = double.tryParse(newRecord[AppLocalizations.current.amount] ?? '0') ?? 0;
-        double totalAmount = 0;
-
-        for (var record in _incomeData) {
-          totalAmount += double.tryParse(record[AppLocalizations.current.amount] ?? '0') ?? 0;
-        }
-        for (var record in _expenseData) {
-          totalAmount -= double.tryParse(record[AppLocalizations.current.amount] ?? '0') ?? 0;
-        }
-
-        if (totalAmount - expenseAmount < 0) {
-          context.showCustomSnackBar(AppLocalizations.current.amountNotEnough);
-          return;
-        }
-        _expenseData.add(newRecord);
-        _expenseData.sort((a, b) {
-          final dateA = DateFormat("MMM dd, yyyy").parse(a[AppLocalizations.current.date] ?? '');
-          final dateB = DateFormat("MMM dd, yyyy").parse(b[AppLocalizations.current.date] ?? '');
-          return dateA.compareTo(dateB);
-        });
-      }
-
-      _updateGraphData(isIncome);
-    });
-  }
-
-  void _updateGraphData(bool isIncome) {
-    double lastTotalAmount = _graphData.isNotEmpty ? _graphData.last.y : 0;
-
-    if (_incomeData.isEmpty && _expenseData.isEmpty) {
-      setState(() {
-        _graphData = [const FlSpot(0, 0), const FlSpot(1, 0)];
-      });
-      return;
-    }
-
     if (isIncome) {
-      final lastIncome = double.tryParse(_incomeData.last[AppLocalizations.current.amount] ?? '0') ?? 0;
-      lastTotalAmount += lastIncome;
+      _cubit.addFinanceRecord(
+          isIncome: isIncome,
+          name: newRecord[AppLocalizations.current.income] ?? '',
+          amount: double.tryParse(
+                  newRecord[AppLocalizations.current.amount] ?? '0') ??
+              0.0,
+          date: DateFormat("MMM dd, yyyy")
+              .parse(newRecord[AppLocalizations.current.date] ?? ''));
     } else {
-      final lastExpense = double.tryParse(_expenseData.last[AppLocalizations.current.amount] ?? '0') ?? 0;
-      lastTotalAmount -= lastExpense;
+      final double expenseAmount =
+          double.tryParse(newRecord[AppLocalizations.current.amount] ?? '0') ??
+              0.0;
+      if (_cubit.hasEnoughAmount(expenseAmount)) {
+        _cubit.addFinanceRecord(
+            isIncome: isIncome,
+            name: newRecord[AppLocalizations.current.expense] ?? '',
+            amount: expenseAmount,
+            date: DateFormat("MMM dd, yyyy")
+                .parse(newRecord[AppLocalizations.current.date] ?? ''));
+      } else {
+        context.showCustomSnackBar(AppLocalizations.current.amountNotEnough);
+        return;
+      }
     }
-
-    setState(() {
-      _graphData.add(FlSpot(_graphData.length.toDouble(), lastTotalAmount));
-
-      _maxY = _graphData.map((e) => e.y.abs()).reduce((a, b) => a > b ? a : b) * 1.2;
-      _maxY = _maxY < 10 ? 10 : _maxY;
-
-      isIncreasing = _graphData.length > 1 &&
-          _graphData.last.y > _graphData[_graphData.length - 2].y;
-    });
   }
 
   @override
@@ -104,34 +64,70 @@ class _FinanceScreenState extends State<FinanceScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).appColors.background,
       appBar: CustomAppBar(title: AppLocalizations.current.finance),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            GraphWidget(
-              data: _graphData,
-              maxX: _graphData.isEmpty ? 1 : _graphData.length - 1,
-              maxy: _maxY,
-              isIncreasing: isIncreasing,
-            ),
-            _buildSection(
-              title: AppLocalizations.current.incomes,
-              showTable: _showIncomeTable,
-              data: _incomeData,
-              onAddPressed: () => _openAddRecordDialog(true),
-            ),
-            Divider(
-              height: 0.5,
-              color: Theme.of(context).appColors.secondary,
-              indent: 16,
-              endIndent: 16,
-            ),
-            _buildSection(
-              title: AppLocalizations.current.expenses,
-              showTable: _showExpenseTable,
-              data: _expenseData,
-              onAddPressed: () => _openAddRecordDialog(false),
-            ),
-          ],
+      body: BlocListener<FinanceCubit, BaseState>(
+        bloc: _cubit,
+        listener: (context, state) {
+          if (state is ErrorState) {
+            if (state.msg != "Token has expired") {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.msg!,
+                      style: Theme.of(context).appTexts.bodySmall.copyWith(
+                            color: Theme.of(context).appColors.red,
+                          )),
+                  backgroundColor: Theme.of(context).appColors.white100,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  margin: const EdgeInsets.all(24),
+                ),
+              );
+            }
+          }
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              BlocBuilder<FinanceCubit, BaseState>(
+                bloc: _cubit,
+                builder: (context, state) {
+
+                  if (state is LoadingState) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  return GraphWidget(
+                    data: _cubit.graphData,
+                    maxX: _cubit.graphData.isEmpty
+                        ? 1
+                        : _cubit.graphData.length - 1,
+                    miny: _cubit.minY,
+                    maxy: _cubit.maxY,
+                    isIncreasing: _cubit.isIncreasing,
+                  );
+                },
+              ),
+              _buildSection(
+                title: AppLocalizations.current.incomes,
+                isIncome: true,
+                onAddPressed: () => _openAddRecordDialog(true),
+              ),
+              Divider(
+                height: 0.5,
+                color: Theme.of(context).appColors.secondary,
+                indent: 16,
+                endIndent: 16,
+              ),
+              _buildSection(
+                title: AppLocalizations.current.expenses,
+                isIncome: false,
+                onAddPressed: () => _openAddRecordDialog(false),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -139,16 +135,33 @@ class _FinanceScreenState extends State<FinanceScreen> {
 
   Widget _buildSection({
     required String title,
-    required bool showTable,
-    required List<Map<String, String>> data,
+    required bool isIncome,
     required VoidCallback onAddPressed,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildHeader(title, onAddPressed),
-        if (showTable) FinanceTable(data: data),
-        if (showTable) const SizedBox(height: 24) else const SizedBox(height: 8),
+        BlocBuilder<FinanceCubit, BaseState>(
+          bloc: _cubit,
+          builder: (context, state) {
+            if (state is LoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            final items = isIncome ? _cubit.incomes : _cubit.expenses;
+            if (items.isEmpty) {
+              return const SizedBox.shrink();
+            }
+
+            return FinanceTable(
+              data: items,
+              isIncome: isIncome,
+            );
+          },
+        ),
+        SizedBox(height: 24),
       ],
     );
   }
@@ -162,13 +175,14 @@ class _FinanceScreenState extends State<FinanceScreen> {
           Text(
             title,
             style: Theme.of(context).appTexts.titleSmall.copyWith(
-              color: Theme.of(context).appColors.black87,
-            ),
+                  color: Theme.of(context).appColors.black87,
+                ),
           ),
           CustomButton(
             horizontalPadding: 12,
             verticalPadding: 0,
-            text: "${AppLocalizations.current.addNew} ${title.toLowerCase().substring(0, title.length - 1)}",
+            text:
+                "${AppLocalizations.current.addNew} ${title.toLowerCase().substring(0, title.length - 1)}",
             onPressed: onAddPressed,
             outlined: true,
             addIcon: true,
@@ -185,40 +199,50 @@ class _FinanceScreenState extends State<FinanceScreen> {
     final formKey = GlobalKey<FormState>();
 
     context.alertDialog(
-      isIncome ? AppLocalizations.current.addIncome : AppLocalizations.current.addExpense,
+      isIncome
+          ? AppLocalizations.current.addIncome
+          : AppLocalizations.current.addExpense,
       AppLocalizations.current.add,
       AppLocalizations.current.cancel,
-          () {
-            if (formKey.currentState?.validate() ?? false) {
-        final newRecord = {
-          isIncome ? AppLocalizations.current.income : AppLocalizations.current.expense: nameController.text,
-          AppLocalizations.current.amount : amountController.text,
-          AppLocalizations.current.date : dateController.text,
-        };
-        _addRecord(isIncome, newRecord);
-        Navigator.of(context).pop();
-            }
+      () {
+        if (formKey.currentState?.validate() ?? false) {
+          final Map<String, String> newRecord = {
+            isIncome
+                ? AppLocalizations.current.income
+                : AppLocalizations.current.expense: nameController.text,
+            AppLocalizations.current.amount: amountController.text,
+            AppLocalizations.current.date: dateController.text,
+          };
+          _addRecord(isIncome, newRecord);
+          Navigator.of(context).pop();
+        }
       },
-          () => Navigator.of(context).pop(),
+      () => Navigator.of(context).pop(),
       Form(
         key: formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             CustomTextField(
-              labelText: isIncome ? AppLocalizations.current.incomeName : AppLocalizations.current.expenseName,
+              labelText: isIncome
+                  ? AppLocalizations.current.incomeName
+                  : AppLocalizations.current.expenseName,
               controller: nameController,
               validator: (value) => Validators.cantBeEmpty(value),
             ),
             const SizedBox(height: 16),
             CustomTextField(
-              labelText: isIncome ? AppLocalizations.current.incomeAmount : AppLocalizations.current.expenseAmount,
+              labelText: isIncome
+                  ? AppLocalizations.current.incomeAmount
+                  : AppLocalizations.current.expenseAmount,
               controller: amountController,
-              validator:(value) => Validators.numericalFieldValidator(value),
+              validator: (value) => Validators.numericalFieldValidator(value),
             ),
             const SizedBox(height: 16),
             DateTextField(
-              labelText: isIncome ? AppLocalizations.current.incomeDate : AppLocalizations.current.expenseDate,
+              labelText: isIncome
+                  ? AppLocalizations.current.incomeDate
+                  : AppLocalizations.current.expenseDate,
               controller: dateController,
               validator: (value) => Validators.cantBeEmpty(value),
             ),
