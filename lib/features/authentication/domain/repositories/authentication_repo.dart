@@ -20,6 +20,9 @@ abstract class AuthenticationRepository {
   Future<Either<NetworkException, TokenEntity>> refreshToken(
       String refreshToken);
 
+  Future<Either<NetworkException, bool>> verifyEmail(
+      {required String email});
+  
   Future<Either<NetworkException, FcmTokenEntity>> sendFcmToken(
       {required String fcmToken});
 

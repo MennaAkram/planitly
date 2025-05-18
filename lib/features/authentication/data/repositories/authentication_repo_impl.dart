@@ -84,6 +84,21 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
   }
 
   @override
+  Future<Either<NetworkException, bool>> verifyEmail({required String email}) async {
+    return await tryToExecute(
+      () => dio.post(
+        EndPoints.forgotPassword,
+        data: {
+          "email": email,
+        },
+      ),
+      (response) {
+        return true;
+      },
+    );
+  }
+
+  @override
   Future<Either<NetworkException, FcmTokenEntity>> sendFcmToken({required String fcmToken}) {
     return tryToExecute(
           () => dio.post(

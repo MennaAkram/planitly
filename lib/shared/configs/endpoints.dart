@@ -4,11 +4,12 @@ class EndPoints {
   static const String login = 'auth/login';
   static const String register = 'auth/register';
   static const String refreshToken = 'auth/refresh-token';
-  static const String notifications = 'notifications';
+  static const String forgotPassword = 'auth/forgot-password';
 
+  static const String notifications = 'notifications';
+  static const String fcmToken = 'notifications/register-fcm-token';
+  
   static String subjects(String id) => 'subjects/$id/full-data';
   
   static String data_transfer = 'datatransfers/';
-  static const String fcmToken = 'notifications/register-fcm-token';
-
 }

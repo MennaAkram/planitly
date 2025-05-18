@@ -8,6 +8,7 @@ class Assets {
   static const String person = 'assets/images/person.png';
   static const String picture = 'assets/images/Frame 1597882199.png';
   static const String calendarPlaceholder = 'assets/images/undraw_add_tasks_re_s5yj.png';
+  static const String resendEmailPlaceholder = 'assets/images/undraw_emails_085h 1.svg';
   static const String notificationPlaceholder = 'assets/images/notifications_placeholder.svg';
 
   // Icons

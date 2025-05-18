@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:planitly/features/authentication/data/repositories/authentication_repo_impl.dart';
 import 'package:planitly/features/authentication/domain/repositories/authentication_repo.dart';
+import 'package:planitly/features/authentication/presentation/forget_password/presentation/cubit/forget_password_cubit.dart';
 import 'package:planitly/features/authentication/presentation/login/presentation/cubit/login_cubit.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/cubit/register_cubit.dart';
 import 'package:planitly/features/finance/data/repositories/finance_repo_impl.dart';
@@ -68,6 +69,10 @@ void setupServiceLocator() {
       ));
 
   getIt.registerFactory<RegisterCubit>(() => RegisterCubit(
+        getIt<AuthenticationRepository>(),
+      ));
+  
+  getIt.registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(
         getIt<AuthenticationRepository>(),
       ));
 
