@@ -1,4 +1,5 @@
 import 'package:planitly/features/my_pages/data/remote/page_dto.dart';
+import 'package:planitly/features/my_pages/domain/entity/pages_info_entity.dart';
 import 'package:planitly/shared/bases/base_mapper.dart';
 
 class PagesInfoDto extends BaseMapper<PagesInfoDto> {
@@ -25,6 +26,13 @@ class PagesInfoDto extends BaseMapper<PagesInfoDto> {
       pages: (json['pages'] as List)
           .map((page) => PageDto().fromJson(page))
           .toList(),
+    );
+  }
+
+  PagesInfoEntity toEntity() {
+    return PagesInfoEntity(
+      total: total ?? 0,
+      pages: pages?.map((page) => page.toEntity()).toList() ?? [],
     );
   }
 }

@@ -12,4 +12,6 @@ class EndPoints {
   static String subjects(String id) => 'subjects/$id/full-data';
   
   static String data_transfer = 'datatransfers/';
+
+  static String pages = 'subjects/';
 }

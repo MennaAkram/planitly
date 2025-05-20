@@ -1,3 +1,4 @@
+import 'package:planitly/features/my_pages/domain/entity/page_entity.dart';
 import 'package:planitly/shared/bases/base_mapper.dart';
 
 class PageDto extends BaseMapper<PageDto> {
@@ -22,6 +23,13 @@ class PageDto extends BaseMapper<PageDto> {
     return PageDto(
       id: json['id'] as String?,
       name: json['name'] as String?,
+    );
+  }
+
+  PageEntity toEntity() {
+    return PageEntity(
+      id: id ?? '',
+      name: name ?? '',
     );
   }
 }
