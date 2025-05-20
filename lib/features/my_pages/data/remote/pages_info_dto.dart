@@ -23,7 +23,7 @@ class PagesInfoDto extends BaseMapper<PagesInfoDto> {
   PagesInfoDto fromJson(Map<String, dynamic> json) {
     return PagesInfoDto(
       total: json['total'] as int?,
-      pages: (json['pages'] as List)
+      pages: (json['subjects'] as List)
           .map((page) => PageDto().fromJson(page))
           .toList(),
     );

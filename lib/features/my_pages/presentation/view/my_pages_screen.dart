@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/my_pages/presentation/cubit/pages_cubit.dart';
 import 'package:planitly/features/my_pages/presentation/widgets/my_pages_card.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
+import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/navigator_helper.dart';
 import 'package:planitly/shared/validators.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
@@ -19,14 +23,71 @@ class MyPagesScreen extends StatefulWidget {
 }
 
 class _MyPagesScreenState extends State<MyPagesScreen> {
-  final myPages = [];
+  final nameController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  final formKey = GlobalKey<FormState>();
+  final PagesCubit _cubit = getIt.get<PagesCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit.getPages(initial: true);
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    _scrollController.dispose();
+    _cubit.close();
+    super.dispose();
+  }
+
+  _onScroll() {
+    if (_scrollController.position.pixels >=
+            (_scrollController.position.maxScrollExtent * 0.7) &&
+        !_cubit.isLoading &&
+        _cubit.hasMore) {
+      _cubit.getPages();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).appColors.background,
       appBar: CustomAppBar(title: AppLocalizations.current.myPages),
-      body: myPages.isEmpty ? _myPagesPlaceholder() : _myPagesList(),
+      body: BlocBuilder<PagesCubit, BaseState>(
+        bloc: _cubit,
+        builder: (context, state) {
+          if (state is ErrorState && state.msg != "Token has expired") {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.msg!,
+                    style: Theme.of(context).appTexts.bodySmall.copyWith(
+                          color: Theme.of(context).appColors.red,
+                        ),
+                  ),
+                  backgroundColor: Theme.of(context).appColors.white100,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  behavior: SnackBarBehavior.floating,
+                  margin: const EdgeInsets.all(24),
+                ),
+              );
+            });
+          }
+          if (_cubit.pages.isEmpty && _cubit.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return _cubit.pages.isEmpty
+              ? _myPagesPlaceholder()
+              : _myPagesList(); 
+        },
+      ),
       floatingActionButton: AddButton(onPressed: () => _openAddPageDialog()),
     );
   }
@@ -64,7 +125,8 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
       color: Theme.of(context).appColors.background,
       padding: const EdgeInsets.all(16),
       child: GridView.builder(
-        itemCount: myPages.length,
+        controller: _scrollController,
+        itemCount: _cubit.pages.length + (_cubit.hasMore ? 1 : 0),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 154,
           mainAxisExtent: 125,
@@ -72,25 +134,25 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
           mainAxisSpacing: 8,
         ),
         itemBuilder: (context, index) {
-          return MyPagesCard(name: myPages[index]);
+          if (index < _cubit.pages.length) {
+            return MyPagesCard(name: _cubit.pages[index].name);
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         },
       ),
     );
   }
 
   void _openAddPageDialog() {
-    final nameController = TextEditingController();
-    final formKey = GlobalKey<FormState>();
-
     context.alertDialog(
       AppLocalizations.current.addNewPage,
       AppLocalizations.current.add,
       AppLocalizations.current.cancel,
       () {
         if (formKey.currentState?.validate() ?? false) {
-          setState(() {
-            myPages.add(nameController.text);
-          });
           NavigatorHelper.pop();
         }
       },

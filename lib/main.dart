@@ -16,6 +16,7 @@ void main() async{
   setupServiceLocator();
   // getIt<NotificationService>().initialize();
   final storageManager = getIt<LocalStorageManager>();
+  storageManager.clearAll();
   var isLoggedIn = await storageManager.getLoginToken() != null;
   runApp(MyApp(isLoggedIn: isLoggedIn));
 }
