@@ -11,10 +11,10 @@ class PagesRepositoryImpl extends BaseRepository implements PagesRepository {
 
   @override
   Future<Either<NetworkException, PagesInfoEntity>> getPages(
-      {int index = 0}) async {
+      {int offset = 0}) async {
     return tryToExecute(
         () => dio.get(EndPoints.pages, queryParameters: {
-              'skip': index,
+              'skip': offset,
             }), (response) {
       return PagesInfoDto().fromJson(response).toEntity();
     });

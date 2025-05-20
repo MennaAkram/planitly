@@ -12,6 +12,7 @@ import 'package:planitly/features/finance/domain/repositories/finance_repo.dart'
 import 'package:planitly/features/finance/presentation/cubit/finance_cubit.dart';
 import 'package:planitly/features/my_pages/data/repositories/pages_repo_impl.dart';
 import 'package:planitly/features/my_pages/domain/repositories/pages_repo.dart';
+import 'package:planitly/features/my_pages/presentation/cubit/pages_cubit.dart';
 import 'package:planitly/features/notifications/data/repositories/notifications_repo_impl.dart';
 import 'package:planitly/features/notifications/domain/repositories/notifications_repo.dart';
 import 'package:planitly/features/notifications/presentation/cubit/notifications_cubit.dart';
@@ -91,5 +92,9 @@ void setupServiceLocator() {
 
   getIt.registerFactory<FinanceCubit>(() => FinanceCubit(
         getIt<FinanceRepository>(),
+      ));
+
+  getIt.registerFactory<PagesCubit>(() => PagesCubit(
+        getIt<PagesRepository>(),
       ));
 }

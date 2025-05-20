@@ -4,6 +4,6 @@ import 'package:planitly/shared/networking/failures.dart';
 
 abstract class PagesRepository {
   Future<Either<NetworkException, PagesInfoEntity>> getPages({
-    int index = 0,
+    int offset = 0,
   });
 }
