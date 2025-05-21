@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:planitly/features/my_pages/data/remote/page_dto.dart';
 import 'package:planitly/features/my_pages/data/remote/pages_info_dto.dart';
+import 'package:planitly/features/my_pages/domain/entity/page_entity.dart';
 import 'package:planitly/features/my_pages/domain/entity/pages_info_entity.dart';
 import 'package:planitly/features/my_pages/domain/repositories/pages_repo.dart';
 import 'package:planitly/shared/bases/base_repo.dart';
@@ -17,6 +19,15 @@ class PagesRepositoryImpl extends BaseRepository implements PagesRepository {
               'skip': offset,
             }), (response) {
       return PagesInfoDto().fromJson(response).toEntity();
+    });
+  }
+
+  @override
+  Future<Either<NetworkException, PageEntity>> addPage(
+      {required String name}) async {
+    return tryToExecute(() => dio.post(EndPoints.pages, data: {'name': name}),
+        (response) {
+      return PageDto().fromJson(response).toEntity();
     });
   }
 }

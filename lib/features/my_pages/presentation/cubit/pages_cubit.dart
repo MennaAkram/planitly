@@ -15,16 +15,16 @@ class PagesCubit extends BaseCubit {
   int _offset = 0;
   bool hasMore = true;
   bool isLoading = false;
+  bool isAdding = false;
 
-  getPages({bool initial = false}) async {
+  Future<void> getPages({bool initial = false}) async {
     if (isLoading || !hasMore) return;
 
     isLoading = true;
 
     if (initial) {
-      emit(LoadingState());
-      _offset = 0;
       pages.clear();
+      _offset = 0;
     }
 
     emit(LoadingState());
@@ -45,5 +45,27 @@ class PagesCubit extends BaseCubit {
     );
 
     isLoading = false;
+  }
+
+  Future<void> addPage({required String name}) async {
+    if (isAdding) return;
+    isAdding = true;
+    emit(LoadingState());
+
+    Either<NetworkException, PageEntity> result =
+        await _pagesRepo.addPage(name: name);
+
+    result.fold(
+      (NetworkException exception) {
+        pages.removeAt(0);
+        handleException(exception);
+      },
+      (PageEntity newPage) {
+        pages.insert(0, newPage);
+        emit(DoneState());
+      },
+    );
+
+    isAdding = false;
   }
 }
