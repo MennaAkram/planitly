@@ -30,4 +30,13 @@ class PagesRepositoryImpl extends BaseRepository implements PagesRepository {
       return PageDto().fromJson(response).toEntity();
     });
   }
+
+  @override
+  Future<Either<NetworkException, bool>> deletePage(
+      {required String pageId}) async {
+    return tryToExecute(() => dio.delete(EndPoints.subject(pageId)),
+        (response) {
+      return true;
+    });
+  }
 }

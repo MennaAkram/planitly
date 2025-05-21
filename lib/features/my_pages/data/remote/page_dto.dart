@@ -13,7 +13,7 @@ class PageDto extends BaseMapper<PageDto> {
   @override
   Map<String, dynamic> toJson(PageDto object) {
     return {
-      'id': object.id,
+      '_id': object.id,
       'name': object.name,
     };
   }
@@ -21,7 +21,7 @@ class PageDto extends BaseMapper<PageDto> {
   @override
   PageDto fromJson(Map<String, dynamic> json) {
     return PageDto(
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       name: json['name'] as String?,
     );
   }

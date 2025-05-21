@@ -99,7 +99,7 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
         child: BlocBuilder<PagesCubit, BaseState>(
           bloc: _cubit,
           builder: (context, state) {
-            if (_cubit.pages.isEmpty && _cubit.isLoading) {
+            if (_cubit.pages.isEmpty && (_cubit.isLoading || _cubit.isAdding)) {
               return const Center(child: CircularProgressIndicator());
             }
 
@@ -178,7 +178,7 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
       AppLocalizations.current.addNewPage,
       AppLocalizations.current.add,
       AppLocalizations.current.cancel,
-      () async {
+      () {
         if (formKey.currentState?.validate() ?? false) {
           _shouldScrollOnAdd = true;
           _cubit.addPage(name: nameController.text);

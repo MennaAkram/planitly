@@ -68,4 +68,21 @@ class PagesCubit extends BaseCubit {
 
     isAdding = false;
   }
+
+  Future<void> deletePage({required String pageId}) async {
+    emit(LoadingState());
+
+    Either<NetworkException, bool> result =
+        await _pagesRepo.deletePage(pageId: pageId);
+
+    result.fold(
+      (NetworkException exception) {
+        handleException(exception);
+      },
+      (bool success) {
+        pages.removeWhere((page) => page.id == pageId);
+        emit(DoneState());
+      },
+    );
+  }
 }

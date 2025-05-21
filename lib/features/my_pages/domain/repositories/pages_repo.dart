@@ -11,4 +11,8 @@ abstract class PagesRepository {
   Future<Either<NetworkException, PageEntity>> addPage({
     required String name,
   });
+
+  Future<Either<NetworkException, bool>> deletePage({
+    required String pageId,
+  });
 }
