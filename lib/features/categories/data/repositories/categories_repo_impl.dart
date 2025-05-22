@@ -1,0 +1,22 @@
+import 'package:dartz/dartz.dart';
+import 'package:planitly/features/categories/data/remote/categories_info_dto.dart';
+import 'package:planitly/features/categories/domain/entity/categories_info_entity.dart';
+import 'package:planitly/features/categories/domain/repositories/categories_repo.dart';
+import 'package:planitly/shared/bases/base_repo.dart';
+import 'package:planitly/shared/configs/endpoints.dart';
+import 'package:planitly/shared/networking/failures.dart';
+
+class CategoriesRepoImpl extends BaseRepository implements CategoriesRepo {
+  CategoriesRepoImpl(super.dio);
+
+  @override
+  Future<Either<NetworkException, CategoriesInfoEntity>> getCategories(
+      {int offset = 0}) async {
+    return await tryToExecute(
+        () => dio.get(EndPoints.categories, queryParameters: {
+              'skip': offset,
+            }), (response) {
+      return CategoriesInfoDto().fromJson(response).toEntity();
+    });
+  }
+}
