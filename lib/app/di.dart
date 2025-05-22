@@ -10,6 +10,9 @@ import 'package:planitly/features/authentication/presentation/register/presentat
 import 'package:planitly/features/finance/data/repositories/finance_repo_impl.dart';
 import 'package:planitly/features/finance/domain/repositories/finance_repo.dart';
 import 'package:planitly/features/finance/presentation/cubit/finance_cubit.dart';
+import 'package:planitly/features/my_pages/data/repositories/pages_repo_impl.dart';
+import 'package:planitly/features/my_pages/domain/repositories/pages_repo.dart';
+import 'package:planitly/features/my_pages/presentation/cubit/pages_cubit.dart';
 import 'package:planitly/features/notifications/data/repositories/notifications_repo_impl.dart';
 import 'package:planitly/features/notifications/domain/repositories/notifications_repo.dart';
 import 'package:planitly/features/notifications/presentation/cubit/notifications_cubit.dart';
@@ -33,7 +36,8 @@ void setupServiceLocator() {
   getIt.registerSingleton<FirebaseMessaging>(FirebaseMessaging.instance);
 
   // NETWORK INTERCEPTOR
-  getIt.registerSingleton<AppInterceptor>(AppInterceptor(getIt<LocalStorageManager>()));
+  getIt.registerSingleton<AppInterceptor>(
+      AppInterceptor(getIt<LocalStorageManager>()));
 
   // NETWORK
   getIt.registerSingleton<Dio>(
@@ -63,15 +67,21 @@ void setupServiceLocator() {
     ),
   );
 
+  getIt.registerSingleton<PagesRepository>(
+    PagesRepositoryImpl(
+      getIt<Dio>(instanceName: planitlyService),
+    ),
+  );
+
   // CUBITS
-  getIt.registerFactory<LoginCubit> (() => LoginCubit(
+  getIt.registerFactory<LoginCubit>(() => LoginCubit(
         getIt<AuthenticationRepository>(),
       ));
 
   getIt.registerFactory<RegisterCubit>(() => RegisterCubit(
         getIt<AuthenticationRepository>(),
       ));
-  
+
   getIt.registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(
         getIt<AuthenticationRepository>(),
       ));
@@ -82,5 +92,9 @@ void setupServiceLocator() {
 
   getIt.registerFactory<FinanceCubit>(() => FinanceCubit(
         getIt<FinanceRepository>(),
+      ));
+
+  getIt.registerFactory<PagesCubit>(() => PagesCubit(
+        getIt<PagesRepository>(),
       ));
 }

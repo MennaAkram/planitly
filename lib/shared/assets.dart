@@ -10,6 +10,7 @@ class Assets {
   static const String calendarPlaceholder = 'assets/images/undraw_add_tasks_re_s5yj.png';
   static const String resendEmailPlaceholder = 'assets/images/undraw_emails_085h 1.svg';
   static const String notificationPlaceholder = 'assets/images/notifications_placeholder.svg';
+  static const String myPagesPlaceholder = 'assets/images/my_pages_placeholder.svg';
 
   // Icons
   static const String homePlaceholder = 'assets/images/home_placeholder.svg';
