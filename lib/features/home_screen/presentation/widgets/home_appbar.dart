@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/notifications/presentation/view/notifications_screen.dart';
+import 'package:planitly/features/profile/presentation/view/profile_screen.dart';
 import '../../../../shared/assets.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../../shared/navigator_helper.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String imageAssetPath;
@@ -24,7 +28,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       titleSpacing: 0,
       leading: IconButton(
-        onPressed:() {},
+        onPressed:() {
+          NavigatorHelper.push(const ProfileScreen());
+        },
         padding: const EdgeInsets.all(0),
         icon: ClipOval(
           child: SizedBox.fromSize(

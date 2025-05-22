@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Profile/widget/textfield.dart';
+import 'package:planitly/shared/assets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:planitly/shared/widgets/button.dart';
-import '../../../main.dart';
 
-void showEditPopup(BuildContext context, VoidCallback onUpdate) {
+void showlogoutPopup(BuildContext context, VoidCallback onUpdate) {
   showDialog(
     context: context,
     builder: (context) => Dialog(
@@ -20,35 +20,21 @@ void showEditPopup(BuildContext context, VoidCallback onUpdate) {
           children: [
             Row(
               children: [
-                Text("Edit Info",
+                Text("Logout",
                     style: Theme.of(context)
                         .appTexts
                         .titleSmall
                         .copyWith(color: Theme.of(context).appColors.black87))
               ],
             ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                    child: text_field(
-                        controller: fristnameController, title: 'fristname')),
-                SizedBox(width: 10),
-                Expanded(
-                    child: text_field(
-                        controller: lastnameController, title: 'lastname')),
-              ],
-            ),
-            SizedBox(height: 20),
-            text_field(controller: phoneController, title: 'phone'),
-            SizedBox(height: 20),
-            text_field(controller: BirthdayController, title: 'birthday'),
-            SizedBox(height: 20),
+            SizedBox(height: 25),
+            SvgPicture.asset(Assets.logoutPlaceholder),
+            SizedBox(height: 25),
             Row(
               children: [
                 Expanded(
                     child: CustomButton(
-                  text: 'Update',
+                  text: 'Cancel',
                   onPressed: () {
                     onUpdate();
                     Navigator.pop(context);
@@ -58,7 +44,7 @@ void showEditPopup(BuildContext context, VoidCallback onUpdate) {
                 SizedBox(width: 10),
                 Expanded(
                     child: CustomButton(
-                  text: 'Cancel',
+                  text: 'Logout',
                   onPressed: () {
                     Navigator.pop(context);
                   },

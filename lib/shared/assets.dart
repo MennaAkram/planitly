@@ -11,6 +11,7 @@ class Assets {
   static const String resendEmailPlaceholder = 'assets/images/undraw_emails_085h 1.svg';
   static const String notificationPlaceholder = 'assets/images/notifications_placeholder.svg';
   static const String myPagesPlaceholder = 'assets/images/my_pages_placeholder.svg';
+  static const String logoutPlaceholder = 'assets/icons/Frame 1597882199.svg';
 
   // Icons
   static const String homePlaceholder = 'assets/images/home_placeholder.svg';
@@ -34,4 +35,9 @@ class Assets {
   static const String notificationCircularOutline = 'assets/icons/notification.svg';
   static const String icon = 'assets/icons/icon.svg';
   static const String check = 'assets/icons/check_24px.svg';
+  static const String edit = 'assets/icons/pen-Regular.svg';
+  static const String phone = 'assets/icons/phone-Regular.svg';
+
+
+
 }

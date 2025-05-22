@@ -1,12 +1,15 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/shared/assests.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:planitly/features/profile/presentation/widget/textfield.dart';
 import 'package:planitly/shared/widgets/button.dart';
 
-void showlogoutPopup(BuildContext context, VoidCallback onUpdate) {
+void showEditPopup(
+    BuildContext context,
+    VoidCallback onUpdate,
+    TextEditingController fristnameController,
+    TextEditingController lastnameController,
+    TextEditingController phoneController,
+    TextEditingController birthdayController) {
   showDialog(
     context: context,
     builder: (context) => Dialog(
@@ -20,21 +23,35 @@ void showlogoutPopup(BuildContext context, VoidCallback onUpdate) {
           children: [
             Row(
               children: [
-                Text("Logout",
+                Text("Edit Info",
                     style: Theme.of(context)
                         .appTexts
                         .titleSmall
                         .copyWith(color: Theme.of(context).appColors.black87))
               ],
             ),
-            SizedBox(height: 25),
-            SvgPicture.asset(Assests.Logout),
-            SizedBox(height: 25),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                    child: text_field(
+                        controller: fristnameController, title: 'fristname')),
+                SizedBox(width: 10),
+                Expanded(
+                    child: text_field(
+                        controller: lastnameController, title: 'lastname')),
+              ],
+            ),
+            SizedBox(height: 20),
+            text_field(controller: phoneController, title: 'phone'),
+            SizedBox(height: 20),
+            text_field(controller: birthdayController, title: 'birthday'),
+            SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
                     child: CustomButton(
-                  text: 'Cancel',
+                  text: 'Update',
                   onPressed: () {
                     onUpdate();
                     Navigator.pop(context);
@@ -44,7 +61,7 @@ void showlogoutPopup(BuildContext context, VoidCallback onUpdate) {
                 SizedBox(width: 10),
                 Expanded(
                     child: CustomButton(
-                  text: 'Logout',
+                  text: 'Cancel',
                   onPressed: () {
                     Navigator.pop(context);
                   },

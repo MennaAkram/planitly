@@ -1,12 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Profile/widget/textfield.dart';
-import 'package:planitly/main.dart';
+import 'package:planitly/features/profile/presentation/widget/textfield.dart';
 import 'package:planitly/shared/widgets/button.dart';
 
-void showchangePopup(BuildContext context, VoidCallback onUpdate) {
+void showchangePopup(BuildContext context, VoidCallback onUpdate,
+    TextEditingController oldpassController,
+    TextEditingController newpassController,
+    TextEditingController cnewpassController) {
   showDialog(
     context: context,
     builder: (context) => Dialog(
