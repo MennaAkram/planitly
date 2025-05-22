@@ -7,6 +7,8 @@ import 'package:planitly/features/authentication/domain/repositories/authenticat
 import 'package:planitly/features/authentication/presentation/forget_password/presentation/cubit/forget_password_cubit.dart';
 import 'package:planitly/features/authentication/presentation/login/presentation/cubit/login_cubit.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/cubit/register_cubit.dart';
+import 'package:planitly/features/categories/data/repositories/categories_repo_impl.dart';
+import 'package:planitly/features/categories/domain/repositories/categories_repo.dart';
 import 'package:planitly/features/finance/data/repositories/finance_repo_impl.dart';
 import 'package:planitly/features/finance/domain/repositories/finance_repo.dart';
 import 'package:planitly/features/finance/presentation/cubit/finance_cubit.dart';
@@ -69,6 +71,12 @@ void setupServiceLocator() {
 
   getIt.registerSingleton<PagesRepository>(
     PagesRepositoryImpl(
+      getIt<Dio>(instanceName: planitlyService),
+    ),
+  );
+
+  getIt.registerSingleton<CategoriesRepository>(
+    CategoriesRepositoryImpl(
       getIt<Dio>(instanceName: planitlyService),
     ),
   );

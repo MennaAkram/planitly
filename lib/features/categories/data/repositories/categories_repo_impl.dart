@@ -6,8 +6,8 @@ import 'package:planitly/shared/bases/base_repo.dart';
 import 'package:planitly/shared/configs/endpoints.dart';
 import 'package:planitly/shared/networking/failures.dart';
 
-class CategoriesRepoImpl extends BaseRepository implements CategoriesRepo {
-  CategoriesRepoImpl(super.dio);
+class CategoriesRepositoryImpl extends BaseRepository implements CategoriesRepository {
+  CategoriesRepositoryImpl(super.dio);
 
   @override
   Future<Either<NetworkException, CategoriesInfoEntity>> getCategories(
