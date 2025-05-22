@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:planitly/features/calendar/presentation/view/calendar_screen.dart';
 import 'package:planitly/features/finance/presentation/view/finance_screen.dart';
 import 'package:planitly/features/habit/presentation/view/habit_screen.dart';
+import 'package:planitly/features/my_pages/presentation/view/my_pages_screen.dart';
 import 'package:planitly/features/notifications/presentation/view/notifications_screen.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/cards.dart';
 import 'package:planitly/features/home_screen/presentation/widgets/categories.dart';
@@ -27,16 +28,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HomeAppBar(
-        imageAssetPath: Assets.person,
-        name: "Menna",
-        onPressed: () {
-          NavigatorHelper.push(const NotificationsScreen());
-        },
-      ),
-      backgroundColor: Theme.of(context).appColors.background,
-      body: Stack(
-        children: [
+        appBar: HomeAppBar(
+          imageAssetPath: Assets.person,
+          name: "Menna",
+          onPressed: () {
+            NavigatorHelper.push(const NotificationsScreen());
+          },
+        ),
+        backgroundColor: Theme.of(context).appColors.background,
+        body: Stack(children: [
           Container(
             height: double.infinity,
             width: double.infinity,
@@ -78,9 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       MyCards(
                         imageAssetPath: Assets.studyWork,
                         name: "Study&Work",
-                        onPressed: () {
-                          
-                        },
+                        onPressed: () {},
                       ),
                     ],
                   ),
@@ -131,8 +129,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(height: 8),
                                 Text(
                                   "Add new Category",
-                                  style: Theme.of(context).appTexts.bodyMedium
-                                      .copyWith(color: Theme.of(context).appColors.black60),
+                                  style: Theme.of(context)
+                                      .appTexts
+                                      .bodyMedium
+                                      .copyWith(
+                                          color: Theme.of(context)
+                                              .appColors
+                                              .black60),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -159,17 +162,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     margin: const EdgeInsets.only(bottom: 16),
                     height: 84,
                     child: ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 11),
-                      scrollDirection: Axis.horizontal,
-                      children: List.generate(5, (int index) {
-                        return const Expenses(
-                          name: "Expense",
-                          value: "+60.00",
-                          state: true,
-                        );
-                      })
-                    )),
-                CustomTitle(title: "Most Visited", onPressed: () {}),
+                        padding: const EdgeInsets.symmetric(horizontal: 11),
+                        scrollDirection: Axis.horizontal,
+                        children: List.generate(5, (int index) {
+                          return const Expenses(
+                            name: "Expense",
+                            value: "+60.00",
+                            state: true,
+                          );
+                        }))),
+                CustomTitle(
+                    title: "Most Visited",
+                    onPressed: () => NavigatorHelper.push(MyPagesScreen())),
                 const Column(
                   children: [
                     most_visited(name: "Me"),
@@ -178,12 +182,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                       color: Theme.of(context).appColors.white100,
-                      borderRadius:
-                      const BorderRadius.all(Radius.circular(16)),
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
                       border: Border.all(
                           color: Theme.of(context).appColors.black16,
                           width: 0.5)),
@@ -192,12 +196,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {},
                       child: Row(
                         children: [
-                          SvgPicture.asset(Assets.add, height: 24, width: 24, color: Theme.of(context).appColors.black87,),
+                          SvgPicture.asset(
+                            Assets.add,
+                            height: 24,
+                            width: 24,
+                            color: Theme.of(context).appColors.black87,
+                          ),
                           const SizedBox(width: 8),
                           Text(
                             "add new item",
-                            style: Theme.of(context).appTexts.bodyLarge
-                                .copyWith(color: Theme.of(context).appColors.black87),
+                            style: Theme.of(context)
+                                .appTexts
+                                .bodyLarge
+                                .copyWith(
+                                    color: Theme.of(context).appColors.black87),
                             textAlign: TextAlign.center,
                           ),
                         ],

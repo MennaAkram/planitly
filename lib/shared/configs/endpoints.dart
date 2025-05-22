@@ -10,6 +10,10 @@ class EndPoints {
   static const String fcmToken = 'notifications/register-fcm-token';
   
   static String subjects(String id) => 'subjects/$id/full-data';
+
+  static String subject(String id) => 'subjects/$id';
   
   static String data_transfer = 'datatransfers/';
+
+  static String pages = 'subjects/';
 }

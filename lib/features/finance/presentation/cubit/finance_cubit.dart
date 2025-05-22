@@ -101,7 +101,6 @@ class FinanceCubit extends BaseCubit {
   }
 
   void _initGraph() {
-    graphData = [const FlSpot(0, 0)];
     double runningTotal = 0;
 
     for (final rec in allRecords) {
