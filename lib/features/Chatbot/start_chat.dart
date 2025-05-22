@@ -2,9 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/widgets/button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../shared/assests.dart';
+
 
 class StartChat extends StatefulWidget {
   const StartChat({super.key});
@@ -26,7 +27,7 @@ class _StartChatState extends State<StartChat> {
               margin: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  image: DecorationImage(image: AssetImage(Assests.chatbot))),
+                  image: DecorationImage(image: AssetImage(Assets.chatbot))),
             ),
             Text(
               "ChatBot",
@@ -42,7 +43,7 @@ class _StartChatState extends State<StartChat> {
               color: Theme.of(context).appColors.white100,
               child: FittedBox(
                   fit: BoxFit.cover,
-                  child: SvgPicture.asset(Assests.background)),
+                  child: SvgPicture.asset(Assets.background)),
             ),
             Container(
                 height: double.maxFinite,
@@ -51,7 +52,7 @@ class _StartChatState extends State<StartChat> {
                 child: Wrap(
                   direction: Axis.vertical,
                   children: [
-                    SvgPicture.asset(Assests.chatmassage),
+                    SvgPicture.asset(Assets.chatMassage),
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 12),
                       margin: EdgeInsets.symmetric(horizontal: 48),

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/shared/assests.dart';
+import 'package:planitly/shared/assets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Chatbot extends StatefulWidget {
@@ -73,7 +73,7 @@ void _sendMessage() {
           margin: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                image: DecorationImage(image: AssetImage(Assests.chatbot))),
+                image: DecorationImage(image: AssetImage(Assets.chatbot))),
             
           ),
           Text(
@@ -94,7 +94,7 @@ void _sendMessage() {
                   color: Theme.of(context).appColors.white100,
                   child: FittedBox(
                       fit: BoxFit.cover,
-                      child: SvgPicture.asset(Assests.background)),
+                      child: SvgPicture.asset(Assets.background)),
                 ),
                 ListView.builder(
                   controller: _scrollController,
@@ -207,7 +207,7 @@ void _sendMessage() {
                     flex: 2,
                     child: IconButton(
                         onPressed: _sendMessage,
-                        icon: SvgPicture.asset(Assests.sendicon)),
+                        icon: SvgPicture.asset(Assets.sendicon)),
                   )
                 ],
               ),
