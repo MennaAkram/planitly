@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/my_pages/presentation/cubit/pages_cubit.dart';
+import 'package:planitly/features/categories/presentation/cubit/categories_cubit.dart';
 import 'package:planitly/features/my_pages/presentation/widgets/custom_card.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
@@ -11,28 +11,29 @@ import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/navigator_helper.dart';
 import 'package:planitly/shared/validators.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
+import 'package:planitly/shared/widgets/drop_down_list.dart';
 import 'package:planitly/shared/widgets/extensions.dart';
 import 'package:planitly/shared/widgets/fab_button.dart';
 import 'package:planitly/shared/widgets/text_field.dart';
 
-class MyPagesScreen extends StatefulWidget {
-  const MyPagesScreen({super.key});
+class CategoriesScreen extends StatefulWidget {
+  const CategoriesScreen({super.key});
 
   @override
-  State<MyPagesScreen> createState() => _MyPagesScreenState();
+  State<CategoriesScreen> createState() => _CategoriesScreenState();
 }
 
-class _MyPagesScreenState extends State<MyPagesScreen> {
-  final PagesCubit _cubit = getIt.get<PagesCubit>();
+class _CategoriesScreenState extends State<CategoriesScreen> {
+  final CategoriesCubit _cubit = getIt.get<CategoriesCubit>();
   final ScrollController _scrollController = ScrollController();
-  final nameController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool _shouldScrollOnAdd = false;
 
   @override
   void initState() {
     super.initState();
-    _cubit.getPages(initial: true);
+    _cubit.getCategories(initial: true);
     _scrollController.addListener(_onScroll);
   }
 
@@ -49,7 +50,7 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
     if (_scrollController.position.pixels >= threshold &&
         !_cubit.isLoading &&
         _cubit.hasMore) {
-      _cubit.getPages();
+      _cubit.getCategories();
     }
   }
 
@@ -79,8 +80,8 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).appColors.background,
-      appBar: CustomAppBar(title: AppLocalizations.current.myPages),
-      body: BlocListener<PagesCubit, BaseState>(
+      appBar: CustomAppBar(title: AppLocalizations.current.categories),
+      body: BlocListener<CategoriesCubit, BaseState>(
         bloc: _cubit,
         listener: (context, state) {
           if (state is ErrorState && state.msg != "Token has expired") {
@@ -96,21 +97,23 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
             });
           }
         },
-        child: BlocBuilder<PagesCubit, BaseState>(
+        child: BlocBuilder<CategoriesCubit, BaseState>(
           bloc: _cubit,
           builder: (context, state) {
-            if (_cubit.pages.isEmpty && (_cubit.isLoading || _cubit.isAdding)) {
+            if (_cubit.categories.isEmpty &&
+                (_cubit.isLoading || _cubit.isAdding)) {
               return const Center(child: CircularProgressIndicator());
             }
 
-            if (_cubit.pages.isEmpty) {
+            if (_cubit.categories.isEmpty) {
               return _buildPlaceholder();
             }
+
             return _buildGrid();
           },
         ),
       ),
-      floatingActionButton: AddButton(onPressed: () => _openAddPageDialog()),
+      floatingActionButton: AddButton(onPressed: _openAddPageDialog),
     );
   }
 
@@ -126,7 +129,7 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            AppLocalizations.current.noPagesFound,
+            AppLocalizations.current.noCategoriesFound,
             style: Theme.of(context).appTexts.bodyLarge.copyWith(
                   color: Theme.of(context).appColors.black87,
                 ),
@@ -137,10 +140,10 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
     );
   }
 
-  Container _buildGrid() {
+  Widget _buildGrid() {
     final addSlot = _cubit.isAdding ? 1 : 0;
     final moreSlot = _cubit.hasMore ? 1 : 0;
-    final itemCount = addSlot + _cubit.pages.length + moreSlot;
+    final itemCount = addSlot + _cubit.categories.length + moreSlot;
 
     return Container(
       color: Theme.of(context).appColors.background,
@@ -161,8 +164,8 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
             );
           }
 
-          if ((index - addSlot) < _cubit.pages.length) {
-            return CustomCard(name: _cubit.pages[index - addSlot].name);
+          if ((index - addSlot) < _cubit.categories.length) {
+            return CustomCard(name: _cubit.categories[index - addSlot].name);
           }
 
           return const Center(
@@ -175,13 +178,13 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
 
   void _openAddPageDialog() {
     context.alertDialog(
-      AppLocalizations.current.addNewPage,
+      AppLocalizations.current.addNewCategory,
       AppLocalizations.current.add,
       AppLocalizations.current.cancel,
       () {
         if (formKey.currentState?.validate() ?? false) {
           _shouldScrollOnAdd = true;
-          _cubit.addPage(name: nameController.text);
+          // _cubit.addPage(name: nameController.text);
           nameController.clear();
           NavigatorHelper.pop();
         }
@@ -189,10 +192,40 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
       () => Navigator.of(context).pop(),
       Form(
         key: formKey,
-        child: CustomTextField(
-          labelText: AppLocalizations.current.pageName,
-          controller: nameController,
-          validator: Validators.cantBeEmpty,
+        child: Column(
+          children: [
+            CustomTextField(
+              labelText: AppLocalizations.current.categoryName,
+              controller: nameController,
+              validator: Validators.cantBeEmpty,
+            ),
+            const SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppLocalizations.current.addPages,
+                  style: Theme.of(context).appTexts.labelSmall.copyWith(
+                        color: Theme.of(context).appColors.black87,
+                      ),
+                ),
+                const SizedBox(height: 8),
+                DropDownList(
+                  hintText: 'Me',
+                  menuItems: const [
+                    'Me',
+                    'Study',
+                    'Business',
+                    'Bro',
+                    'Team',
+                    'Gym',
+                    'Movie'
+                  ],
+                  onItemSelected: (value) {},
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

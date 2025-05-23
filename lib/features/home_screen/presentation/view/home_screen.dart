@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:planitly/features/calendar/presentation/view/calendar_screen.dart';
+import 'package:planitly/features/categories/presentation/view/categories_screen.dart';
 import 'package:planitly/features/finance/presentation/view/finance_screen.dart';
 import 'package:planitly/features/habit/presentation/view/habit_screen.dart';
 import 'package:planitly/features/my_pages/presentation/view/my_pages_screen.dart';
@@ -93,7 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: List.generate(5, (int index) {
                           return const TodayTaskCard(task: "Task");
                         }))),
-                CustomTitle(title: "Categories", onPressed: () {}),
+                CustomTitle(title: "Categories", onPressed: () {
+                  NavigatorHelper.push(const CategoriesScreen());
+                }),
                 Container(
                   margin: const EdgeInsets.only(bottom: 16),
                   height: 120,

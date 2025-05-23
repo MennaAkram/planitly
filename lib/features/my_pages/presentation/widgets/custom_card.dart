@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
 
-class MyPagesCard extends StatelessWidget {
+class CustomCard extends StatelessWidget {
   final String name;
 
-  const MyPagesCard({super.key, required this.name});
+  const CustomCard({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
