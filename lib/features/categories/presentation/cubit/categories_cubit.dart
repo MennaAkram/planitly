@@ -1,5 +1,6 @@
 import 'package:planitly/features/categories/domain/entity/category_entity.dart';
 import 'package:planitly/features/categories/domain/repositories/categories_repo.dart';
+import 'package:planitly/features/my_pages/domain/entity/page_entity.dart';
 import 'package:planitly/shared/bases/base_cubit.dart';
 import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/networking/failures.dart';
@@ -10,6 +11,7 @@ class CategoriesCubit extends BaseCubit {
   CategoriesCubit(this._categoriesRepo) : super(const InitState());
 
   List<CategoryEntity> categories = [];
+  List<PageEntity> selectedPages = [];
   int _offset = 0;
   bool hasMore = true;
   bool isLoading = false;
@@ -42,5 +44,21 @@ class CategoriesCubit extends BaseCubit {
     );
 
     isLoading = false;
+  }
+
+  void selectPage(PageEntity page) {
+    emit(const LoadingState());
+
+    selectedPages.add(page);
+
+    emit(const DoneState());
+  }
+
+  void unselectPage(PageEntity page) {
+    emit(const LoadingState());
+
+    selectedPages.remove(page);
+
+    emit(const DoneState());
   }
 }

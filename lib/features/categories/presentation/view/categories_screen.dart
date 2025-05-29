@@ -4,17 +4,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/categories/presentation/cubit/categories_cubit.dart';
+import 'package:planitly/features/categories/presentation/widgets/add_category_dialog.dart';
 import 'package:planitly/features/my_pages/presentation/widgets/custom_card.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/navigator_helper.dart';
-import 'package:planitly/shared/validators.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
-import 'package:planitly/shared/widgets/drop_down_list.dart';
 import 'package:planitly/shared/widgets/extensions.dart';
 import 'package:planitly/shared/widgets/fab_button.dart';
-import 'package:planitly/shared/widgets/text_field.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
@@ -54,28 +52,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     }
   }
 
-  void _showError(String message) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            message,
-            style: Theme.of(context)
-                .appTexts
-                .bodySmall
-                .copyWith(color: Theme.of(context).appColors.red),
-          ),
-          backgroundColor: Theme.of(context).appColors.white100,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          margin: const EdgeInsets.all(24),
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +61,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         bloc: _cubit,
         listener: (context, state) {
           if (state is ErrorState && state.msg != "Token has expired") {
-            _showError(state.msg!);
+            context.showCustomSnackBar(state.msg!);
           } else if (state is DoneState && _shouldScrollOnAdd) {
             _shouldScrollOnAdd = false;
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -149,6 +125,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       color: Theme.of(context).appColors.background,
       padding: const EdgeInsets.all(16),
       child: GridView.builder(
+        key: const PageStorageKey('categoriesGrid'),
         controller: _scrollController,
         itemCount: itemCount,
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -177,57 +154,23 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   void _openAddPageDialog() {
-    context.alertDialog(
-      AppLocalizations.current.addNewCategory,
-      AppLocalizations.current.add,
-      AppLocalizations.current.cancel,
-      () {
-        if (formKey.currentState?.validate() ?? false) {
-          _shouldScrollOnAdd = true;
-          // _cubit.addPage(name: nameController.text);
-          nameController.clear();
-          NavigatorHelper.pop();
-        }
-      },
-      () => Navigator.of(context).pop(),
-      Form(
-        key: formKey,
-        child: Column(
-          children: [
-            CustomTextField(
-              labelText: AppLocalizations.current.categoryName,
-              controller: nameController,
-              validator: Validators.cantBeEmpty,
-            ),
-            const SizedBox(height: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppLocalizations.current.addPages,
-                  style: Theme.of(context).appTexts.labelSmall.copyWith(
-                        color: Theme.of(context).appColors.black87,
-                      ),
-                ),
-                const SizedBox(height: 8),
-                DropDownList(
-                  hintText: 'Me',
-                  menuItems: const [
-                    'Me',
-                    'Study',
-                    'Business',
-                    'Bro',
-                    'Team',
-                    'Gym',
-                    'Movie'
-                  ],
-                  onItemSelected: (value) {},
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+    context.alertDialog(AppLocalizations.current.addNewCategory,
+        AppLocalizations.current.add, AppLocalizations.current.cancel, () {
+      if (formKey.currentState?.validate() ?? false) {
+        _shouldScrollOnAdd = true;
+        nameController.clear();
+        _cubit.selectedPages.clear();
+        NavigatorHelper.pop();
+      }
+    }, () {
+      nameController.clear();
+      _cubit.selectedPages.clear();
+      Navigator.of(context).pop();
+    },
+        AddCategoryDialog(
+          categoriesCubit: _cubit,
+          formKey: formKey,
+          nameController: nameController,
+        ));
   }
 }
