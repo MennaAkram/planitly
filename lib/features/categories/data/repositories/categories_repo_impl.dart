@@ -1,12 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:planitly/features/categories/data/remote/categories_info_dto.dart';
+import 'package:planitly/features/categories/data/remote/category_dto.dart';
 import 'package:planitly/features/categories/domain/entity/categories_info_entity.dart';
+import 'package:planitly/features/categories/domain/entity/category_entity.dart';
 import 'package:planitly/features/categories/domain/repositories/categories_repo.dart';
 import 'package:planitly/shared/bases/base_repo.dart';
 import 'package:planitly/shared/configs/endpoints.dart';
 import 'package:planitly/shared/networking/failures.dart';
 
-class CategoriesRepositoryImpl extends BaseRepository implements CategoriesRepository {
+class CategoriesRepositoryImpl extends BaseRepository
+    implements CategoriesRepository {
   CategoriesRepositoryImpl(super.dio);
 
   @override
@@ -17,6 +20,25 @@ class CategoriesRepositoryImpl extends BaseRepository implements CategoriesRepos
               'skip': offset,
             }), (response) {
       return CategoriesInfoDto().fromJson(response).toEntity();
+    });
+  }
+
+  @override
+  Future<Either<NetworkException, CategoryEntity>> addCategory(
+      {required String name, required List<String> pageIds}) async {
+    return await tryToExecute(
+        () => dio.post(EndPoints.categories,
+            data: {'name': name, 'subject_ids': pageIds}), (response) {
+      return CategoryDto().fromJson(response).toEntity();
+    });
+  }
+
+  @override
+  Future<Either<NetworkException, bool>> deleteCategory(
+      {required String categoryName}) async {
+    return await tryToExecute(
+        () => dio.delete(EndPoints.deleteCategory(categoryName)), (response) {
+      return true;
     });
   }
 }

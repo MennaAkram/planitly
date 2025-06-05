@@ -158,6 +158,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         AppLocalizations.current.add, AppLocalizations.current.cancel, () {
       if (formKey.currentState?.validate() ?? false) {
         _shouldScrollOnAdd = true;
+        _cubit.addCategory(name: nameController.text.trim());
         nameController.clear();
         _cubit.selectedPages.clear();
         NavigatorHelper.pop();

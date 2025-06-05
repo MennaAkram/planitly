@@ -46,6 +46,44 @@ class CategoriesCubit extends BaseCubit {
     isLoading = false;
   }
 
+  Future<void> addCategory({required String name}) async {
+    if (isAdding) return;
+    emit(const LoadingState());
+
+    isAdding = true;
+
+    final result = await _categoriesRepo.addCategory(
+        name: name, pageIds: selectedPages.map((e) => e.id).toList());
+
+    result.fold(
+      (NetworkException exception) {
+        handleException(exception);
+      },
+      (category) {
+        categories.insert(0, category);
+        emit(const DoneState());
+      },
+    );
+
+    isAdding = false;
+  }
+
+  Future<void> deleteCategory({required String categoryName}) async {
+    emit(const LoadingState());
+
+    final result = await _categoriesRepo.deleteCategory(categoryName: categoryName);
+
+    result.fold(
+      (NetworkException exception) {
+        handleException(exception);
+      },
+      (success) {
+        categories.removeWhere((category) => category.name == categoryName);
+        emit(const DoneState());
+      },
+    );
+  }
+
   void selectPage(PageEntity page) {
     emit(const LoadingState());
 

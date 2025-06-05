@@ -18,4 +18,6 @@ class EndPoints {
   static String pages = 'subjects/';
 
   static String categories = 'categories/';
+
+  static String deleteCategory(String categoryName) => 'categories/$categoryName';
 }
