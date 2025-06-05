@@ -5,6 +5,7 @@ import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/categories/presentation/cubit/categories_cubit.dart';
 import 'package:planitly/features/categories/presentation/widgets/add_category_dialog.dart';
+import 'package:planitly/features/category/presentation/view/category_screen.dart';
 import 'package:planitly/features/my_pages/presentation/widgets/custom_card.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
@@ -142,7 +143,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           }
 
           if ((index - addSlot) < _cubit.categories.length) {
-            return CustomCard(name: _cubit.categories[index - addSlot].name);
+            return CustomCard(
+              name: _cubit.categories[index - addSlot].name,
+              onClick: () => NavigatorHelper.push(
+                  CategoryScreen(category: _cubit.categories[index - addSlot])),
+            );
           }
 
           return const Center(
