@@ -22,7 +22,7 @@ class _BottomnavbarState extends State<Bottomnavbar> {
 
   List<Widget> listwidget = [
      const HomeScreen(),
-    const Chatbot(),
+    const StartChat(),
     const EmailsScreen()
   ];
 
