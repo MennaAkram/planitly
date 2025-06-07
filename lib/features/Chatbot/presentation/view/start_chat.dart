@@ -59,12 +59,12 @@ class _StartChatState extends State<StartChat> {
                       padding: EdgeInsets.symmetric(vertical: 12),
                       margin: EdgeInsets.symmetric(horizontal: 48),
                       child: CustomButton(
-                        text: "start chat",
+                        text: "Start Chat",
                         onPressed: () {
-                           NavigatorHelper.push(const Chatbot());
+                           NavigatorHelper.pushReplacement(const Chatbot());
                         },
                         outlined: false,
-                        addIcon: true,
+                        
                       ),
                     )
                   ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Chatbot/presentation/view/chatbot.dart';
 import 'package:planitly/features/emails/presentation/view/emails_screen.dart';
 import 'package:planitly/features/home_screen/presentation/view/home_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,7 +21,7 @@ class _BottomnavbarState extends State<Bottomnavbar> {
 
   List<Widget> listwidget = [
      const HomeScreen(),
-    const Chatbot(),
+    const StartChat(),
     const EmailsScreen()
   ];
 
