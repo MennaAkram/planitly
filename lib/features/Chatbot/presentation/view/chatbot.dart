@@ -82,6 +82,7 @@ void _sendMessage() {
           ),
         ]),
       ),
+      backgroundColor: Theme.of(context).appColors.white100,
       body: Column(
         children: [
           Expanded(
@@ -162,13 +163,15 @@ void _sendMessage() {
           ),
           Expanded(
             flex: 1,
-            child: SizedBox(
+            child: Container(
+              color: Theme.of(context).appColors.white100,
               height: 50,
               child: Row(
                 children: [
                   Expanded(
                     flex: 12,
                     child: Container(
+                     
                       height: 38,
                       width: double.maxFinite,
                       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -180,7 +183,7 @@ void _sendMessage() {
                           filled: true,
                           fillColor: Theme.of(context).appColors.white100,
                           hintText: "send massage",
-                          labelStyle: Theme.of(context)
+                          hintStyle: Theme.of(context)
                               .appTexts
                               .labelMedium
                               .copyWith(
@@ -200,6 +203,13 @@ void _sendMessage() {
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 6),
                         ),
+                        textInputAction: TextInputAction.send, 
+  onFieldSubmitted: (value) {
+    if (value.trim().isNotEmpty) {
+      _sendMessage();
+      massagecontroler.clear();
+    }
+  },
                       ),
                     ),
                   ),
