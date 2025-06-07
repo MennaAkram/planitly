@@ -13,8 +13,7 @@ class LoginCubit extends BaseCubit{
 
   LoginCubit(this._authRepo) : super(const InitState());
 
- // final FirebaseMessaging _messaging = FirebaseMessaging.instance;
- // final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   login({ required String usernameOremail, required String password}) async {
     emit(const LoadingState());
