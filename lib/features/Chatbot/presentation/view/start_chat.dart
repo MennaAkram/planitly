@@ -5,6 +5,8 @@ import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/widgets/button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../shared/navigator_helper.dart';
+import 'chatbot.dart';
 
 
 class StartChat extends StatefulWidget {
@@ -57,8 +59,10 @@ class _StartChatState extends State<StartChat> {
                       padding: EdgeInsets.symmetric(vertical: 12),
                       margin: EdgeInsets.symmetric(horizontal: 48),
                       child: CustomButton(
-                        text: "     start chat              ",
-                        onPressed: () {},
+                        text: "start chat",
+                        onPressed: () {
+                           NavigatorHelper.push(const Chatbot());
+                        },
                         outlined: false,
                         addIcon: true,
                       ),

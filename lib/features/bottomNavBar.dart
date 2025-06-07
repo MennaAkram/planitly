@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/Chatbot/chatbot.dart';
+import 'package:planitly/features/Chatbot/presentation/view/chatbot.dart';
 import 'package:planitly/features/emails/presentation/view/emails_screen.dart';
 import 'package:planitly/features/home_screen/presentation/view/home_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:planitly/shared/assets.dart';
+
+import 'Chatbot/presentation/view/start_chat.dart';
 
 class Bottomnavbar extends StatefulWidget {
   const Bottomnavbar({super.key});
