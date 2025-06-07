@@ -12,9 +12,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
- // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   setupServiceLocator();
- // getIt<NotificationService>().initialize();
+  getIt<NotificationService>().initialize();
   final storageManager = getIt<LocalStorageManager>();
   storageManager.clearAll();
   var isLoggedIn = await storageManager.getLoginToken() != null;
