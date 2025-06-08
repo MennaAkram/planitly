@@ -10,6 +10,9 @@ import 'package:planitly/features/authentication/presentation/register/presentat
 import 'package:planitly/features/categories/data/repositories/categories_repo_impl.dart';
 import 'package:planitly/features/categories/domain/repositories/categories_repo.dart';
 import 'package:planitly/features/categories/presentation/cubit/categories_cubit.dart';
+import 'package:planitly/features/category/data/repository/category_repo_impl.dart';
+import 'package:planitly/features/category/domain/repository/category_repo.dart';
+import 'package:planitly/features/category/presentation/cubit/category_cubit.dart';
 import 'package:planitly/features/finance/data/repositories/finance_repo_impl.dart';
 import 'package:planitly/features/finance/domain/repositories/finance_repo.dart';
 import 'package:planitly/features/finance/presentation/cubit/finance_cubit.dart';
@@ -82,6 +85,12 @@ void setupServiceLocator() {
     ),
   );
 
+  getIt.registerSingleton<CategoryRepository>(
+    CategoryRepositoryImpl(
+      getIt<Dio>(instanceName: planitlyService),
+    ),
+  );
+
   // CUBITS
   getIt.registerFactory<LoginCubit>(() => LoginCubit(
         getIt<AuthenticationRepository>(),
@@ -109,5 +118,9 @@ void setupServiceLocator() {
 
   getIt.registerFactory<CategoriesCubit>(() => CategoriesCubit(
         getIt<CategoriesRepository>(),
+      ));
+
+  getIt.registerFactory<CategoryCubit>(() => CategoryCubit(
+        getIt<CategoryRepository>(),
       ));
 }

@@ -19,5 +19,7 @@ class EndPoints {
 
   static String categories = 'categories/';
 
+  static String categorySubjects(String categoryName) => 'categories/$categoryName/subjects';
+
   static String deleteCategory(String categoryName) => 'categories/$categoryName';
 }

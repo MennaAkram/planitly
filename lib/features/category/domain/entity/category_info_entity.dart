@@ -1,9 +1,9 @@
 import 'package:planitly/features/my_pages/domain/entity/pages_info_entity.dart';
 
-class CategoryInfo {
+class CategoryInfoEntity {
   PagesInfoEntity pagesInfo;
 
-  CategoryInfo({
+  CategoryInfoEntity({
     required this.pagesInfo,
   });
 }
