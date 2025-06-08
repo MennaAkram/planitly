@@ -9,8 +9,12 @@ import 'package:planitly/features/my_pages/presentation/widgets/custom_card.dart
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/bases/base_state.dart';
+import 'package:planitly/shared/navigator_helper.dart';
+import 'package:planitly/shared/validators.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 import 'package:planitly/shared/widgets/extensions.dart';
+import 'package:planitly/shared/widgets/fab_button.dart';
+import 'package:planitly/shared/widgets/text_field.dart';
 
 class CategoryScreen extends StatefulWidget {
   final CategoryEntity category;
@@ -88,6 +92,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           },
         ),
       ),
+      floatingActionButton: AddButton(onPressed: () => _openAddPageDialog()),
     );
   }
 
@@ -146,6 +151,31 @@ class _CategoryScreenState extends State<CategoryScreen> {
             child: CircularProgressIndicator(),
           );
         },
+      ),
+    );
+  }
+
+  void _openAddPageDialog() {
+    context.alertDialog(
+      AppLocalizations.current.addNewPage,
+      AppLocalizations.current.add,
+      AppLocalizations.current.cancel,
+      () {
+        if (formKey.currentState?.validate() ?? false) {
+          _shouldScrollOnAdd = true;
+          _cubit.addPageToCategory(pageName: nameController.text.trim());
+          NavigatorHelper.pop();
+          nameController.clear();
+        }
+      },
+      () => Navigator.of(context).pop(),
+      Form(
+        key: formKey,
+        child: CustomTextField(
+          labelText: AppLocalizations.current.pageName,
+          controller: nameController,
+          validator: Validators.cantBeEmpty,
+        ),
       ),
     );
   }

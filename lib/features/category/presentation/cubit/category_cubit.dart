@@ -47,4 +47,25 @@ class CategoryCubit extends BaseCubit {
 
     isLoading = false;
   }
+
+  Future<void> addPageToCategory({required String pageName}) async {
+    if (isAdding) return;
+    isAdding = true;
+    emit(LoadingState());
+
+    Either<NetworkException, PageEntity> result = await _categoryRepo
+        .addPageToCategory(categoryName: categoryName, pageName: pageName);
+
+    result.fold(
+      (NetworkException exception) {
+        handleException(exception);
+      },
+      (newPage) {
+        pages.insert(0, newPage);
+        emit(const DoneState());
+      },
+    );
+
+    isAdding = false;
+  }
 }
