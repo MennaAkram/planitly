@@ -34,8 +34,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   void initState() {
-    _cubit.categoryName = widget.category.name;
-    _cubit.getCategoryInfo(initial: true);
+    _cubit.getCategoryInfo(categoryName: widget.category.name, initial: true);
     _scrollController.addListener(_onScroll);
     super.initState();
   }

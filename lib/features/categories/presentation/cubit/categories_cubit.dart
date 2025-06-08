@@ -11,10 +11,14 @@ class CategoriesCubit extends BaseCubit {
   CategoriesCubit(this._categoriesRepo) : super(const InitState());
 
   List<CategoryEntity> categories = [];
+  List<PageEntity> uncategorizedPages = [];
   List<PageEntity> selectedPages = [];
   int _offset = 0;
+  int uncategorizedOffset = 0;
   bool hasMore = true;
+  bool hasUncategorizedMore = true;
   bool isLoading = false;
+  bool isUncategorizedLoading = false;
   bool isAdding = false;
 
   Future<void> getCategories({bool initial = false}) async {
@@ -46,6 +50,37 @@ class CategoriesCubit extends BaseCubit {
     isLoading = false;
   }
 
+  Future<void> getUncategorizedPages({bool initial = false}) async {
+    if (initial) {
+      uncategorizedPages.clear();
+      uncategorizedOffset = 0;
+      hasUncategorizedMore = true;
+    }
+
+    if (isUncategorizedLoading || !hasUncategorizedMore) return;
+
+    isUncategorizedLoading = true;
+
+    emit(const LoadingState());
+
+    final result = await _categoriesRepo.getUncategorizedPages(
+        offset: uncategorizedOffset);
+
+    result.fold(
+      (NetworkException exception) {
+        handleException(exception);
+      },
+      (data) {
+        uncategorizedPages.addAll(data.pagesInfo.pages);
+        uncategorizedOffset += data.pagesInfo.pages.length;
+        hasUncategorizedMore = uncategorizedOffset < data.pagesInfo.total;
+        emit(const DoneState());
+      },
+    );
+
+    isUncategorizedLoading = false;
+  }
+
   Future<void> addCategory({required String name}) async {
     if (isAdding) return;
     emit(const LoadingState());
@@ -71,7 +106,8 @@ class CategoriesCubit extends BaseCubit {
   Future<void> deleteCategory({required String categoryName}) async {
     emit(const LoadingState());
 
-    final result = await _categoriesRepo.deleteCategory(categoryName: categoryName);
+    final result =
+        await _categoriesRepo.deleteCategory(categoryName: categoryName);
 
     result.fold(
       (NetworkException exception) {

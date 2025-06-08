@@ -12,18 +12,20 @@ class CategoryCubit extends BaseCubit {
   CategoryCubit(this._categoryRepo) : super(const InitState());
 
   List<PageEntity> pages = [];
-  String categoryName = '';
+  String categoryName = 'Uncategorized';
   int _offset = 0;
   bool hasMore = true;
   bool isLoading = false;
   bool isAdding = false;
 
-  Future<void> getCategoryInfo({bool initial = false}) async {
+  Future<void> getCategoryInfo(
+      {String categoryName = 'Uncategorized', bool initial = false}) async {
     if (isLoading || !hasMore) return;
 
     isLoading = true;
 
     if (initial) {
+      this.categoryName = categoryName;
       pages.clear();
       _offset = 0;
     }

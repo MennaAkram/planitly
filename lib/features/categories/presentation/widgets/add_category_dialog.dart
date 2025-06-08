@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/categories/presentation/cubit/categories_cubit.dart';
 import 'package:planitly/features/my_pages/domain/entity/page_entity.dart';
-import 'package:planitly/features/my_pages/presentation/cubit/pages_cubit.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/validators.dart';
@@ -30,19 +28,17 @@ class AddCategoryDialog extends StatefulWidget {
 }
 
 class _AddCategoryDialogState extends State<AddCategoryDialog> {
-  final PagesCubit _pagesCubit = getIt.get<PagesCubit>();
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _pagesCubit.getPages(initial: true);
+    widget.categoriesCubit.getUncategorizedPages(initial: true);
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
-    _pagesCubit.close();
     super.dispose();
   }
 
@@ -52,7 +48,6 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
       mainAxisSize: MainAxisSize.min,
       children: [
         _buildNameField(),
-        const SizedBox(height: 16),
         _buildSelectPagesSection(),
       ],
     );
@@ -69,11 +64,11 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
     );
   }
 
-  BlocBuilder<PagesCubit, BaseState> _buildSelectPagesSection() {
-    return BlocBuilder<PagesCubit, BaseState>(
-      bloc: _pagesCubit,
+  BlocBuilder<CategoriesCubit, BaseState> _buildSelectPagesSection() {
+    return BlocBuilder<CategoriesCubit, BaseState>(
+      bloc: widget.categoriesCubit,
       builder: (context, state) {
-        final pages = _pagesCubit.pages;
+        final pages = widget.categoriesCubit.uncategorizedPages;
 
         if (state is ErrorState) {
           context.showCustomSnackBar(state.msg!);
@@ -81,7 +76,10 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
         }
 
         if (state is LoadingState && pages.isEmpty) {
-          return const CircularProgressIndicator();
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: const CircularProgressIndicator(),
+          );
         }
 
         if (pages.isEmpty) {
@@ -91,6 +89,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 16),
             Text(
               AppLocalizations.current.addPages,
               style: Theme.of(context).appTexts.labelSmall.copyWith(
@@ -111,7 +110,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
       hintText: AppLocalizations.current.selectPages,
       menuItems: pages.map((e) => e.name).toList(),
       scrollController: _scrollController,
-      isLoading: _pagesCubit.isLoading,
+      isLoading: widget.categoriesCubit.isUncategorizedLoading,
       onItemSelected: (pageName) {
         if (!widget.categoriesCubit.selectedPages
             .any((page) => page.name == pageName)) {
@@ -121,14 +120,15 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
             );
           } else {
             widget.categoriesCubit.selectPage(
-              _pagesCubit.pages.firstWhere((page) => page.name == pageName),
+              widget.categoriesCubit.uncategorizedPages
+                  .firstWhere((page) => page.name == pageName),
             );
           }
         }
       },
       onScrollEnd: () {
-        if (_pagesCubit.hasMore) {
-          _pagesCubit.getPages();
+        if (widget.categoriesCubit.hasUncategorizedMore) {
+          widget.categoriesCubit.getUncategorizedPages();
         }
       },
     );
