@@ -37,8 +37,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String fristname = 'Menna';
   String lastname = 'Akram';
   String username = "mennaakram12";
-  String BirthdayDate = '1/1/1976';
   String phonenumber = '01244539870';
+  String email = 'menna@gmail.com';
+  String BirthdayDate = '1/1/1976';
 
   @override
   void dispose() {
@@ -65,27 +66,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 10,
             ),
             _line(70),
-            SizedBox(
-              height: 29,
+            const SizedBox(
+              height: 20,
             ),
-            ContactItem(
-              iconPath: Assets.phone,
-              title: 'Phone Number',
-              value: phonenumber,
-            ),
-            SizedBox(height: 20),
-            ContactItem(
-              iconPath: Assets.email,
-              title: 'Email',
-              value: 'menna@gmail.com',
-            ),
-            SizedBox(height: 20),
-            ContactItem(
-              iconPath: Assets.birthday,
-              title: 'Birthday',
-              value: BirthdayDate,
-            ),
-            SizedBox(height: 30),
+            _buildContactInfo(),
+            const SizedBox(height: 20),
             _line(140),
             SizedBox(height: 20),
             Button(
@@ -166,6 +151,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
               .copyWith(color: Theme.of(context).appColors.black60),
         ),
       ],
+    );
+  }
+
+  Padding _buildContactInfo() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        children: [
+          ContactItem(
+            iconPath: Assets.phone,
+            title: AppLocalizations.current.phoneNumber,
+            value: phonenumber,
+          ),
+          SizedBox(height: 20),
+          ContactItem(
+            iconPath: Assets.email,
+            title: AppLocalizations.current.email,
+            value: email,
+          ),
+          SizedBox(height: 20),
+          ContactItem(
+            iconPath: Assets.birthday,
+            title: AppLocalizations.current.birthdayDate,
+            value: BirthdayDate,
+          ),
+        ],
+      ),
     );
   }
 
