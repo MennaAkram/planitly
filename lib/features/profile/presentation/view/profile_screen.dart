@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planitly/design_system/theme.dart';
@@ -65,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(
               height: 10,
             ),
-            SvgPicture.asset(Assets.line1),
+            _line(70),
             SizedBox(
               height: 29,
             ),
@@ -87,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               value: BirthdayDate,
             ),
             SizedBox(height: 30),
-            SvgPicture.asset(Assets.line2),
+            _line(140),
             SizedBox(height: 20),
             Button(
               text: "My Pages",
@@ -110,6 +109,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Divider _line(double indent) {
+    return Divider(
+      height: 0.5,
+      color: Theme.of(context).appColors.black16,
+      indent: indent,
+      endIndent: indent,
     );
   }
 

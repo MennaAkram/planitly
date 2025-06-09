@@ -11,8 +11,6 @@ class Assets {
   static const String notificationPlaceholder = 'assets/images/notifications_placeholder.svg';
   static const String myPagesPlaceholder = 'assets/images/my_pages_placeholder.svg';
   static const String logoutPlaceholder = 'assets/images/Frame 1597882199.svg';
-  static const String line1 = 'assets/images/Line 1.svg';
-  static const String line2 = 'assets/images/Line 2.svg';
   static const String profile = 'assets/images/Frame 2.png';
 
   // Icons
