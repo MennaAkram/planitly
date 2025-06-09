@@ -80,6 +80,14 @@ class Validators {
       return AppLocalizations.current.cantBeEmpty;
     }
 
+    if (value.length < 2) {
+      return AppLocalizations.current.atLeast3Characters;
+    }
+
+    if (value.length > 20) {
+      return AppLocalizations.current.lessThan20Characters;
+    }
+
     if (!AppRegex.name.hasMatch(value)) {
       return AppLocalizations.current.invalidName;
     }
