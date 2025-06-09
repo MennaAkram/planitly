@@ -32,8 +32,8 @@ void setupServiceLocator() {
   getIt.registerSingleton<NavigationService>(NavigationService());
   getIt.registerSingleton<FlutterSecureStorage>(const FlutterSecureStorage());
   getIt.registerSingleton<LocalStorageManager>(LocalStorageManager(getIt()));
-  getIt.registerSingleton<NotificationService>(NotificationService());
-  getIt.registerSingleton<FirebaseMessaging>(FirebaseMessaging.instance);
+  // getIt.registerSingleton<NotificationService>(NotificationService());
+  // getIt.registerSingleton<FirebaseMessaging>(FirebaseMessaging.instance);
 
   // NETWORK INTERCEPTOR
   getIt.registerSingleton<AppInterceptor>(
