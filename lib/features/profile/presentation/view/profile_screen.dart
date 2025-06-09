@@ -3,10 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/profile/presentation/widget/change_pop_screen.dart';
 import 'package:planitly/features/profile/presentation/widget/contact_item.dart';
-import 'package:planitly/features/profile/presentation/widget/edit_pop_screen.dart';
 import 'package:planitly/features/profile/presentation/widget/logout_pop_screen.dart';
 import 'package:planitly/features/profile/presentation/widget/profile_button.dart';
+import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
+import 'package:planitly/shared/widgets/app_bar.dart';
+import 'package:planitly/shared/widgets/extensions.dart';
+import 'package:planitly/shared/widgets/text_field.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -31,27 +34,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Profile"),
-        titleTextStyle: Theme.of(context)
-            .appTexts
-            .titleSmall
-            .copyWith(color: Theme.of(context).appColors.black87),
-        actions: [
-          IconButton(
-              onPressed: () => showEditPopup(context, () {
-                    setState(() {
-                      fristname = fristnameController.text;
-                      lastname = lastnameController.text;
-                      Birthday = birthdayController.text;
-                      phonenum = phoneController.text;
-                    });
-                  }, fristnameController, lastnameController, phoneController,
-                      birthdayController),
-              icon: SvgPicture.asset(Assets.edit))
-        ],
+      backgroundColor: Theme.of(context).appColors.background,
+      appBar: CustomAppBar(
+        title: AppLocalizations.current.profile,
+        postfixIcon: Assets.edit,
+        onPostfixIconPressed: _openEditDialog,
       ),
-      backgroundColor: Theme.of(context).appColors.white100,
       body: Column(
         children: [
           Container(
@@ -130,6 +118,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onTap: () => showlogoutPopup(context, () {}),
           ),
         ],
+      ),
+    );
+  }
+
+  void _openEditDialog() {
+    context.alertDialog(
+      'Edit Info',
+      'Update',
+      'Cancel',
+      () {
+        setState(() {
+          fristname = fristnameController.text;
+          lastname = lastnameController.text;
+          Birthday = birthdayController.text;
+          phonenum = phoneController.text;
+        });
+        Navigator.of(context).pop();
+      },
+      () => Navigator.of(context).pop(),
+      Form(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomTextField(
+              labelText: 'first name',
+              controller: fristnameController,
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labelText: 'last name',
+              controller: lastnameController,
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labelText: 'Birthday',
+              controller: birthdayController,
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labelText: 'Phone Number',
+              controller: phoneController,
+            ),
+          ],
+        ),
       ),
     );
   }

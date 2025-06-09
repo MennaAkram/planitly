@@ -1,5 +1,4 @@
 class Assets {
-
   // Images
   static const String calendar = 'assets/images/calendar.png';
   static const String finance = 'assets/images/finance.png';
@@ -41,7 +40,4 @@ class Assets {
   static const String edit = 'assets/icons/pen-Regular.svg';
   static const String phone = 'assets/icons/phone-Regular.svg';
   static const String birthday = 'assets/icons/calendar-Regular.svg';
-
-
-
 }

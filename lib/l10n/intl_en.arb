@@ -21,6 +21,7 @@
   "noPagesFound": "No pages found",
   "addNewPage": "Add new page",
   "pageName": "name",
+  "profile": "Profile",
   "cantBeEmpty": "This field cannot be empty",
   "mustBeANumber": "The field should be only number",
   "amountNotEnough": "You can't spend more than you have!",
