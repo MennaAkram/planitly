@@ -11,7 +11,10 @@ class Assets {
   static const String resendEmailPlaceholder = 'assets/images/undraw_emails_085h 1.svg';
   static const String notificationPlaceholder = 'assets/images/notifications_placeholder.svg';
   static const String myPagesPlaceholder = 'assets/images/my_pages_placeholder.svg';
-  static const String logoutPlaceholder = 'assets/icons/Frame 1597882199.svg';
+  static const String logoutPlaceholder = 'assets/images/Frame 1597882199.svg';
+  static const String line1 = 'assets/images/Line 1.svg';
+  static const String line2 = 'assets/images/Line 2.svg';
+  static const String profile = 'assets/images/Frame 2.png';
 
   // Icons
   static const String homePlaceholder = 'assets/images/home_placeholder.svg';
@@ -37,6 +40,7 @@ class Assets {
   static const String check = 'assets/icons/check_24px.svg';
   static const String edit = 'assets/icons/pen-Regular.svg';
   static const String phone = 'assets/icons/phone-Regular.svg';
+  static const String birthday = 'assets/icons/calendar-Regular.svg';
 
 
 

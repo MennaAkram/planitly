@@ -60,7 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                image: DecorationImage(image: AssetImage(Assets.person))),
+                image: DecorationImage(image: AssetImage(Assets.profile))),
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 1),
@@ -84,18 +84,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   .copyWith(color: Theme.of(context).appColors.black60),
             ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 22),
-            child: Divider(
-              height: 0.5,
-              color: Theme.of(context).appColors.black16,
-              indent: 16,
-              endIndent: 16,
-            ),
+          SizedBox(
+            height: 9,
+          ),
+          SvgPicture.asset(Assets.line1),
+          SizedBox(
+            height: 29,
           ),
           ContactItem(
             iconPath: Assets.phone,
-            title: 'phone',
+            title: 'Phone Number',
             value: phonenum,
           ),
           SizedBox(height: 20),
@@ -106,19 +104,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           SizedBox(height: 20),
           ContactItem(
-            iconPath: Assets.calendar,
+            iconPath: Assets.birthday,
             title: 'Birthday',
             value: Birthday,
           ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 22),
-            child: Divider(
-              height: 0.5,
-              color: Theme.of(context).appColors.black16,
-              indent: 16,
-              endIndent: 16,
-            ),
-          ),
+          SizedBox(height: 30),
+          SvgPicture.asset(Assets.line2),
+          SizedBox(height: 20),
           Button(
             text: "My Pages",
             onTap: () {},

@@ -1,12 +1,11 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/profile/presentation/widget/textfield.dart';
 import 'package:planitly/shared/widgets/button.dart';
 
-void showchangePopup(BuildContext context, VoidCallback onUpdate,
+void showchangePopup(
+    BuildContext context,
+    VoidCallback onUpdate,
     TextEditingController oldpassController,
     TextEditingController newpassController,
     TextEditingController cnewpassController) {
@@ -16,6 +15,7 @@ void showchangePopup(BuildContext context, VoidCallback onUpdate,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
+      backgroundColor: Theme.of(context).appColors.background,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(

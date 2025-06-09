@@ -17,6 +17,8 @@ class text_field extends StatelessWidget {
             .appTexts
             .bodyMedium
             .copyWith(color: Theme.of(context).appColors.black60),
+               filled: true,
+        fillColor: Theme.of(context).appColors.white87,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
           borderSide:
