@@ -18,4 +18,6 @@ class EndPoints {
   static String pages = 'subjects/';
 
   static String profile = 'profile/';
+
+  static String uploadProfileImage = '/profile/upload-image';
 }

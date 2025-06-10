@@ -1,11 +1,11 @@
 class ProfileDataEntity {
-  final String profileImage;
-  final String firstName;
-  final String lastName;
-  final String username;
-  final String phoneNumber;
-  final String email;
-  final DateTime burthdayDate;
+  String profileImage;
+  String firstName;
+  String lastName;
+  String username;
+  String phoneNumber;
+  String email;
+  DateTime burthdayDate;
 
   ProfileDataEntity({
     required this.profileImage,

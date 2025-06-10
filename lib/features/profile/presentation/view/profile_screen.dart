@@ -81,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: BlocBuilder<ProfileCubit, BaseState>(
           bloc: _cubit,
           builder: (context, state) {
-            if (state is LoadingState) {
+            if (state is LoadingState && !_cubit.isImageUploading) {
               return const Center(child: CircularProgressIndicator());
             }
             return SingleChildScrollView(
@@ -129,25 +129,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Column _buildProfileHeader() {
     return Column(
       children: [
-        InkWell(
-          borderRadius: BorderRadius.circular(60),
-          onTap: _pickImage,
-          child: Container(
-            height: 80,
-            width: 80,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: _cubit.profileDataEntity.profileImage != ''
-                        ? NetworkImage(
-                            _cubit.profileDataEntity.profileImage,
-                          )
-                        : _cubit.profileImage != null
-                            ? FileImage(_cubit.profileImage!) as ImageProvider
-                            : AssetImage(Assets.profile))),
-          ),
+        BlocBuilder<ProfileCubit, BaseState>(
+          bloc: _cubit,
+          builder: (context, state) {
+            if (state is LoadingState && _cubit.isImageUploading) {
+              return Center(
+                  child: Container(
+                margin: const EdgeInsets.all(22),
+                child: const CircularProgressIndicator(),
+              ));
+            }
+            return _buildProfileImage();
+          },
         ),
         SizedBox(
           height: 4,
@@ -167,6 +160,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
               .copyWith(color: Theme.of(context).appColors.black60),
         ),
       ],
+    );
+  }
+
+  InkWell _buildProfileImage() {
+    return InkWell(
+      borderRadius: BorderRadius.circular(60),
+      onTap: _pickImage,
+      child: Container(
+        height: 80,
+        width: 80,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                image: _cubit.profileDataEntity.profileImage != ''
+                    ? NetworkImage(
+                        _cubit.profileDataEntity.profileImage,
+                      )
+                    : _cubit.profileImage != null
+                        ? FileImage(_cubit.profileImage!) as ImageProvider
+                        : AssetImage(Assets.profile))),
+      ),
     );
   }
 
@@ -247,9 +263,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
 
       if (croppedFile != null) {
-        setState(() {
-          _cubit.profileImage = File(croppedFile.path);
-        });
+        _cubit.isImageUploading = true;
+        _cubit.profileImage = File(croppedFile.path);
+        await _cubit.uploadProfileImage();
       }
     }
   }
