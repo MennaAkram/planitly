@@ -1,16 +1,21 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/widgets/date_text_field.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/widgets/phone_text_field.dart';
 import 'package:planitly/features/my_pages/presentation/view/my_pages_screen.dart';
+import 'package:planitly/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:planitly/features/profile/presentation/widget/contact_item.dart';
 import 'package:planitly/features/profile/presentation/widget/profile_button.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
+import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/navigator_helper.dart';
 import 'package:planitly/shared/validators.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
@@ -25,6 +30,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final ProfileCubit _cubit = getIt.get<ProfileCubit>();
   final TextEditingController _fristNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
@@ -35,13 +41,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final GlobalKey<FormState> _editDataFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _changePasswordFormKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
-  File? _profileImage;
   String fristname = 'Menna';
   String lastname = 'Akram';
   String username = "mennaakram12";
   String phonenumber = '01244539870';
   String email = 'menna@gmail.com';
   String BirthdayDate = '1/1/1976';
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit.getProfileData();
+  }
 
   @override
   void dispose() {
@@ -60,23 +71,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).appColors.background,
       appBar: _buildProfileAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildProfileHeader(),
-            const SizedBox(
-              height: 10,
-            ),
-            _line(70),
-            const SizedBox(
-              height: 20,
-            ),
-            _buildContactInfo(),
-            const SizedBox(height: 20),
-            _line(140),
-            SizedBox(height: 16),
-            _buildActionButtons(),
-          ],
+      body: BlocListener<ProfileCubit, BaseState>(
+        bloc: _cubit,
+        listener: (context, state) {
+          if (state is ErrorState && state.msg != "Token has expired") {
+            context.showCustomSnackBar(state.msg!);
+          }
+        },
+        child: BlocBuilder<ProfileCubit, BaseState>(
+          bloc: _cubit,
+          builder: (context, state) {
+            if (state is LoadingState) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  _buildProfileHeader(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _line(70),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  _buildContactInfo(),
+                  const SizedBox(height: 20),
+                  _line(140),
+                  SizedBox(height: 16),
+                  _buildActionButtons(),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
@@ -113,23 +140,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: _profileImage != null
-                        ? FileImage(_profileImage!) as ImageProvider
-                        : AssetImage(Assets.profile))),
+                    image: _cubit.profileDataEntity.profileImage != ''
+                        ? NetworkImage(
+                            _cubit.profileDataEntity.profileImage,
+                          )
+                        : _cubit.profileImage != null
+                            ? FileImage(_cubit.profileImage!) as ImageProvider
+                            : AssetImage(Assets.profile))),
           ),
         ),
         SizedBox(
           height: 4,
         ),
         Text(
-          "$fristname $lastname",
+          '${_cubit.profileDataEntity.firstName} ${_cubit.profileDataEntity.lastName}',
           style: Theme.of(context)
               .appTexts
               .titleSmall
               .copyWith(color: Theme.of(context).appColors.black87),
         ),
         Text(
-          username,
+          _cubit.profileDataEntity.username,
           style: Theme.of(context)
               .appTexts
               .bodySmall
@@ -147,19 +178,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ContactItem(
             iconPath: Assets.phone,
             title: AppLocalizations.current.phoneNumber,
-            value: phonenumber,
+            value: _cubit.profileDataEntity.phoneNumber,
           ),
           SizedBox(height: 20),
           ContactItem(
             iconPath: Assets.email,
             title: AppLocalizations.current.email,
-            value: email,
+            value: _cubit.profileDataEntity.email,
           ),
           SizedBox(height: 20),
           ContactItem(
             iconPath: Assets.birthday,
             title: AppLocalizations.current.birthdayDate,
-            value: BirthdayDate,
+            value: DateFormat('dd/MM/yyyy').format(
+              _cubit.profileDataEntity.burthdayDate,
+            ),
           ),
         ],
       ),
@@ -215,7 +248,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       if (croppedFile != null) {
         setState(() {
-          _profileImage = File(croppedFile.path);
+          _cubit.profileImage = File(croppedFile.path);
         });
       }
     }

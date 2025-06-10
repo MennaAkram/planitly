@@ -16,4 +16,6 @@ class EndPoints {
   static String data_transfer = 'datatransfers/';
 
   static String pages = 'subjects/';
+
+  static String profile = 'profile/';
 }
