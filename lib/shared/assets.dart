@@ -10,7 +10,7 @@ class Assets {
   static const String resendEmailPlaceholder = 'assets/images/undraw_emails_085h 1.svg';
   static const String notificationPlaceholder = 'assets/images/notifications_placeholder.svg';
   static const String myPagesPlaceholder = 'assets/images/my_pages_placeholder.svg';
-  static const String logoutPlaceholder = 'assets/images/Frame 1597882199.svg';
+  static const String logoutPlaceholder = 'assets/images/logout_placeholder.svg';
   static const String profile = 'assets/images/Frame 2.png';
 
   // Icons

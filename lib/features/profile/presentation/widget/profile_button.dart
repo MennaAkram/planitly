@@ -1,20 +1,17 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
 
-class Button extends StatelessWidget {
+class ProfileButtonCard extends StatelessWidget {
   final String text;
   final Color? textColor;
   final VoidCallback? onTap;
 
-  // ignore: use_super_parameters
-  const Button({
-    Key? key,
+  const ProfileButtonCard({
+    super.key,
     required this.text,
     this.textColor,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,16 +1,17 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/widgets/date_text_field.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/widgets/phone_text_field.dart';
-import 'package:planitly/features/profile/presentation/widget/change_pop_screen.dart';
+import 'package:planitly/features/my_pages/presentation/view/my_pages_screen.dart';
 import 'package:planitly/features/profile/presentation/widget/contact_item.dart';
-import 'package:planitly/features/profile/presentation/widget/logout_pop_screen.dart';
 import 'package:planitly/features/profile/presentation/widget/profile_button.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
+import 'package:planitly/shared/navigator_helper.dart';
 import 'package:planitly/shared/validators.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 import 'package:planitly/shared/widgets/extensions.dart';
@@ -31,7 +32,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _oldpassController = TextEditingController();
   final TextEditingController _newpassController = TextEditingController();
   final TextEditingController _cnewpassController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _editDataFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _changePasswordFormKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   File? _profileImage;
   String fristname = 'Menna';
@@ -72,25 +74,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             _buildContactInfo(),
             const SizedBox(height: 20),
             _line(140),
-            SizedBox(height: 20),
-            Button(
-              text: "My Pages",
-              onTap: () {},
-            ),
-            Button(
-              text: "Change Password",
-              onTap: () => showchangePopup(context, () {}, _oldpassController,
-                  _newpassController, _cnewpassController),
-            ),
-            Button(
-              text: "Settings",
-              onTap: () {},
-            ),
-            Button(
-              text: "Logout",
-              textColor: Theme.of(context).appColors.red,
-              onTap: () => showlogoutPopup(context, () {}),
-            ),
+            SizedBox(height: 16),
+            _buildActionButtons(),
           ],
         ),
       ),
@@ -181,6 +166,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Column _buildActionButtons() {
+    return Column(
+      children: [
+        ProfileButtonCard(
+          text: AppLocalizations.current.myPages,
+          onTap: () => NavigatorHelper.push(MyPagesScreen()),
+        ),
+        ProfileButtonCard(
+          text: AppLocalizations.current.changePassword,
+          onTap: _openChangePasswordDialog,
+        ),
+        ProfileButtonCard(
+          text: AppLocalizations.current.settings,
+          onTap: () {},
+        ),
+        ProfileButtonCard(
+          text: AppLocalizations.current.logout,
+          textColor: Theme.of(context).appColors.red,
+          onTap: _openLogoutDialog,
+        ),
+      ],
+    );
+  }
+
   Future<void> _pickImage() async {
     final toolbarColor = Theme.of(context).appColors.primary;
     final toolbarWidgetColor = Theme.of(context).appColors.white100;
@@ -223,13 +232,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       AppLocalizations.current.update,
       AppLocalizations.current.cancel,
       () {
-        if (_formKey.currentState?.validate() ?? false) {
+        if (_editDataFormKey.currentState?.validate() ?? false) {
           Navigator.of(context).pop();
         }
       },
       () => Navigator.of(context).pop(),
       Form(
-        key: _formKey,
+        key: _editDataFormKey,
         autovalidateMode: AutovalidateMode.always,
         child: Column(
           children: [
@@ -270,5 +279,75 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  void _openChangePasswordDialog() {
+    context.alertDialog(
+      AppLocalizations.current.changePassword,
+      AppLocalizations.current.update,
+      AppLocalizations.current.cancel,
+      () {
+        if (_changePasswordFormKey.currentState?.validate() ?? false) {
+          Navigator.of(context).pop();
+        }
+      },
+      () => Navigator.of(context).pop(),
+      Form(
+        key: _changePasswordFormKey,
+        child: Column(
+          children: [
+            CustomTextField(
+              labelText: AppLocalizations.current.addOldPassword,
+              controller: _oldpassController,
+              validator: Validators.passwordValidator,
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labelText: AppLocalizations.current.addNewPassword,
+              controller: _newpassController,
+              validator: Validators.passwordValidator,
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              labelText: AppLocalizations.current.confirmNewPassword,
+              controller: _cnewpassController,
+              validator: (vlaue) => Validators.confirmPasswordValidator(
+                  vlaue, _newpassController.text),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _openLogoutDialog() {
+    context.alertDialog(
+        AppLocalizations.current.logout,
+        AppLocalizations.current.cancel,
+        AppLocalizations.current.logout,
+        () => Navigator.of(context).pop(), () {
+      Navigator.of(context).pop();
+    },
+        Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 8),
+              SvgPicture.asset(
+                Assets.logoutPlaceholder,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                AppLocalizations.current.logoutMessage,
+                style: Theme.of(context).appTexts.bodyMedium.copyWith(
+                      color: Theme.of(context).appColors.black87,
+                    ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ));
   }
 }
