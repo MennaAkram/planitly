@@ -75,7 +75,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: BlocBuilder<ProfileCubit, BaseState>(
           bloc: _cubit,
           builder: (context, state) {
-            if (state is LoadingState && !_cubit.isImageUploading) {
+            if (state is LoadingState &&
+                !_cubit.isImageUploading &&
+                !_cubit.iseditingProfile) {
               return const Center(child: CircularProgressIndicator());
             }
             return SingleChildScrollView(
@@ -183,30 +185,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Padding _buildContactInfo() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Column(
-        children: [
-          ContactItem(
-            iconPath: Assets.phone,
-            title: AppLocalizations.current.phoneNumber,
-            value:
-                '${_cubit.profileDataEntity.countryCode} ${_cubit.profileDataEntity.phoneNumber}',
-          ),
-          SizedBox(height: 20),
-          ContactItem(
-            iconPath: Assets.email,
-            title: AppLocalizations.current.email,
-            value: _cubit.profileDataEntity.email,
-          ),
-          SizedBox(height: 20),
-          ContactItem(
-            iconPath: Assets.birthday,
-            title: AppLocalizations.current.birthdayDate,
-            value: DateFormat('dd/MM/yyyy').format(
-              _cubit.profileDataEntity.burthdayDate,
-            ),
-          ),
-        ],
+      child: BlocBuilder<ProfileCubit, BaseState>(
+        bloc: _cubit,
+        builder: (context, state) {
+          if (state is LoadingState && _cubit.iseditingProfile) {
+            return Container(
+                margin: const EdgeInsets.symmetric(vertical: 30),
+                child: const Center(child: CircularProgressIndicator()));
+          }
+          return _buildContactItems();
+        },
       ),
+    );
+  }
+
+  Column _buildContactItems() {
+    return Column(
+      children: [
+        ContactItem(
+          iconPath: Assets.phone,
+          title: AppLocalizations.current.phoneNumber,
+          value:
+              '${_cubit.profileDataEntity.countryCode} ${_cubit.profileDataEntity.phoneNumber}',
+        ),
+        SizedBox(height: 20),
+        ContactItem(
+          iconPath: Assets.email,
+          title: AppLocalizations.current.email,
+          value: _cubit.profileDataEntity.email,
+        ),
+        SizedBox(height: 20),
+        ContactItem(
+          iconPath: Assets.birthday,
+          title: AppLocalizations.current.birthdayDate,
+          value: DateFormat('dd/MM/yyyy').format(
+            _cubit.profileDataEntity.burthdayDate,
+          ),
+        ),
+      ],
     );
   }
 
@@ -258,7 +274,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
 
       if (croppedFile != null) {
-        _cubit.isImageUploading = true;
         _cubit.profileImage = File(croppedFile.path);
         await _cubit.uploadProfileImage();
       }
@@ -279,6 +294,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
       AppLocalizations.current.cancel,
       () {
         if (_editDataFormKey.currentState?.validate() ?? false) {
+          if (_cubit.profileDataEntity.firstName != _fristNameController.text ||
+              _cubit.profileDataEntity.lastName != _lastNameController.text ||
+              _cubit.profileDataEntity.phoneNumber !=
+                  _phoneNumberController.text ||
+              DateFormat('dd/MM/yyyy').format(
+                    _cubit.profileDataEntity.burthdayDate,
+                  ) !=
+                  _birthdayDateController.text) {
+            _cubit.editProfileData(
+              firstName: _fristNameController.text,
+              lastName: _lastNameController.text,
+              countryCode: _cubit.profileDataEntity.countryCode,
+              phoneNumber: _phoneNumberController.text,
+              birthdayDate:
+                  DateFormat('dd/MM/yyyy').parse(_birthdayDateController.text),
+            );
+          }
           Navigator.of(context).pop();
         }
       },

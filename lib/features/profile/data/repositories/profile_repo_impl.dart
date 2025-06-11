@@ -36,4 +36,26 @@ class ProfileRepositoryImpl extends BaseRepository
       (response) => response['image_url'] as String,
     );
   }
+
+  @override
+  Future<Either<NetworkException, bool>> editProfileData({
+    required String firstName,
+    required String lastName,
+    required String countryCode,
+    required String phoneNumber,
+    required DateTime birthdayDate,
+  }) async {
+    return await tryToExecute(
+      () => dio.put(EndPoints.profile, data: {
+        'firstname': firstName,
+        'lastname': lastName,
+        'phone_number': {
+          'country_code': countryCode,
+          'number': phoneNumber,
+        },
+        'birthday': birthdayDate.toIso8601String(),
+      }),
+      (response) => true,
+    );
+  }
 }

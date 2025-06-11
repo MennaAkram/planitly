@@ -8,4 +8,12 @@ abstract class ProfileRepository {
 
   Future<Either<NetworkException, String>> uploadProfileImage(
       {required File image});
+
+  Future<Either<NetworkException, bool>> editProfileData({
+    required String firstName,
+    required String lastName,
+    required String countryCode,
+    required String phoneNumber,
+    required DateTime birthdayDate,
+  });
 }
