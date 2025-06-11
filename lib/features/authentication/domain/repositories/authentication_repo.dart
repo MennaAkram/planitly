@@ -11,6 +11,7 @@ abstract class AuthenticationRepository {
   Future<Either<NetworkException, bool>> register(
       {required String firstName,
       required String lastName,
+      required String countryCode,
       required String phoneNumber,
       required String birthdayDate,
       required String username,

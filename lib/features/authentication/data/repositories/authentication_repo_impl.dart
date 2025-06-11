@@ -9,7 +9,8 @@ import '../../../../../shared/local_storage_manager.dart';
 import '../../domain/entity/fcm_token_entity.dart';
 import '../remote/fcm_token_dto.dart';
 
-class AuthenticationRepositoryImpl extends BaseRepository implements AuthenticationRepository {
+class AuthenticationRepositoryImpl extends BaseRepository
+    implements AuthenticationRepository {
   final LocalStorageManager _storageManager;
 
   AuthenticationRepositoryImpl(super.dio, this._storageManager);
@@ -30,7 +31,8 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
       (response) {
         final token = TokenDto().fromJson(response).toEntity();
         _storageManager.saveLoginToken(token);
-        _storageManager.saveFinanceId(response['defualt_subjects']["financial_tracker"]);
+        _storageManager
+            .saveFinanceId(response['defualt_subjects']["financial_tracker"]);
         return token;
       },
     );
@@ -40,6 +42,7 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
   Future<Either<NetworkException, bool>> register({
     required String firstName,
     required String lastName,
+    required String countryCode,
     required String phoneNumber,
     required String birthdayDate,
     required String username,
@@ -52,7 +55,10 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
         data: {
           "firstName": firstName,
           "lastName": lastName,
-          "phoneNumber": phoneNumber,
+          "phoneNumber": {
+            "country_code": countryCode,
+            "number": phoneNumber,
+          },
           "birthday": birthdayDate,
           "username": username,
           "email": email,
@@ -61,13 +67,13 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
       ),
       (response) {
         return true;
-      } ,
+      },
     );
   }
 
   @override
-  Future<Either<NetworkException, TokenEntity>> refreshToken(String refreshToken) async {
-
+  Future<Either<NetworkException, TokenEntity>> refreshToken(
+      String refreshToken) async {
     final result = await tryToExecute<TokenEntity>(
       () => dio.post(EndPoints.refreshToken, data: {
         "refreshToken": refreshToken,
@@ -84,7 +90,8 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
   }
 
   @override
-  Future<Either<NetworkException, bool>> verifyEmail({required String email}) async {
+  Future<Either<NetworkException, bool>> verifyEmail(
+      {required String email}) async {
     return await tryToExecute(
       () => dio.post(
         EndPoints.forgotPassword,
@@ -99,15 +106,16 @@ class AuthenticationRepositoryImpl extends BaseRepository implements Authenticat
   }
 
   @override
-  Future<Either<NetworkException, FcmTokenEntity>> sendFcmToken({required String fcmToken}) {
+  Future<Either<NetworkException, FcmTokenEntity>> sendFcmToken(
+      {required String fcmToken}) {
     return tryToExecute(
-          () => dio.post(
+      () => dio.post(
         EndPoints.fcmToken,
         data: {
           "fcm_token": fcmToken,
         },
       ),
-          (response) {
+      (response) {
         final fcmTokenEntity = FcmTokenDto().fromJson(response).toEntity();
         return fcmTokenEntity;
       },
