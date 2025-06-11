@@ -41,12 +41,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final GlobalKey<FormState> _editDataFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _changePasswordFormKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
-  String fristname = 'Menna';
-  String lastname = 'Akram';
-  String username = "mennaakram12";
-  String phonenumber = '01244539870';
-  String email = 'menna@gmail.com';
-  String BirthdayDate = '1/1/1976';
 
   @override
   void initState() {
@@ -271,10 +265,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _openEditDialog() {
-    _fristNameController.text = fristname;
-    _lastNameController.text = lastname;
-    _phoneNumberController.text = phonenumber;
-    _birthdayDateController.text = BirthdayDate;
+    _fristNameController.text = _cubit.profileDataEntity.firstName;
+    _lastNameController.text = _cubit.profileDataEntity.lastName;
+    _phoneNumberController.text = _cubit.profileDataEntity.phoneNumber;
+    _birthdayDateController.text = DateFormat('dd/MM/yyyy').format(
+      _cubit.profileDataEntity.burthdayDate,
+    );
 
     context.alertDialog(
       AppLocalizations.current.editInfo,
