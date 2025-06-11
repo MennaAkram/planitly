@@ -188,7 +188,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ContactItem(
             iconPath: Assets.phone,
             title: AppLocalizations.current.phoneNumber,
-            value: _cubit.profileDataEntity.phoneNumber,
+            value:
+                '${_cubit.profileDataEntity.countryCode} ${_cubit.profileDataEntity.phoneNumber}',
           ),
           SizedBox(height: 20),
           ContactItem(

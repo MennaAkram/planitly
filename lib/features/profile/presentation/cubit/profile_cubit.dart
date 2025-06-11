@@ -18,6 +18,7 @@ class ProfileCubit extends BaseCubit {
     lastName: '',
     username: '',
     email: '',
+    countryCode: '+20',
     phoneNumber: '',
     burthdayDate: DateTime.now(),
   );

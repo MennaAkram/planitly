@@ -6,6 +6,7 @@ class ProfileDataDto extends BaseMapper<ProfileDataDto> {
   String? firstName;
   String? lastName;
   String? username;
+  String? countryCode;
   String? phoneNumber;
   String? email;
   DateTime? birthdayDate;
@@ -15,6 +16,7 @@ class ProfileDataDto extends BaseMapper<ProfileDataDto> {
     this.firstName,
     this.lastName,
     this.username,
+    this.countryCode,
     this.phoneNumber,
     this.email,
     this.birthdayDate,
@@ -27,7 +29,8 @@ class ProfileDataDto extends BaseMapper<ProfileDataDto> {
       firstName: json['firstname'] as String?,
       lastName: json['lastname'] as String?,
       username: json['username'] as String?,
-      phoneNumber: json['phone_number'] as String?,
+      countryCode: json['phone_number']['country_code'] as String?,
+      phoneNumber: json['phone_number']['number'] as String?,
       email: json['email'] as String?,
       birthdayDate:
           json['birthday'] != null ? DateTime.parse(json['birthday']) : null,
@@ -41,6 +44,7 @@ class ProfileDataDto extends BaseMapper<ProfileDataDto> {
       'firstname': object.firstName,
       'lastname': object.lastName,
       'username': object.username,
+      'country_code': object.countryCode,
       'phone_number': object.phoneNumber,
       'email': object.email,
       'birthday': object.birthdayDate?.toIso8601String(),
@@ -53,6 +57,7 @@ class ProfileDataDto extends BaseMapper<ProfileDataDto> {
       firstName: firstName ?? '',
       lastName: lastName ?? '',
       username: username ?? '',
+      countryCode: countryCode ?? '',
       phoneNumber: phoneNumber ?? '',
       email: email ?? '',
       burthdayDate: birthdayDate ?? DateTime.now(),
