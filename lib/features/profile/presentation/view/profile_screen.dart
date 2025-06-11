@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/authentication/presentation/login/presentation/view/login_screen.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/widgets/date_text_field.dart';
 import 'package:planitly/features/authentication/presentation/register/presentation/widgets/phone_text_field.dart';
 import 'package:planitly/features/my_pages/presentation/view/my_pages_screen.dart';
@@ -70,6 +71,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         listener: (context, state) {
           if (state is ErrorState && state.msg != "Token has expired") {
             context.showCustomSnackBar(state.msg!);
+          } else if (state is DoneState) {
+            if (_cubit.isLoggingOut) {
+              NavigatorHelper.pushReplacement(LoginScreen());
+            } else if (_cubit.isPasswordChanged) {
+              context.showCustomSnackBar(
+                  AppLocalizations.current.passwordChangedSuccessfully);
+              _cubit.isPasswordChanged = false;
+            }
           }
         },
         child: BlocBuilder<ProfileCubit, BaseState>(
@@ -366,6 +375,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       AppLocalizations.current.cancel,
       () {
         if (_changePasswordFormKey.currentState?.validate() ?? false) {
+          _cubit.changePassword(
+            oldPassword: _oldpassController.text,
+            newPassword: _newpassController.text,
+          );
           Navigator.of(context).pop();
         }
       },
@@ -377,18 +390,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             CustomTextField(
               labelText: AppLocalizations.current.addOldPassword,
               controller: _oldpassController,
+              isPassword: true,
               validator: Validators.passwordValidator,
             ),
             const SizedBox(height: 16),
             CustomTextField(
               labelText: AppLocalizations.current.addNewPassword,
               controller: _newpassController,
+              isPassword: true,
               validator: Validators.passwordValidator,
             ),
             const SizedBox(height: 16),
             CustomTextField(
               labelText: AppLocalizations.current.confirmNewPassword,
               controller: _cnewpassController,
+              isPassword: true,
               validator: (vlaue) => Validators.confirmPasswordValidator(
                   vlaue, _newpassController.text),
             ),
@@ -403,8 +419,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         AppLocalizations.current.logout,
         AppLocalizations.current.cancel,
         AppLocalizations.current.logout,
-        () => Navigator.of(context).pop(), () {
-      Navigator.of(context).pop();
+        () => NavigatorHelper.pop(), () {
+      _cubit.logout();
+      NavigatorHelper.pop();
     },
         Center(
           child: Column(

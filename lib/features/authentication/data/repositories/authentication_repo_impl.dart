@@ -123,7 +123,13 @@ class AuthenticationRepositoryImpl extends BaseRepository
   }
 
   @override
-  void logout() {
-    _storageManager.clearLoginToken();
+  Future<Either<NetworkException, bool>> logout() {
+    return tryToExecute(
+      () => dio.post(EndPoints.logout),
+      (response) {
+        _storageManager.clearAll();
+        return true;
+      },
+    );
   }
 }

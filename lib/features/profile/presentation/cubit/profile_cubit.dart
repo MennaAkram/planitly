@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:planitly/app/di.dart';
+import 'package:planitly/features/authentication/domain/repositories/authentication_repo.dart';
 import 'package:planitly/features/profile/domain/entity/Profile_data_entity.dart';
 import 'package:planitly/features/profile/domain/repositories/profile_repo.dart';
 import 'package:planitly/shared/bases/base_cubit.dart';
@@ -9,6 +11,8 @@ import 'package:planitly/shared/networking/failures.dart';
 
 class ProfileCubit extends BaseCubit {
   final ProfileRepository _profileRepo;
+  final AuthenticationRepository _authenticationRepo =
+      getIt.get<AuthenticationRepository>();
 
   ProfileCubit(this._profileRepo) : super(const InitState());
 
@@ -26,6 +30,8 @@ class ProfileCubit extends BaseCubit {
   File? profileImage;
   bool isImageUploading = false;
   bool iseditingProfile = false;
+  bool isLoggingOut = false;
+  bool isPasswordChanged = false;
 
   Future<void> getProfileData() async {
     emit(const LoadingState());
@@ -90,5 +96,35 @@ class ProfileCubit extends BaseCubit {
     });
 
     iseditingProfile = false;
+  }
+
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    if (oldPassword == newPassword) return;
+    emit(const LoadingState());
+    Either<NetworkException, bool> result = await _profileRepo.changePassword(
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    );
+    result.fold((NetworkException exception) {
+      handleException(exception);
+    }, (success) {
+      isPasswordChanged = true;
+      emit(const DoneState());
+    });
+  }
+
+  Future<void> logout() async {
+    emit(const LoadingState());
+
+    Either<NetworkException, bool> result = await _authenticationRepo.logout();
+    result.fold((NetworkException exception) {
+      handleException(exception);
+    }, (success) {
+      isLoggingOut = true;
+      emit(const DoneState());
+    });
   }
 }

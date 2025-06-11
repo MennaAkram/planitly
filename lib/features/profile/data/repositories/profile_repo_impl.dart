@@ -58,4 +58,18 @@ class ProfileRepositoryImpl extends BaseRepository
       (response) => true,
     );
   }
+
+  @override
+  Future<Either<NetworkException, bool>> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    return await tryToExecute(
+      () => dio.put(EndPoints.changePassword, data: {
+        'oldPassword': oldPassword,
+        'newPassword': newPassword,
+      }),
+      (response) => true,
+    );
+  }
 }

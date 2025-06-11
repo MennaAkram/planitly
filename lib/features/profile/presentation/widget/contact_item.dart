@@ -40,12 +40,17 @@ class ContactItem extends StatelessWidget {
         Container(
           alignment: Alignment.centerRight,
           padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            value,
-            style: Theme.of(context)
-                .appTexts
-                .bodySmall
-                .copyWith(color: Theme.of(context).appColors.black60),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 250),
+            child: Text(
+              value,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: Theme.of(context)
+                  .appTexts
+                  .bodySmall
+                  .copyWith(color: Theme.of(context).appColors.black60),
+            ),
           ),
         )
       ],

@@ -34,6 +34,7 @@
   "addOldPassword": "Add old password",
   "addNewPassword": "Add new password",
   "confirmNewPassword": "Confirm new password",
+  "passwordChangedSuccessfully": "Password changed successfully",
   "settings": "Settings",
   "logout": "Logout",
   "logoutMessage": "Are you sure, you want to logout?",

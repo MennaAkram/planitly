@@ -16,4 +16,9 @@ abstract class ProfileRepository {
     required String phoneNumber,
     required DateTime birthdayDate,
   });
+
+  Future<Either<NetworkException, bool>> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  });
 }
