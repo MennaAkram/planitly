@@ -28,12 +28,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           const SizedBox(
             width: 5,
           ),
-          Text(
-            title,
-            style: Theme.of(context).appTexts.titleSmall.copyWith(
-                  color: Theme.of(context).appColors.black87,
-                  decoration: TextDecoration.none,
-                ),
+          Expanded(
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).appTexts.titleSmall.copyWith(
+                    color: Theme.of(context).appColors.black87,
+                    decoration: TextDecoration.none,
+                  ),
+            ),
           ),
         ]),
       ),
