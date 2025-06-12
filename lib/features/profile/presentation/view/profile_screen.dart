@@ -260,33 +260,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _pickImage() async {
-    final toolbarColor = Theme.of(context).appColors.primary;
-    final toolbarWidgetColor = Theme.of(context).appColors.white100;
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      final croppedFile = await ImageCropper().cropImage(
-        sourcePath: image.path,
-        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-        uiSettings: [
-          AndroidUiSettings(
-            toolbarTitle: 'Crop Image',
-            toolbarColor: toolbarColor,
-            toolbarWidgetColor: toolbarWidgetColor,
-            initAspectRatio: CropAspectRatioPreset.square,
-            lockAspectRatio: true,
-          ),
-          IOSUiSettings(
-            title: 'Crop Image',
-          ),
-        ],
-      );
-
-      if (croppedFile != null) {
-        _cubit.profileImage = File(croppedFile.path);
-        await _cubit.uploadProfileImage();
-      }
-    }
+    _cubit.profileImage = File(image!.path);
+    await _cubit.uploadProfileImage();
   }
 
   void _openEditDialog() {
