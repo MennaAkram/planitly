@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:planitly/app/di.dart';
@@ -114,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Divider _line(double indent) {
+  Widget _line(double indent) {
     return Divider(
       height: 0.5,
       color: Theme.of(context).appColors.black16,
@@ -131,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Column _buildProfileHeader() {
+  Widget _buildProfileHeader() {
     return Column(
       children: [
         BlocBuilder<ProfileCubit, BaseState>(
@@ -168,7 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  InkWell _buildProfileImage() {
+  Widget _buildProfileImage() {
     return InkWell(
       borderRadius: BorderRadius.circular(60),
       onTap: _pickImage,
@@ -191,7 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Padding _buildContactInfo() {
+  Widget _buildContactInfo() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: BlocBuilder<ProfileCubit, BaseState>(
@@ -208,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Column _buildContactItems() {
+  Widget _buildContactItems() {
     return Column(
       children: [
         ContactItem(
@@ -235,12 +234,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Column _buildActionButtons() {
+  Widget _buildActionButtons() {
     return Column(
       children: [
         ProfileButtonCard(
           text: AppLocalizations.current.myPages,
-          onTap: () => NavigatorHelper.push(MyPagesScreen()),
+          onTap: () => NavigatorHelper.push(const MyPagesScreen()),
         ),
         ProfileButtonCard(
           text: AppLocalizations.current.changePassword,
