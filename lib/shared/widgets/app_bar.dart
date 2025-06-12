@@ -24,8 +24,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return Container(
+      margin: const EdgeInsets.only(top: 24.0, left: 8.0, right: 8.0),
       child: Row(children: [
         InkWell(
           borderRadius: BorderRadius.circular(32),
