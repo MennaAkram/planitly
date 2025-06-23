@@ -88,7 +88,29 @@ class _FinanceScreenState extends State<FinanceScreen> {
         },
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context).totalAmount,
+                      style: Theme.of(context).appTexts.titleSmall.copyWith(
+                        color: Theme.of(context).appColors.black60,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      _cubit.totalAmount.toStringAsFixed(2),
+                      style: Theme.of(context).appTexts.titleSmall.copyWith(
+                        color: Theme.of(context).appColors.black87,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               BlocBuilder<FinanceCubit, BaseState>(
                 bloc: _cubit,
                 builder: (context, state) {
