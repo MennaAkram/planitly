@@ -16,4 +16,7 @@ class EndPoints {
   static String data_transfer = 'datatransfers/';
 
   static String pages = 'subjects/';
+
+  static String chat = 'chat/';
+  static String getUserMessages = 'chat/messages';
 }

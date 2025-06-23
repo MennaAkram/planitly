@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:planitly/features/Chatbot/domain/repositories/chatbot_repo.dart';
 import 'package:planitly/features/authentication/data/repositories/authentication_repo_impl.dart';
 import 'package:planitly/features/authentication/domain/repositories/authentication_repo.dart';
 import 'package:planitly/features/authentication/presentation/forget_password/presentation/cubit/forget_password_cubit.dart';
@@ -20,6 +21,8 @@ import 'package:planitly/shared/local_storage_manager.dart';
 import 'package:planitly/shared/networking/app_dio.dart';
 import 'package:planitly/shared/networking/app_interceptor.dart';
 
+import '../features/Chatbot/data/repositories/chatbot_repo_impl.dart';
+import '../features/Chatbot/presentation/cubit/chatbot_cubit.dart';
 import '../shared/navigator_helper.dart';
 import '../shared/notification_service.dart';
 
@@ -73,6 +76,12 @@ void setupServiceLocator() {
     ),
   );
 
+  getIt.registerSingleton<ChatbotRepository>(
+    ChatbotRepositoryImpl(
+      getIt<Dio>(instanceName: planitlyService),
+    ),
+  );
+
   // CUBITS
   getIt.registerFactory<LoginCubit>(() => LoginCubit(
         getIt<AuthenticationRepository>(),
@@ -96,5 +105,9 @@ void setupServiceLocator() {
 
   getIt.registerFactory<PagesCubit>(() => PagesCubit(
         getIt<PagesRepository>(),
+      ));
+
+  getIt.registerFactory<ChatbotCubit>(() => ChatbotCubit(
+        getIt<ChatbotRepository>(),
       ));
 }

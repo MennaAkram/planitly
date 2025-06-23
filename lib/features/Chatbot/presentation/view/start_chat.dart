@@ -1,42 +1,18 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/Chatbot/presentation/widgets/appbar.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/widgets/button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../shared/navigator_helper.dart';
-import 'chatbot.dart';
 
+class StartChat extends StatelessWidget {
+  final VoidCallback onStartChat;
 
-class StartChat extends StatefulWidget {
-  const StartChat({super.key});
-
-  @override
-  State<StartChat> createState() => _StartChatState();
-}
-
-class _StartChatState extends State<StartChat> {
+  const StartChat({super.key, required this.onStartChat});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Wrap(children: [
-            Container(
-              height: 24,
-              width: 24,
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(image: AssetImage(Assets.chatbot))),
-            ),
-            Text(
-              "ChatBot",
-              style: Theme.of(context).appTexts.bodyLarge,
-            ),
-          ]),
-        ),
+        appBar: Appbar(),
         body: Stack(
           children: [
             Container(
@@ -60,9 +36,7 @@ class _StartChatState extends State<StartChat> {
                       margin: EdgeInsets.symmetric(horizontal: 48),
                       child: CustomButton(
                         text: "Start Chat",
-                        onPressed: () {
-                           NavigatorHelper.pushReplacement(const Chatbot());
-                        },
+                        onPressed: onStartChat,
                         outlined: false,
                         
                       ),
