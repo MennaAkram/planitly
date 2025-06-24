@@ -35,4 +35,6 @@ class Assets {
   static const String notificationCircularOutline = 'assets/icons/notification.svg';
   static const String icon = 'assets/icons/icon.svg';
   static const String check = 'assets/icons/check_24px.svg';
+  static const String chevronDown = 'assets/icons/chevron-down.svg';
+  static const String cancel = 'assets/icons/cancel.svg';
 }
