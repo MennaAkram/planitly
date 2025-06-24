@@ -28,6 +28,8 @@ class ChatTextField extends StatelessWidget {
                 child: TextFormField(
                   minLines: 1,
                   controller: massageController,
+                  style: Theme.of(context).appTexts.bodyMedium.copyWith(
+                      color: Theme.of(context).appColors.black87),
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Theme.of(context).appColors.white100,
