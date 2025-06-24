@@ -17,7 +17,8 @@ class Assets {
   static const String homePlaceholder = 'assets/images/home_placeholder.svg';
   static const String chatMassage = 'assets/images/chatmassage.svg';
   static const String logo = 'assets/images/lpgo.svg';
-  static const String chatbot = 'assets/images/chat bot 1.svg';
+  static const String sendicon = 'assets/icons/sendicon.svg';
+  static const String chatbot = 'assets/images/chat bot 1.png';  
   static const String background = 'assets/images/Group 7.svg';
   static const String iconCalender = 'assets/icons/ic_calendar.svg';
   static const String iconAdd = 'assets/icons/ic_add.svg';
@@ -38,4 +39,6 @@ class Assets {
   static const String edit = 'assets/icons/pen-Regular.svg';
   static const String phone = 'assets/icons/phone-Regular.svg';
   static const String birthday = 'assets/icons/calendar-Regular.svg';
+  static const String chevronDown = 'assets/icons/chevron-down.svg';
+  static const String cancel = 'assets/icons/cancel.svg';
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
-import 'package:planitly/features/my_pages/presentation/cubit/pages_cubit.dart';
+import 'package:planitly/features/categories/domain/entity/category_entity.dart';
+import 'package:planitly/features/category/presentation/cubit/category_cubit.dart';
 import 'package:planitly/features/my_pages/presentation/widgets/custom_card.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
@@ -15,25 +16,27 @@ import 'package:planitly/shared/widgets/extensions.dart';
 import 'package:planitly/shared/widgets/fab_button.dart';
 import 'package:planitly/shared/widgets/text_field.dart';
 
-class MyPagesScreen extends StatefulWidget {
-  const MyPagesScreen({super.key});
+class CategoryScreen extends StatefulWidget {
+  final CategoryEntity category;
+
+  const CategoryScreen({super.key, required this.category});
 
   @override
-  State<MyPagesScreen> createState() => _MyPagesScreenState();
+  State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
-class _MyPagesScreenState extends State<MyPagesScreen> {
-  final PagesCubit _cubit = getIt.get<PagesCubit>();
+class _CategoryScreenState extends State<CategoryScreen> {
+  final CategoryCubit _cubit = getIt.get<CategoryCubit>();
   final ScrollController _scrollController = ScrollController();
-  final nameController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool _shouldScrollOnAdd = false;
 
   @override
   void initState() {
-    super.initState();
-    _cubit.getPages(initial: true);
+    _cubit.getCategoryInfo(categoryName: widget.category.name, initial: true);
     _scrollController.addListener(_onScroll);
+    super.initState();
   }
 
   @override
@@ -49,42 +52,20 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
     if (_scrollController.position.pixels >= threshold &&
         !_cubit.isLoading &&
         _cubit.hasMore) {
-      _cubit.getPages();
+      _cubit.getCategoryInfo();
     }
-  }
-
-  void _showError(String message) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            message,
-            style: Theme.of(context)
-                .appTexts
-                .bodySmall
-                .copyWith(color: Theme.of(context).appColors.red),
-          ),
-          backgroundColor: Theme.of(context).appColors.white100,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          margin: const EdgeInsets.all(24),
-        ),
-      );
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).appColors.background,
-      appBar: CustomAppBar(title: AppLocalizations.current.myPages),
-      body: BlocListener<PagesCubit, BaseState>(
+      appBar: CustomAppBar(title: widget.category.name),
+      body: BlocListener<CategoryCubit, BaseState>(
         bloc: _cubit,
         listener: (context, state) {
           if (state is ErrorState && state.msg != "Token has expired") {
-            _showError(state.msg!);
+            context.showCustomSnackBar(state.msg!);
           } else if (state is DoneState && _shouldScrollOnAdd) {
             _shouldScrollOnAdd = false;
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -96,7 +77,7 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
             });
           }
         },
-        child: BlocBuilder<PagesCubit, BaseState>(
+        child: BlocBuilder<CategoryCubit, BaseState>(
           bloc: _cubit,
           builder: (context, state) {
             if (_cubit.pages.isEmpty && (_cubit.isLoading || _cubit.isAdding)) {
@@ -181,9 +162,9 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
       () {
         if (formKey.currentState?.validate() ?? false) {
           _shouldScrollOnAdd = true;
-          _cubit.addPage(name: nameController.text);
-          nameController.clear();
+          _cubit.addPageToCategory(pageName: nameController.text.trim());
           NavigatorHelper.pop();
+          nameController.clear();
         }
       },
       () => Navigator.of(context).pop(),

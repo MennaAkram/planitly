@@ -34,7 +34,6 @@ class _CustomDialogState extends State<CustomDialog> {
           DropDownList(
               hintText: _selectedValues[key] ?? hintText,
               menuItems: menuItems,
-              offset: offset,
               onItemSelected: (value) {
                 setState(() {
                   _selectedValues[key] = value;
