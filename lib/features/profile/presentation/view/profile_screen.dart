@@ -354,6 +354,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             oldPassword: _oldpassController.text,
             newPassword: _newpassController.text,
           );
+          _oldpassController.clear();
+          _newpassController.clear();
+          _cnewpassController.clear();
           Navigator.of(context).pop();
         }
       },
