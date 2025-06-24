@@ -25,6 +25,9 @@ import 'package:planitly/features/my_pages/presentation/cubit/pages_cubit.dart';
 import 'package:planitly/features/notifications/data/repositories/notifications_repo_impl.dart';
 import 'package:planitly/features/notifications/domain/repositories/notifications_repo.dart';
 import 'package:planitly/features/notifications/presentation/cubit/notifications_cubit.dart';
+import 'package:planitly/features/profile/data/repositories/profile_repo_impl.dart';
+import 'package:planitly/features/profile/domain/repositories/profile_repo.dart';
+import 'package:planitly/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:planitly/shared/emails_service.dart';
 import 'package:planitly/shared/local_storage_manager.dart';
 import 'package:planitly/shared/networking/app_dio.dart';
@@ -86,6 +89,12 @@ Future<void> setupServiceLocator() async {
     ),
   );
 
+  getIt.registerSingleton<ProfileRepository>(
+    ProfileRepositoryImpl(
+      getIt<Dio>(instanceName: planitlyService),
+    ),
+  );
+  
     getIt.registerSingleton<EmailsRepository>(
       EmailsRepositoryImpl(
         getIt<Dio>(instanceName: planitlyService),
@@ -137,6 +146,9 @@ Future<void> setupServiceLocator() async {
         getIt<PagesRepository>(),
       ));
 
+  getIt.registerFactory<ProfileCubit>(() => ProfileCubit(
+        getIt<ProfileRepository>(),
+      ));
 
   getIt.registerFactory<EmailsCubit>(() => EmailsCubit(
       getIt<EmailsRepository>(),

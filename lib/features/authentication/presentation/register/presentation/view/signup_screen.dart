@@ -287,9 +287,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               _cubit.register(
                                 firstName: firstNameController.text,
                                 lastName: lastNameController.text,
-                                phoneNumber:
-                                    '$_countryCode${phoneController.text}',
-                                birthdayDate: (DateFormat("d/M/y")
+                                countryCode: _countryCode,
+                                phoneNumber: phoneController.text,
+                                birthdayDate: (DateFormat("dd/MM/yyyy")
                                         .parse(birthdateController.text))
                                     .toIso8601String(),
                                 username: usernameController.text,

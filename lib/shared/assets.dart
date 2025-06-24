@@ -1,5 +1,4 @@
 class Assets {
-
   // Images
   static const String calendar = 'assets/images/calendar.png';
   static const String finance = 'assets/images/finance.png';
@@ -11,6 +10,8 @@ class Assets {
   static const String resendEmailPlaceholder = 'assets/images/undraw_emails_085h 1.svg';
   static const String notificationPlaceholder = 'assets/images/notifications_placeholder.svg';
   static const String myPagesPlaceholder = 'assets/images/my_pages_placeholder.svg';
+  static const String logoutPlaceholder = 'assets/images/logout_placeholder.svg';
+  static const String profile = 'assets/images/Frame 2.png';
 
   // Icons
   static const String homePlaceholder = 'assets/images/home_placeholder.svg';
@@ -35,6 +36,9 @@ class Assets {
   static const String notificationCircularOutline = 'assets/icons/notification.svg';
   static const String icon = 'assets/icons/icon.svg';
   static const String check = 'assets/icons/check_24px.svg';
+  static const String edit = 'assets/icons/pen-Regular.svg';
+  static const String phone = 'assets/icons/phone-Regular.svg';
+  static const String birthday = 'assets/icons/calendar-Regular.svg';
   static const String chevronDown = 'assets/icons/chevron-down.svg';
   static const String cancel = 'assets/icons/cancel.svg';
 }
