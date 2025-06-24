@@ -39,7 +39,12 @@ class ChatbotCubit extends BaseCubit {
       },
           (response) {
         _lastFailedMessage = null;
-        _conversationTurns[0]['bot'] = response.message!;
+        if (response.message != null) {
+          final updatedTurn = Map<String, String>.from(_conversationTurns[0]);
+          updatedTurn['bot'] = response.message!;
+          _conversationTurns[0] = updatedTurn;
+          _conversationTurns = List.from(_conversationTurns); // force rebuild
+        }
         isBotTyping = false;
         emit(DoneState());
       },

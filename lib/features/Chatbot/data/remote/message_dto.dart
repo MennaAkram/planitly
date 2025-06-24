@@ -10,9 +10,8 @@ class MessageDto extends BaseMapper<MessageDto> {
 
   @override
   MessageDto fromJson(Map<String, dynamic> json) {
-    return MessageDto(
-      message: json['message'] as String?
-    );
+    message = json['ai_response'];
+    return this;
   }
 
   @override
