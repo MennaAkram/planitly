@@ -57,7 +57,6 @@ class PagesCubit extends BaseCubit {
 
     result.fold(
       (NetworkException exception) {
-        pages.removeAt(0);
         handleException(exception);
       },
       (PageEntity newPage) {

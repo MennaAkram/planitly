@@ -64,6 +64,17 @@ class Validators {
     return null;
   }
 
+  static String? confirmPasswordValidator(String? value, String? password) {
+    if (value == null || value.trim().isEmpty) {
+      return AppLocalizations.current.cantBeEmpty;
+    }
+
+    if (value != password) {
+      return AppLocalizations.current.passwordsNotMatch;
+    }
+    return null;
+  }
+
   static String? phoneNumberValidator(String? value) {
     if (value == null || value.trim().isEmpty) {
       return AppLocalizations.current.cantBeEmpty;
@@ -78,6 +89,14 @@ class Validators {
   static String? nameValidator(String? value) {
     if (value == null || value.trim().isEmpty) {
       return AppLocalizations.current.cantBeEmpty;
+    }
+
+    if (value.length < 2) {
+      return AppLocalizations.current.atLeast3Characters;
+    }
+
+    if (value.length > 20) {
+      return AppLocalizations.current.lessThan20Characters;
     }
 
     if (!AppRegex.name.hasMatch(value)) {

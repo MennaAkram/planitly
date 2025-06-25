@@ -12,6 +12,7 @@ class RegisterCubit extends BaseCubit {
   register(
       {required String firstName,
       required String lastName,
+      required String countryCode,
       required String phoneNumber,
       required String birthdayDate,
       required String username,
@@ -22,6 +23,7 @@ class RegisterCubit extends BaseCubit {
     Either<NetworkException, void> result = await _authRepo.register(
       firstName: firstName,
       lastName: lastName,
+      countryCode: countryCode,
       phoneNumber: phoneNumber,
       birthdayDate: birthdayDate,
       username: username,

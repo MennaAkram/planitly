@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/my_pages/presentation/cubit/pages_cubit.dart';
-import 'package:planitly/features/my_pages/presentation/widgets/my_pages_card.dart';
+import 'package:planitly/features/my_pages/presentation/widgets/custom_card.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/bases/base_state.dart';
@@ -162,7 +162,7 @@ class _MyPagesScreenState extends State<MyPagesScreen> {
           }
 
           if ((index - addSlot) < _cubit.pages.length) {
-            return MyPagesCard(name: _cubit.pages[index - addSlot].name);
+            return CustomCard(name: _cubit.pages[index - addSlot].name);
           }
 
           return const Center(
