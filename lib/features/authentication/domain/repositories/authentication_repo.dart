@@ -11,6 +11,7 @@ abstract class AuthenticationRepository {
   Future<Either<NetworkException, bool>> register(
       {required String firstName,
       required String lastName,
+      required String countryCode,
       required String phoneNumber,
       required String birthdayDate,
       required String username,
@@ -20,11 +21,10 @@ abstract class AuthenticationRepository {
   Future<Either<NetworkException, TokenEntity>> refreshToken(
       String refreshToken);
 
-  Future<Either<NetworkException, bool>> verifyEmail(
-      {required String email});
-  
+  Future<Either<NetworkException, bool>> verifyEmail({required String email});
+
   Future<Either<NetworkException, FcmTokenEntity>> sendFcmToken(
       {required String fcmToken});
 
-  void logout();
+  Future<Either<NetworkException, bool>> logout();
 }
