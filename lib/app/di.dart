@@ -47,8 +47,8 @@ Future<void> setupServiceLocator() async {
   getIt.registerSingleton<NavigationService>(NavigationService());
   getIt.registerSingleton<FlutterSecureStorage>(const FlutterSecureStorage());
   getIt.registerSingleton<LocalStorageManager>(LocalStorageManager(getIt()));
-  getIt.registerSingleton<NotificationService>(NotificationService());
-  getIt.registerSingleton<FirebaseMessaging>(FirebaseMessaging.instance);
+  // getIt.registerSingleton<NotificationService>(NotificationService());
+  // getIt.registerSingleton<FirebaseMessaging>(FirebaseMessaging.instance);
   getIt.registerSingleton<EmailsService>(EmailsService());
 
   // NETWORK INTERCEPTOR

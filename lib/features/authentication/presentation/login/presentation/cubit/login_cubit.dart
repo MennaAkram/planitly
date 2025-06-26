@@ -13,7 +13,7 @@ class LoginCubit extends BaseCubit{
 
   LoginCubit(this._authRepo) : super(const InitState());
 
-  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  // final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   login({ required String usernameOremail, required String password}) async {
     emit(const LoadingState());
@@ -35,10 +35,10 @@ class LoginCubit extends BaseCubit{
   }
 
   Future<void> sendFcmToken() async {
-   final fcmToken = await _messaging.getToken();
-   if (fcmToken != null) {
-     getIt<AuthenticationRepository>().sendFcmToken(fcmToken: fcmToken);
-   }
+  //  final fcmToken = await _messaging.getToken();
+  //  if (fcmToken != null) {
+  //    getIt<AuthenticationRepository>().sendFcmToken(fcmToken: fcmToken);
+  //  }
   }
 
 }
