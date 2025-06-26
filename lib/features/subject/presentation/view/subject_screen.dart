@@ -10,6 +10,7 @@ import 'package:planitly/features/subject/presentation/widgets/contact_card.dart
 import 'package:planitly/features/subject/presentation/widgets/table_widget.dart';
 import 'package:planitly/features/subject/presentation/widgets/property_widget.dart';
 import 'package:planitly/features/subject/presentation/widgets/upload_photo_button.dart';
+import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 import 'package:planitly/shared/widgets/drop_down_list.dart';
 import 'package:planitly/shared/widgets/extensions.dart';
@@ -80,8 +81,11 @@ class _SubjectScreenState extends State<SubjectScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (selectedProperties.isNotEmpty) _buildPropertiesSection(),
-            if (selectedProperties.isNotEmpty) const SizedBox(height: 16),
+            selectedProperties.isEmpty
+                ? const SizedBox(
+                    height: 16,
+                  )
+                : _buildPropertiesSection(),
             _buildAddPropertyButton(),
             const SizedBox(height: 24),
             Divider(
@@ -434,7 +438,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   Widget _buildAddPropertyButton() {
     return _buildButton(
       context,
-      'Add Property',
+      AppLocalizations.current.addProperty,
       _propertyLayerLink,
       () => _toggleDropdownMenu(
         _propertyLayerLink,
@@ -447,7 +451,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   Widget _buildAddWidgetButton() {
     return _buildButton(
       context,
-      'Add Widget',
+      AppLocalizations.current.addWidget,
       _widgetLayerLink,
       () => _toggleDropdownMenu(
         _widgetLayerLink,

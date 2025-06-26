@@ -58,5 +58,7 @@
   "invalidPhoneNumber": "Invalid phone number",
   "invalidName": "must contain only letters",
   "emailsHint": "Ready to dive into your inbox? Just hit that button and let the email adventure begin!",
-  "signInGoogle": "Sign in with google"
+  "signInGoogle": "Sign in with google",
+  "addProperty": "Add Property",
+  "addWidget": "Add Widget",
 }
