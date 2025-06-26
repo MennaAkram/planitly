@@ -80,11 +80,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            selectedProperties.isEmpty
-                ? const SizedBox(
-                    height: 16,
-                  )
-                : _buildPropertiesSection(),
+            const SizedBox(height: 16),
+            if (selectedProperties.isNotEmpty) _buildPropertiesSection(),
+            if (selectedProperties.isNotEmpty) const SizedBox(height: 16),
             _buildAddPropertyButton(),
             const SizedBox(height: 24),
             Divider(
@@ -331,7 +329,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
       "Confirm",
       "Cancel",
       () {
-        final selected = intListProperties.firstWhereOrNull(
+        intListProperties.firstWhereOrNull(
             (property) => selectedProperty.contains(property.name));
 
         if (selectedProperty.isNotEmpty) {
@@ -375,22 +373,43 @@ class _SubjectScreenState extends State<SubjectScreen> {
               : widgetName == WidgetType.calender.name
                   ? Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
+                      children: [
                         DropDownList(
-                          hintText: 'Select Start Date',
-                          menuItems: [],
-                        ),
+                            hintText: 'Select Start Date',
+                            menuItems: dateProperties
+                                .map((property) => property.format() ?? '')
+                                .toList(),
+                            onItemSelected: (String value) {
+                              setState(() {
+                                selectedProperty.add(value);
+                              });
+                            }),
                         SizedBox(height: 16),
                         DropDownList(
                           hintText: 'Select End Date',
-                          menuItems: [],
+                          menuItems: dateProperties
+                              .map((property) => property.format() ?? '')
+                              .toList(),
+                          onItemSelected: (String value) {
+                            setState(() {
+                              selectedProperty.add(value);
+                            });
+                          },
                         ),
                       ],
                     )
                   : DropDownList(
                       hintText: 'Select Property',
-                      menuItems: [],
-                    ),
+                      menuItems: contactsProperties.isNotEmpty
+                          ? contactsProperties
+                          : intListProperties
+                              .map((property) => property.name)
+                              .toList(),
+                      onItemSelected: (String value) {
+                        setState(() {
+                          selectedProperty.add(value);
+                        });
+                      }),
     );
   }
 
@@ -401,7 +420,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
         Padding(
           padding: const EdgeInsets.only(left: 16),
           child: Text(
-            "Properties",
+            AppLocalizations.current.properties,
             style: Theme.of(context).appTexts.bodySmall.copyWith(
                   color: Theme.of(context).appColors.black60,
                 ),
@@ -530,8 +549,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
               intListProperties.every((item) => item.value is List<num>)) {
             return _buildPieChartWidget(
                 intListProperties.first.value, widgetLink);
-          } else if (dateProperties.isNotEmpty &&
-              dateProperties.every((item) => item is DateTime)) {
+          } else if (dateProperties.isNotEmpty) {
             final startDate = dateProperties.first;
             final endDate = dateProperties.last;
             return _buildCalenderWidget(startDate, endDate, widgetLink);
