@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planitly/design_system/theme.dart';
@@ -128,85 +127,84 @@ class _SubjectScreenState extends State<SubjectScreen> {
     List<String> data,
   ) {
     if (layerLink == _widgetLayerLink) {
-      // if (_widgetOverlayEntry == null) {
-      final newOverlayEntry = DropDownMenu.createOverlayEntry(
-        context,
-        layerLink,
-        data,
-        (String widgetName) {
-          _showPropertySelectionDialog(widgetName);
-          _widgetOverlayEntry?.remove();
-          _widgetOverlayEntry = null;
-        },
-      );
-      Overlay.of(context).insert(newOverlayEntry);
-      _widgetOverlayEntry = newOverlayEntry;
-      // } else {
-      //   _widgetOverlayEntry?.remove();
-      //   _widgetOverlayEntry = null;
-      // }
+      if (_widgetOverlayEntry == null) {
+        final newOverlayEntry = DropDownMenu.createOverlayEntry(
+          context,
+          layerLink,
+          data,
+          (String widgetName) {
+            _showPropertySelectionDialog(widgetName);
+            _widgetOverlayEntry?.remove();
+            _widgetOverlayEntry = null;
+          },
+        );
+        Overlay.of(context).insert(newOverlayEntry);
+        _widgetOverlayEntry = newOverlayEntry;
+      } else {
+        _widgetOverlayEntry?.remove();
+        _widgetOverlayEntry = null;
+      }
     } else if (layerLink == _propertyLayerLink) {
-      // if (_propertyOverlayEntry == null) {
-      final newOverlayEntry = DropDownMenu.createOverlayEntry(
-        context,
-        layerLink,
-        data,
-        (String property) {
-          setState(() {
-            final uniquePropertyName = _generateUniquePropertyName(property);
-            selectedProperties.add(uniquePropertyName);
-          });
-          _propertyOverlayEntry?.remove();
-          _propertyOverlayEntry = null;
-        },
-      );
-      Overlay.of(context).insert(newOverlayEntry);
-      _propertyOverlayEntry = newOverlayEntry;
-      // }
-      // else {
-      //   // _propertyOverlayEntry?.remove();
-      //   _propertyOverlayEntry = null;
-      // }
+      if (_propertyOverlayEntry == null) {
+        final newOverlayEntry = DropDownMenu.createOverlayEntry(
+          context,
+          layerLink,
+          data,
+          (String property) {
+            setState(() {
+              final uniquePropertyName = _generateUniquePropertyName(property);
+              selectedProperties.add(uniquePropertyName);
+            });
+            _propertyOverlayEntry?.remove();
+            _propertyOverlayEntry = null;
+          },
+        );
+        Overlay.of(context).insert(newOverlayEntry);
+        _propertyOverlayEntry = newOverlayEntry;
+      } else {
+        _propertyOverlayEntry?.remove();
+        _propertyOverlayEntry = null;
+      }
     } else if (layerLink == _dialogLayerLink) {
-      // if (_dialogOverlayEntry == null) {
-      final newOverlayEntry = DropDownMenu.createOverlayEntry(
-        context,
-        layerLink,
-        data,
-        (String property) {
-          setState(() {
-            selectedProperty.add(property);
-          });
-          _dialogOverlayEntry?.remove();
-          _dialogOverlayEntry = null;
-        },
-      );
-      Overlay.of(context).insert(newOverlayEntry);
-      _dialogOverlayEntry = newOverlayEntry;
-      // } else {
-      //   _dialogOverlayEntry?.remove();
-      //   _dialogOverlayEntry = null;
-      // }
+      if (_dialogOverlayEntry == null) {
+        final newOverlayEntry = DropDownMenu.createOverlayEntry(
+          context,
+          layerLink,
+          data,
+          (String property) {
+            setState(() {
+              selectedProperty.add(property);
+            });
+            _dialogOverlayEntry?.remove();
+            _dialogOverlayEntry = null;
+          },
+        );
+        Overlay.of(context).insert(newOverlayEntry);
+        _dialogOverlayEntry = newOverlayEntry;
+      } else {
+        _dialogOverlayEntry?.remove();
+        _dialogOverlayEntry = null;
+      }
     } else if (layerLink == _dialogLayerLink2) {
-      // if (_dialogOverlayEntry == null) {
-      final newOverlayEntry = DropDownMenu.createOverlayEntry(
-        context,
-        layerLink,
-        data,
-        (String property) {
-          setState(() {
-            selectedProperty.add(property);
-          });
-          _dialogOverlayEntry?.remove();
-          _dialogOverlayEntry = null;
-        },
-      );
-      Overlay.of(context).insert(newOverlayEntry);
-      _dialogOverlayEntry = newOverlayEntry;
-      // } else {
-      //   _dialogOverlayEntry?.remove();
-      //   _dialogOverlayEntry = null;
-      // }
+      if (_dialogOverlayEntry == null) {
+        final newOverlayEntry = DropDownMenu.createOverlayEntry(
+          context,
+          layerLink,
+          data,
+          (String property) {
+            setState(() {
+              selectedProperty.add(property);
+            });
+            _dialogOverlayEntry?.remove();
+            _dialogOverlayEntry = null;
+          },
+        );
+        Overlay.of(context).insert(newOverlayEntry);
+        _dialogOverlayEntry = newOverlayEntry;
+      } else {
+        _dialogOverlayEntry?.remove();
+        _dialogOverlayEntry = null;
+      }
     }
   }
 
