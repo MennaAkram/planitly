@@ -6,6 +6,7 @@ import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/categories/domain/entity/category_entity.dart';
 import 'package:planitly/features/category/presentation/cubit/category_cubit.dart';
 import 'package:planitly/features/my_pages/presentation/widgets/custom_card.dart';
+import 'package:planitly/features/subject/presentation/view/subject_screen.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/bases/base_state.dart';
@@ -143,7 +144,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
           }
 
           if ((index - addSlot) < _cubit.pages.length) {
-            return CustomCard(name: _cubit.pages[index - addSlot].name);
+            return CustomCard(
+              name: _cubit.pages[index - addSlot].name,
+              onClick: () => NavigatorHelper.push(SubjectScreen(
+                page: _cubit.pages[index - addSlot],
+              )),
+            );
           }
 
           return const Center(

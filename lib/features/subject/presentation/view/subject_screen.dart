@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/my_pages/domain/entity/page_entity.dart';
 import 'package:planitly/features/subject/presentation/widgets/calendar.dart';
 import 'package:planitly/features/subject/presentation/widgets/contact_card.dart';
 import 'package:planitly/features/subject/presentation/widgets/table_widget.dart';
@@ -29,7 +30,9 @@ class WidgetPropertyLink {
 }
 
 class SubjectScreen extends StatefulWidget {
-  const SubjectScreen({super.key});
+  final PageEntity page;
+
+  const SubjectScreen({super.key, required this.page});
 
   @override
   State<SubjectScreen> createState() => _SubjectScreenState();
@@ -72,7 +75,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).appColors.background,
-      appBar: const CustomAppBar(title: "Subject Name"),
+      appBar: CustomAppBar(title: widget.page.name),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -296,12 +299,16 @@ class _SubjectScreenState extends State<SubjectScreen> {
       return widgetDefinition.requiredTypes.contains(value.runtimeType);
     }).toList();
 
-    List<String> contactsProperties = properties.where((property) {
-      if (widgetDefinition.name == WidgetType.contact.name && property.name.contains("Phone")) {
-        return true;
-      }
-      return false;
-    }).map((property) => property.name).toList();
+    List<String> contactsProperties = properties
+        .where((property) {
+          if (widgetDefinition.name == WidgetType.contact.name &&
+              property.name.contains("Phone")) {
+            return true;
+          }
+          return false;
+        })
+        .map((property) => property.name)
+        .toList();
 
     List<DateTime> dateProperties = properties
         .where((property) {
@@ -322,8 +329,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
       "Confirm",
       "Cancel",
       () {
-        final selected = intListProperties
-            .firstWhereOrNull((property) => selectedProperty.contains(property.name));
+        final selected = intListProperties.firstWhereOrNull(
+            (property) => selectedProperty.contains(property.name));
 
         if (selectedProperty.isNotEmpty) {
           setState(() {
@@ -368,11 +375,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: const [
                         DropDownList(
-                          hintText: 'Select Start Date', menuItems: [],
+                          hintText: 'Select Start Date',
+                          menuItems: [],
                         ),
                         SizedBox(height: 16),
                         DropDownList(
-                          hintText: 'Select End Date', menuItems: [],
+                          hintText: 'Select End Date',
+                          menuItems: [],
                         ),
                       ],
                     )
@@ -459,7 +468,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             .firstWhereOrNull((widget) => widget.id == widgetLink.widgetId);
 
         final WidgetDefinition widgetDefinition = widgets.firstWhere(
-              (widget) => widget.name == linkedWidget?.name,
+          (widget) => widget.name == linkedWidget?.name,
           orElse: () => WidgetDefinition(name: "Default", requiredTypes: []),
         );
 
@@ -471,23 +480,27 @@ class _SubjectScreenState extends State<SubjectScreen> {
           return widgetDefinition.requiredTypes.contains(value.runtimeType);
         }).toList();
 
-        List contactsProperties = properties.where((property) {
-          final value = property.value;
-          if (widgetDefinition.name == WidgetType.contact.name && value is String) {
-            return true;
-          }
-          return false;
-        }).map((property) => property.value).toList();
+        List contactsProperties = properties
+            .where((property) {
+              final value = property.value;
+              if (widgetDefinition.name == WidgetType.contact.name &&
+                  value is String) {
+                return true;
+              }
+              return false;
+            })
+            .map((property) => property.value)
+            .toList();
 
         List<DateTime> dateProperties = properties
             .where((property) {
-          final value = property.value;
-          if (widgetDefinition.name == WidgetType.calender.name &&
-              value is DateTime) {
-            return true;
-          }
-          return false;
-        })
+              final value = property.value;
+              if (widgetDefinition.name == WidgetType.calender.name &&
+                  value is DateTime) {
+                return true;
+              }
+              return false;
+            })
             .map((property) => property.value as DateTime)
             .toList();
         log("Linked properties: ${linkedProperties.map((p) => p.value).toList()}");
@@ -513,7 +526,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
             }
           } else if (intListProperties.isNotEmpty &&
               intListProperties.every((item) => item.value is List<num>)) {
-            return _buildPieChartWidget(intListProperties.first.value, widgetLink);
+            return _buildPieChartWidget(
+                intListProperties.first.value, widgetLink);
           } else if (dateProperties.isNotEmpty &&
               dateProperties.every((item) => item is DateTime)) {
             final startDate = dateProperties.first;
@@ -526,8 +540,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
           }
         }
 
-        log(linkedProperties.firstOrNull?.value.toString() ??'');
-        log(linkedProperties.lastOrNull?.value.toString() ??'');
+        log(linkedProperties.firstOrNull?.value.toString() ?? '');
+        log(linkedProperties.lastOrNull?.value.toString() ?? '');
         return const Text("No valid data for the widget.");
       }).toList(),
     );
