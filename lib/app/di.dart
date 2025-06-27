@@ -28,6 +28,9 @@ import 'package:planitly/features/notifications/presentation/cubit/notifications
 import 'package:planitly/features/profile/data/repositories/profile_repo_impl.dart';
 import 'package:planitly/features/profile/domain/repositories/profile_repo.dart';
 import 'package:planitly/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:planitly/features/subject/data/repository/subject_repo_impl.dart';
+import 'package:planitly/features/subject/domain/repository/subject_repo.dart';
+import 'package:planitly/features/subject/presentation/cubit/subject_cubit.dart';
 import 'package:planitly/shared/emails_service.dart';
 import 'package:planitly/shared/local_storage_manager.dart';
 import 'package:planitly/shared/networking/app_dio.dart';
@@ -94,14 +97,14 @@ Future<void> setupServiceLocator() async {
       getIt<Dio>(instanceName: planitlyService),
     ),
   );
-  
-    getIt.registerSingleton<EmailsRepository>(
-      EmailsRepositoryImpl(
-        getIt<Dio>(instanceName: planitlyService),
-        getIt<EmailsService>(),
-      ),
-    );
-  
+
+  getIt.registerSingleton<EmailsRepository>(
+    EmailsRepositoryImpl(
+      getIt<Dio>(instanceName: planitlyService),
+      getIt<EmailsService>(),
+    ),
+  );
+
   getIt.registerSingleton<CategoriesRepository>(
     CategoriesRepositoryImpl(
       getIt<Dio>(instanceName: planitlyService),
@@ -120,6 +123,11 @@ Future<void> setupServiceLocator() async {
     ),
   );
 
+  getIt.registerSingleton<SubjectRepository>(
+    SubjectRepositoryImpl(
+      getIt<Dio>(instanceName: planitlyService),
+    ),
+  );
 
   // CUBITS
   getIt.registerFactory<LoginCubit>(() => LoginCubit(
@@ -151,9 +159,8 @@ Future<void> setupServiceLocator() async {
       ));
 
   getIt.registerFactory<EmailsCubit>(() => EmailsCubit(
-      getIt<EmailsRepository>(),
-    ));
-
+        getIt<EmailsRepository>(),
+      ));
 
   getIt.registerFactory<CategoriesCubit>(() => CategoriesCubit(
         getIt<CategoriesRepository>(),
@@ -161,10 +168,13 @@ Future<void> setupServiceLocator() async {
 
   getIt.registerFactory<CategoryCubit>(() => CategoryCubit(
         getIt<CategoryRepository>(),
-    ));
+      ));
 
   getIt.registerFactory<ChatbotCubit>(() => ChatbotCubit(
         getIt<ChatbotRepository>(),
       ));
 
+  getIt.registerFactory<SubjectCubit>(() => SubjectCubit(
+        getIt<SubjectRepository>(),
+      ));
 }
