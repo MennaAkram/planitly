@@ -67,7 +67,7 @@ class _settingState extends State<setting> {
             ),
             Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                margin:EdgeInsets.only(top: 8,bottom: 16,left: 16,right: 16),
                 padding: EdgeInsets.only(bottom: 20),
                 height: 92,
                 decoration: BoxDecoration(
@@ -136,7 +136,7 @@ class _settingState extends State<setting> {
             ),
             Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.all(16),
+                margin: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
                 decoration: BoxDecoration(
                     color: Theme.of(context).appColors.white100,
                     borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -208,7 +208,7 @@ void _openLogoutDialog(BuildContext context) {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
-            Wrap(
+            Row(
               children: [
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 8),
