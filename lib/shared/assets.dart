@@ -41,4 +41,6 @@ class Assets {
   static const String birthday = 'assets/icons/calendar-Regular.svg';
   static const String chevronDown = 'assets/icons/chevron-down.svg';
   static const String cancel = 'assets/icons/cancel.svg';
+  static const String mobleIcon = 'assets/icons/Frame 1597882253(3).svg';
+  static const String labIcon = 'assets/icons/Frame 1597882253(1).svg';
 }

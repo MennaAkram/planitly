@@ -13,6 +13,7 @@ import 'package:planitly/features/my_pages/presentation/view/my_pages_screen.dar
 import 'package:planitly/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:planitly/features/profile/presentation/widget/contact_item.dart';
 import 'package:planitly/features/profile/presentation/widget/profile_button.dart';
+import 'package:planitly/features/setting/view/setting_screen.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/bases/base_state.dart';
@@ -247,7 +248,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         ProfileButtonCard(
           text: AppLocalizations.current.settings,
-          onTap: () {},
+          onTap: () {NavigatorHelper.push(const setting());},
         ),
         ProfileButtonCard(
           text: AppLocalizations.current.logout,
