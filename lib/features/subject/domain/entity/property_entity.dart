@@ -1,17 +1,30 @@
-import 'package:planitly/features/subject/domain/entity/data_entity.dart';
+import 'package:uuid/uuid.dart';
 
 class PropertyEntity {
   final String id;
   final String name;
   final PropertyType type;
-  final DataEntity data;
+  final dynamic value;
 
   PropertyEntity({
     required this.id,
     required this.name,
     required this.type,
-    required this.data,
+    required this.value,
   });
+
+  PropertyEntity.withoutId(
+      {required this.name, required this.value, required this.type})
+      : id = const Uuid().v4();
+
+  PropertyEntity copyWith({String? name, dynamic value, PropertyType? type}) {
+    return PropertyEntity(
+      name: name ?? this.name,
+      value: value ?? this.value,
+      type: type ?? this.type,
+      id: id,
+    );
+  }
 }
 
 enum PropertyType { string, number, boolean, list, intList, map, phone, date }

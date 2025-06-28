@@ -15,7 +15,7 @@ class SubjectRepositoryImpl extends BaseRepository
     required String subjectId,
   }) {
     return tryToExecute(
-      () => dio.get(EndPoints.subject(subjectId)),
+      () => dio.get(EndPoints.subjects(subjectId)),
       (response) => SubjectDto().fromJson(response).toEntity(),
     );
   }
