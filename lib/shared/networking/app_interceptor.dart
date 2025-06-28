@@ -23,41 +23,46 @@ class AppInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    try {
-      if (err.response?.statusCode == 401 &&
-          err.requestOptions.headers["Authorization"] != null) {
+    final isRetry = err.requestOptions.extra['retry'] == true;
+
+    if (err.response?.statusCode == 401 &&
+        err.requestOptions.headers["Authorization"] != null &&
+        !isRetry) {
+      try {
         final token = await _storageManager.getLoginToken();
+
         if (token != null) {
           final authRepo = getIt<AuthenticationRepository>();
           final newToken = await authRepo.refreshToken(token.refreshToken);
-          if (newToken.isRight()) {
-            err.requestOptions.headers["Authorization"] =
-                "Bearer ${newToken.getOrElse(() => throw Exception()).accessToken}";
 
-            return handler.resolve(
-              await getIt<Dio>(instanceName: 'planitlyService')
-                  .fetch(err.requestOptions),
-            );
-          }
-          if (newToken.isLeft()) {
-            _storageManager.clearLoginToken();
-            NavigatorHelper.pushReplacement(const LoginScreen());
-            return handler.reject(err);
+          if (newToken.isRight()) {
+            final accessToken =
+                newToken.getOrElse(() => throw Exception()).accessToken;
+
+            await _storageManager.saveLoginToken(
+                newToken.getOrElse(() => throw Exception()));
+
+            final opts = err.requestOptions;
+            opts.headers["Authorization"] = "Bearer $accessToken";
+            opts.extra["retry"] = true;
+
+            final response = await getIt<Dio>(instanceName: 'planitlyService')
+                .fetch(opts);
+
+            return handler.resolve(response);
           }
         }
-      } else if (err.response?.statusCode == 404 &&
-          err.response?.data['Message'] != null &&
-          err.response?.data['Message']
-              .contains("doesn't exist in the database")) {
-        _storageManager.clearLoginToken();
+
+         _storageManager.clearLoginToken();
+        NavigatorHelper.pushReplacement(const LoginScreen());
+        return handler.reject(err);
+      } catch (e) {
+         _storageManager.clearLoginToken();
         NavigatorHelper.pushReplacement(const LoginScreen());
         return handler.reject(err);
       }
-    } catch (e) {
-      _storageManager.clearLoginToken();
-      NavigatorHelper.pushReplacement(const LoginScreen());
-      return handler.reject(err);
     }
-    handler.next(err);
+
+    return handler.next(err);
   }
 }
