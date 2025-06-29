@@ -59,5 +59,8 @@
   "invalidName": "must contain only letters",
   "totalAmount": "Total amount:",
   "emailsHint": "Ready to dive into your inbox? Just hit that button and let the email adventure begin!",
-  "signInGoogle": "Sign in with google"
+  "signInGoogle": "Sign in with google",
+  "deviceLogout": "Device logout",
+  "shareWithAi": "Share With Ai",
+  "share": "Share"
 }

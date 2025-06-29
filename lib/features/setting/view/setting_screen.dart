@@ -5,8 +5,11 @@ import 'package:planitly/features/setting/widget/pages.dart';
 import 'package:planitly/generated/l10n.dart';
 import 'package:planitly/shared/assets.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
-import 'package:planitly/shared/widgets/button.dart';
+import 'package:planitly/shared/widgets/extensions.dart';
+import '../../../app/di.dart';
+import '../../../shared/navigator_helper.dart';
 import '../../../shared/widgets/drop_down_list.dart';
+import '../../categories/presentation/cubit/categories_cubit.dart';
 import '../widget/setting_buttom.dart';
 
 class setting extends StatefulWidget {
@@ -19,6 +22,10 @@ class setting extends StatefulWidget {
 class _settingState extends State<setting> {
   bool status = false;
   String checked = 'No Page Shared';
+  final CategoriesCubit _cubit = getIt.get<CategoriesCubit>();
+  final TextEditingController nameController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final List<String> tags = [];
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +38,6 @@ class _settingState extends State<setting> {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.all(16),
-              height: 49,
               decoration: BoxDecoration(
                   color: Theme.of(context).appColors.white100,
                   borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -98,16 +104,11 @@ class _settingState extends State<setting> {
                         child: RadioListTile(
                       value: 'Only Share...',
                       groupValue: checked,
-                      onChanged: (val) async {
-                        final selectedTags = await showDialog(
-                          context: context,
-                          builder: (context) => CustomDialog(),
-                        );
-                        if (selectedTags != null && selectedTags.isNotEmpty) {
+                      onChanged: (val)  {
+                        _openAddPageDialog();
                           setState(() {
                             checked = val!;
                           });
-                        }
                       },
                       contentPadding: EdgeInsets.all(8),
                       activeColor: Theme.of(context).appColors.primary,
@@ -178,23 +179,22 @@ class _settingState extends State<setting> {
       title: AppLocalizations.current.settings,
     );
   }
-}
-
 void _openLogoutDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext dialogContext) {
-      return AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
+  context.alertDialog(
+      AppLocalizations.current.deviceLogout,
+      AppLocalizations.current.cancel,
+      AppLocalizations.current.logout,
+          () => NavigatorHelper.pop(),
+          () {
+        //todo
+        // _cubit.logout();
+        NavigatorHelper.pop();
+      },
+      Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text("Device logout",
-                  style: Theme.of(context).appTexts.titleSmall.copyWith(
-                        color: Theme.of(context).appColors.black87,
-                      )),
-            ),
             const SizedBox(height: 8),
             SvgPicture.asset(
               Assets.logoutPlaceholder,
@@ -202,135 +202,83 @@ void _openLogoutDialog(BuildContext context) {
             const SizedBox(height: 16),
             Text(
               "Are you sure, you want to logout from this device?",
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).appColors.black87,
-                  ),
+              style: Theme
+                  .of(context)
+                  .appTexts
+                  .bodyMedium
+                  .copyWith(
+                color: Theme
+                    .of(context)
+                    .appColors
+                    .black87,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 8),
-                  child: Expanded(
-                      child: CustomButton(
-                          text: "Cancel",
-                          onPressed: () => Navigator.of(dialogContext).pop(),
-                          outlined: false)),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 8),
-                  child: Expanded(
-                    child: CustomButton(
-                        text: "Logout",
-                        onPressed: () => Navigator.of(dialogContext).pop(),
-                        outlined: true),
-                  ),
-                )
-              ],
-            ),
           ],
         ),
-        backgroundColor: Theme.of(context).appColors.white100,
-      );
-    },
-  );
+      ));
 }
 
-class CustomDialog extends StatefulWidget {
-  const CustomDialog({super.key});
-
-  @override
-  State<CustomDialog> createState() => _CustomDialogState();
-}
-
-class _CustomDialogState extends State<CustomDialog> {
-  final List<String> tags = [];
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Theme.of(context).appColors.background,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Share With AI",
-              style: Theme.of(context).appTexts.titleSmall.copyWith(
-                    color: Theme.of(context).appColors.black87,
-                  ),
-            ),
-            const SizedBox(height: 16),
-            Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              child: Text(
+  void _openAddPageDialog() {
+    context.alertDialog(
+      AppLocalizations.of(context).shareWithAi,
+      AppLocalizations.of(context).share,
+      AppLocalizations.current.cancel,
+          () {
+        if (tags.isNotEmpty) {
+          Navigator.of(context).pop(tags);
+        }
+      },
+          () {
+        nameController.clear();
+        _cubit.selectedPages.clear();
+        Navigator.of(context).pop();
+      },
+      StatefulBuilder(
+        builder: (context, setState) => Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
                 "Select pages to share with AI",
                 style: Theme.of(context).appTexts.labelSmall.copyWith(
-                      color: Theme.of(context).appColors.black87,
-                    ),
+                  color: Theme.of(context).appColors.black87,
+                ),
               ),
-            ),
-            DropDownList(
-              hintText: "Select page",
-              menuItems: const ["Gym", "Work", "Study"],
-              onItemSelected: (value) {
-                if (!tags.contains(value)) {
-                  setState(() {
-                    tags.add(value);
-                  });
-                }
-              },
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              children: tags.map((tag) {
-                return RemovableTag(
-                  label: tag,
-                  onRemove: () {
+              const SizedBox(height: 8),
+              DropDownList(
+                hintText: "Select page",
+                menuItems: const ["Gym", "Work", "Study"],
+                onItemSelected: (value) {
+                  if (!tags.contains(value)) {
                     setState(() {
-                      tags.remove(tag);
+                      tags.add(value);
                     });
-                  },
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomButton(
-                    text: "Share",
-                    onPressed: () {
-                      if (tags.isNotEmpty) {
-                        Navigator.of(context).pop(tags);
-                      } else {}
+                  }
+                },
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                children: tags.map((tag) {
+                  return RemovableTag(
+                    label: tag,
+                    onRemove: () {
+                      setState(() {
+                        tags.remove(tag);
+                      });
                     },
-                    outlined: false,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: CustomButton(
-                    text: "Cancel",
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    outlined: true,
-                  ),
-                ),
-              ],
-            )
-          ],
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+
 }
