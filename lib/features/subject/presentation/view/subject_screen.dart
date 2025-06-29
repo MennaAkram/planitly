@@ -1,14 +1,20 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
+import 'package:planitly/features/my_pages/domain/entity/page_entity.dart';
+import 'package:planitly/features/subject/domain/entity/property_entity.dart';
+import 'package:planitly/features/subject/presentation/cubit/subject_cubit.dart';
 import 'package:planitly/features/subject/presentation/widgets/calendar.dart';
 import 'package:planitly/features/subject/presentation/widgets/contact_card.dart';
 import 'package:planitly/features/subject/presentation/widgets/table_widget.dart';
 import 'package:planitly/features/subject/presentation/widgets/property_widget.dart';
 import 'package:planitly/features/subject/presentation/widgets/upload_photo_button.dart';
+import 'package:planitly/generated/l10n.dart';
+import 'package:planitly/shared/bases/base_state.dart';
 import 'package:planitly/shared/widgets/app_bar.dart';
 import 'package:planitly/shared/widgets/drop_down_list.dart';
 import 'package:planitly/shared/widgets/extensions.dart';
@@ -29,13 +35,16 @@ class WidgetPropertyLink {
 }
 
 class SubjectScreen extends StatefulWidget {
-  const SubjectScreen({super.key});
+  final PageEntity page;
+
+  const SubjectScreen({super.key, required this.page});
 
   @override
   State<SubjectScreen> createState() => _SubjectScreenState();
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
+  final SubjectCubit _cubit = getIt.get<SubjectCubit>();
   final LayerLink _propertyLayerLink = LayerLink();
   final LayerLink _widgetLayerLink = LayerLink();
   final LayerLink _dialogLayerLink = LayerLink();
@@ -43,7 +52,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
   OverlayEntry? _propertyOverlayEntry;
   OverlayEntry? _widgetOverlayEntry;
   OverlayEntry? _dialogOverlayEntry;
-  List<Property> selectedProperties = [];
   List<WidgetPropertyLink> selectedWidgets = [];
   final List<String> propertiesData = [
     PropertyType.string.name,
@@ -54,7 +62,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     PropertyType.phone.name,
     PropertyType.date.name,
   ];
-  final List<Property> properties = [];
+  final List<PropertyEntity> properties = [];
   List<String> selectedProperty = [];
 
   final List<WidgetDefinition> widgets = [
@@ -69,31 +77,54 @@ class _SubjectScreenState extends State<SubjectScreen> {
   ];
 
   @override
+  void initState() {
+    _cubit.getSubjectData(subjectId: widget.page.id);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _propertyOverlayEntry?.remove();
+    _widgetOverlayEntry?.remove();
+    _dialogOverlayEntry?.remove();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).appColors.background,
-      appBar: const CustomAppBar(title: "Subject Name"),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (selectedProperties.isNotEmpty) _buildPropertiesSection(),
-            if (selectedProperties.isNotEmpty) const SizedBox(height: 16),
-            _buildAddPropertyButton(),
-            const SizedBox(height: 24),
-            Divider(
-                height: 1,
-                color: Theme.of(context).appColors.secondary,
-                indent: 16,
-                endIndent: 16),
-            const SizedBox(height: 24),
-            _buildAddWidgetButton(),
-            const SizedBox(height: 24),
-            _buildWidgetsSection(),
-            const SizedBox(height: 24),
-          ],
-        ),
-      ),
+      appBar: CustomAppBar(title: widget.page.name),
+      body: BlocBuilder<SubjectCubit, BaseState>(
+          bloc: _cubit,
+          builder: (context, state) {
+            if (state is LoadingState) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  if (_cubit.selectedProperties.isNotEmpty) _buildPropertiesSection(),
+                  if (_cubit.selectedProperties.isNotEmpty) const SizedBox(height: 16),
+                  _buildAddPropertyButton(),
+                  const SizedBox(height: 24),
+                  Divider(
+                      height: 1,
+                      color: Theme.of(context).appColors.secondary,
+                      indent: 16,
+                      endIndent: 16),
+                  const SizedBox(height: 24),
+                  _buildAddWidgetButton(),
+                  const SizedBox(height: 24),
+                  _buildWidgetsSection(),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            );
+          }),
     );
   }
 
@@ -121,98 +152,97 @@ class _SubjectScreenState extends State<SubjectScreen> {
     List<String> data,
   ) {
     if (layerLink == _widgetLayerLink) {
-      // if (_widgetOverlayEntry == null) {
-      final newOverlayEntry = DropDownMenu.createOverlayEntry(
-        context,
-        layerLink,
-        data,
-        (String widgetName) {
-          _showPropertySelectionDialog(widgetName);
-          _widgetOverlayEntry?.remove();
-          _widgetOverlayEntry = null;
-        },
-      );
-      Overlay.of(context).insert(newOverlayEntry);
-      _widgetOverlayEntry = newOverlayEntry;
-      // } else {
-      //   _widgetOverlayEntry?.remove();
-      //   _widgetOverlayEntry = null;
-      // }
+      if (_widgetOverlayEntry == null) {
+        final newOverlayEntry = DropDownMenu.createOverlayEntry(
+          context,
+          layerLink,
+          data,
+          (String widgetName) {
+            _showPropertySelectionDialog(widgetName);
+            _widgetOverlayEntry?.remove();
+            _widgetOverlayEntry = null;
+          },
+        );
+        Overlay.of(context).insert(newOverlayEntry);
+        _widgetOverlayEntry = newOverlayEntry;
+      } else {
+        _widgetOverlayEntry?.remove();
+        _widgetOverlayEntry = null;
+      }
     } else if (layerLink == _propertyLayerLink) {
-      // if (_propertyOverlayEntry == null) {
-      final newOverlayEntry = DropDownMenu.createOverlayEntry(
-        context,
-        layerLink,
-        data,
-        (String property) {
-          setState(() {
-            final uniquePropertyName = _generateUniquePropertyName(property);
-            selectedProperties.add(uniquePropertyName);
-          });
-          _propertyOverlayEntry?.remove();
-          _propertyOverlayEntry = null;
-        },
-      );
-      Overlay.of(context).insert(newOverlayEntry);
-      _propertyOverlayEntry = newOverlayEntry;
-      // }
-      // else {
-      //   // _propertyOverlayEntry?.remove();
-      //   _propertyOverlayEntry = null;
-      // }
+      if (_propertyOverlayEntry == null) {
+        final newOverlayEntry = DropDownMenu.createOverlayEntry(
+          context,
+          layerLink,
+          data,
+          (String property) {
+            setState(() {
+              final uniquePropertyName = _generateUniquePropertyName(property);
+              _cubit.selectedProperties.add(uniquePropertyName);
+            });
+            _propertyOverlayEntry?.remove();
+            _propertyOverlayEntry = null;
+          },
+        );
+        Overlay.of(context).insert(newOverlayEntry);
+        _propertyOverlayEntry = newOverlayEntry;
+      } else {
+        _propertyOverlayEntry?.remove();
+        _propertyOverlayEntry = null;
+      }
     } else if (layerLink == _dialogLayerLink) {
-      // if (_dialogOverlayEntry == null) {
-      final newOverlayEntry = DropDownMenu.createOverlayEntry(
-        context,
-        layerLink,
-        data,
-        (String property) {
-          setState(() {
-            selectedProperty.add(property);
-          });
-          _dialogOverlayEntry?.remove();
-          _dialogOverlayEntry = null;
-        },
-      );
-      Overlay.of(context).insert(newOverlayEntry);
-      _dialogOverlayEntry = newOverlayEntry;
-      // } else {
-      //   _dialogOverlayEntry?.remove();
-      //   _dialogOverlayEntry = null;
-      // }
+      if (_dialogOverlayEntry == null) {
+        final newOverlayEntry = DropDownMenu.createOverlayEntry(
+          context,
+          layerLink,
+          data,
+          (String property) {
+            setState(() {
+              selectedProperty.add(property);
+            });
+            _dialogOverlayEntry?.remove();
+            _dialogOverlayEntry = null;
+          },
+        );
+        Overlay.of(context).insert(newOverlayEntry);
+        _dialogOverlayEntry = newOverlayEntry;
+      } else {
+        _dialogOverlayEntry?.remove();
+        _dialogOverlayEntry = null;
+      }
     } else if (layerLink == _dialogLayerLink2) {
-      // if (_dialogOverlayEntry == null) {
-      final newOverlayEntry = DropDownMenu.createOverlayEntry(
-        context,
-        layerLink,
-        data,
-        (String property) {
-          setState(() {
-            selectedProperty.add(property);
-          });
-          _dialogOverlayEntry?.remove();
-          _dialogOverlayEntry = null;
-        },
-      );
-      Overlay.of(context).insert(newOverlayEntry);
-      _dialogOverlayEntry = newOverlayEntry;
-      // } else {
-      //   _dialogOverlayEntry?.remove();
-      //   _dialogOverlayEntry = null;
-      // }
+      if (_dialogOverlayEntry == null) {
+        final newOverlayEntry = DropDownMenu.createOverlayEntry(
+          context,
+          layerLink,
+          data,
+          (String property) {
+            setState(() {
+              selectedProperty.add(property);
+            });
+            _dialogOverlayEntry?.remove();
+            _dialogOverlayEntry = null;
+          },
+        );
+        Overlay.of(context).insert(newOverlayEntry);
+        _dialogOverlayEntry = newOverlayEntry;
+      } else {
+        _dialogOverlayEntry?.remove();
+        _dialogOverlayEntry = null;
+      }
     }
   }
 
-  Property _generateUniquePropertyName(String baseName) {
+  PropertyEntity _generateUniquePropertyName(String baseName) {
     final type =
         PropertyType.values.where((type) => type.name == baseName).first;
-    final selectedNames = selectedProperties
+    final selectedNames = _cubit.selectedProperties
         .where((property) => property.name.startsWith(baseName))
         .map((property) => property.name)
         .toList();
     final uniqueName =
         selectedNames.isEmpty ? baseName : "$baseName ${selectedNames.length}";
-    return Property.withoutId(name: uniqueName, value: "", type: type);
+    return PropertyEntity.withoutId(name: uniqueName, value: "", type: type);
   }
 
   Future<XFile?> pickImage() async {
@@ -288,7 +318,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
       return;
     }
 
-    List<Property> intListProperties = properties.where((property) {
+    List<PropertyEntity> intListProperties = properties.where((property) {
       final value = property.value;
       if (widgetDefinition.requiredTypes.contains(List) && value is List) {
         return value.every((element) => element is num);
@@ -296,12 +326,16 @@ class _SubjectScreenState extends State<SubjectScreen> {
       return widgetDefinition.requiredTypes.contains(value.runtimeType);
     }).toList();
 
-    List<String> contactsProperties = properties.where((property) {
-      if (widgetDefinition.name == WidgetType.contact.name && property.name.contains("Phone")) {
-        return true;
-      }
-      return false;
-    }).map((property) => property.name).toList();
+    List<String> contactsProperties = properties
+        .where((property) {
+          if (widgetDefinition.name == WidgetType.contact.name &&
+              property.name.contains("Phone")) {
+            return true;
+          }
+          return false;
+        })
+        .map((property) => property.name)
+        .toList();
 
     List<DateTime> dateProperties = properties
         .where((property) {
@@ -322,8 +356,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
       "Confirm",
       "Cancel",
       () {
-        final selected = intListProperties
-            .firstWhereOrNull((property) => selectedProperty.contains(property.name));
+        intListProperties.firstWhereOrNull(
+            (property) => selectedProperty.contains(property.name));
 
         if (selectedProperty.isNotEmpty) {
           setState(() {
@@ -366,20 +400,43 @@ class _SubjectScreenState extends State<SubjectScreen> {
               : widgetName == WidgetType.calender.name
                   ? Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
+                      children: [
                         DropDownList(
-                          hintText: 'Select Start Date', menuItems: [],
-                        ),
+                            hintText: 'Select Start Date',
+                            menuItems: dateProperties
+                                .map((property) => property.format() ?? '')
+                                .toList(),
+                            onItemSelected: (String value) {
+                              setState(() {
+                                selectedProperty.add(value);
+                              });
+                            }),
                         SizedBox(height: 16),
                         DropDownList(
-                          hintText: 'Select End Date', menuItems: [],
+                          hintText: 'Select End Date',
+                          menuItems: dateProperties
+                              .map((property) => property.format() ?? '')
+                              .toList(),
+                          onItemSelected: (String value) {
+                            setState(() {
+                              selectedProperty.add(value);
+                            });
+                          },
                         ),
                       ],
                     )
                   : DropDownList(
                       hintText: 'Select Property',
-                      menuItems: [],
-                    ),
+                      menuItems: contactsProperties.isNotEmpty
+                          ? contactsProperties
+                          : intListProperties
+                              .map((property) => property.name)
+                              .toList(),
+                      onItemSelected: (String value) {
+                        setState(() {
+                          selectedProperty.add(value);
+                        });
+                      }),
     );
   }
 
@@ -390,16 +447,16 @@ class _SubjectScreenState extends State<SubjectScreen> {
         Padding(
           padding: const EdgeInsets.only(left: 16),
           child: Text(
-            "Properties",
+            AppLocalizations.current.properties,
             style: Theme.of(context).appTexts.bodySmall.copyWith(
                   color: Theme.of(context).appColors.black60,
                 ),
           ),
         ),
         Column(
-          children: selectedProperties.map((propertyName) {
+          children: _cubit.selectedProperties.map((property) {
             return PropertyWidget(
-              selectedProperty: propertyName,
+              selectedProperty: property,
               onPropertyUpdated: (updatedProperty) {
                 _updateProperty(updatedProperty);
               },
@@ -425,7 +482,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   Widget _buildAddPropertyButton() {
     return _buildButton(
       context,
-      'Add Property',
+      AppLocalizations.current.addProperty,
       _propertyLayerLink,
       () => _toggleDropdownMenu(
         _propertyLayerLink,
@@ -438,7 +495,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   Widget _buildAddWidgetButton() {
     return _buildButton(
       context,
-      'Add Widget',
+      AppLocalizations.current.addWidget,
       _widgetLayerLink,
       () => _toggleDropdownMenu(
         _widgetLayerLink,
@@ -451,7 +508,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   Widget _buildWidgetsSection() {
     return Column(
       children: selectedWidgets.map((widgetLink) {
-        List<Property> linkedProperties = properties.where((property) {
+        List<PropertyEntity> linkedProperties = properties.where((property) {
           final propertyIds = widgetLink.propertyIds ?? [];
           return propertyIds.contains(property.name);
         }).toList();
@@ -459,11 +516,11 @@ class _SubjectScreenState extends State<SubjectScreen> {
             .firstWhereOrNull((widget) => widget.id == widgetLink.widgetId);
 
         final WidgetDefinition widgetDefinition = widgets.firstWhere(
-              (widget) => widget.name == linkedWidget?.name,
+          (widget) => widget.name == linkedWidget?.name,
           orElse: () => WidgetDefinition(name: "Default", requiredTypes: []),
         );
 
-        List<Property> intListProperties = properties.where((property) {
+        List<PropertyEntity> intListProperties = properties.where((property) {
           final value = property.value;
           if (widgetDefinition.requiredTypes.contains(List) && value is List) {
             return value.every((element) => element is num);
@@ -471,30 +528,34 @@ class _SubjectScreenState extends State<SubjectScreen> {
           return widgetDefinition.requiredTypes.contains(value.runtimeType);
         }).toList();
 
-        List contactsProperties = properties.where((property) {
-          final value = property.value;
-          if (widgetDefinition.name == WidgetType.contact.name && value is String) {
-            return true;
-          }
-          return false;
-        }).map((property) => property.value).toList();
+        List contactsProperties = properties
+            .where((property) {
+              final value = property.value;
+              if (widgetDefinition.name == WidgetType.contact.name &&
+                  value is String) {
+                return true;
+              }
+              return false;
+            })
+            .map((property) => property.value)
+            .toList();
 
         List<DateTime> dateProperties = properties
             .where((property) {
-          final value = property.value;
-          if (widgetDefinition.name == WidgetType.calender.name &&
-              value is DateTime) {
-            return true;
-          }
-          return false;
-        })
+              final value = property.value;
+              if (widgetDefinition.name == WidgetType.calender.name &&
+                  value is DateTime) {
+                return true;
+              }
+              return false;
+            })
             .map((property) => property.value as DateTime)
             .toList();
         log("Linked properties: ${linkedProperties.map((p) => p.value).toList()}");
         log("Int properties: ${intListProperties.map((p) => p.value).toList()}");
         log("Date properties: ${dateProperties.map((p) => p).toList()}");
         log("contact properties: ${contactsProperties.map((p) => p).toList()}");
-        log("Selected properties: ${selectedProperties.map((p) => p.name).toList()}");
+        log("Selected properties: ${_cubit.selectedProperties.map((p) => p.name).toList()}");
         log("widgetLink.propertyIds: ${widgetLink.propertyIds}");
         log("Properties: ${properties.map((p) => "id: ${p.id}, name: ${p.name}, value: ${p.value}")}");
 
@@ -513,9 +574,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
             }
           } else if (intListProperties.isNotEmpty &&
               intListProperties.every((item) => item.value is List<num>)) {
-            return _buildPieChartWidget(intListProperties.first.value, widgetLink);
-          } else if (dateProperties.isNotEmpty &&
-              dateProperties.every((item) => item is DateTime)) {
+            return _buildPieChartWidget(
+                intListProperties.first.value, widgetLink);
+          } else if (dateProperties.isNotEmpty) {
             final startDate = dateProperties.first;
             final endDate = dateProperties.last;
             return _buildCalenderWidget(startDate, endDate, widgetLink);
@@ -526,8 +587,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
           }
         }
 
-        log(linkedProperties.firstOrNull?.value.toString() ??'');
-        log(linkedProperties.lastOrNull?.value.toString() ??'');
+        log(linkedProperties.firstOrNull?.value.toString() ?? '');
+        log(linkedProperties.lastOrNull?.value.toString() ?? '');
         return const Text("No valid data for the widget.");
       }).toList(),
     );

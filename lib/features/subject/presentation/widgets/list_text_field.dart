@@ -5,9 +5,11 @@ class ListTextField extends StatefulWidget {
   const ListTextField({
     required this.onSubmitted,
     required this.keyboardType,
+    this.initialValues = const [],
     super.key,
   });
 
+  final List<String> initialValues;
   final void Function(List<String>) onSubmitted;
   final TextInputType keyboardType;
 
@@ -18,6 +20,12 @@ class ListTextField extends StatefulWidget {
 class _ListTextFieldState extends State<ListTextField> {
   final TextEditingController _controller = TextEditingController();
   final List<String> _chips = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _chips.addAll(widget.initialValues);
+  }
 
   void _addChip(String chip) {
     if (chip.trim().isNotEmpty) {
@@ -69,8 +77,8 @@ class _ListTextFieldState extends State<ListTextField> {
           Text(
             text,
             style: Theme.of(context).appTexts.labelMedium.copyWith(
-              color: Theme.of(context).appColors.white100,
-            ),
+                  color: Theme.of(context).appColors.white100,
+                ),
           ),
           GestureDetector(
             onTap: () => _removeChip(index),
@@ -92,12 +100,12 @@ class _ListTextFieldState extends State<ListTextField> {
         border: InputBorder.none,
         hintText: "Empty",
         hintStyle: Theme.of(context).appTexts.bodySmall.copyWith(
-          color: Theme.of(context).appColors.black60,
-        ),
+              color: Theme.of(context).appColors.black60,
+            ),
       ),
       style: Theme.of(context).appTexts.bodySmall.copyWith(
-        color: Theme.of(context).appColors.black87,
-      ),
+            color: Theme.of(context).appColors.black87,
+          ),
       keyboardType: widget.keyboardType,
       controller: _controller,
       onSubmitted: _addChip,

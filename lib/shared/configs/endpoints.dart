@@ -24,8 +24,10 @@ class EndPoints {
 
   static String categories = 'categories/';
   static String uncategorizedPages = 'categories/uncategorized';
-  static String categorySubjects(String categoryName) => 'categories/$categoryName/subjects';
-  static String deleteCategory(String categoryName) => 'categories/$categoryName';
+  static String categorySubjects(String categoryName) =>
+      'categories/$categoryName/subjects';
+  static String deleteCategory(String categoryName) =>
+      'categories/$categoryName';
 
   static String chat = 'chat/';
   static String getUserMessages = 'chat/messages';

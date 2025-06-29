@@ -51,6 +51,7 @@ class DropDownMenu {
                       thumbVisibility: false,
                       scrollbarOrientation: ScrollbarOrientation.left,
                       child: ListView.separated(
+                        controller: scrollController,
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         itemCount: data.length,

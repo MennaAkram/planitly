@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:intl/intl.dart';
-import '../../../subject/presentation/widgets/property.dart';
+import 'package:planitly/features/subject/domain/entity/property_entity.dart';
 import 'list_text_field.dart';
 
 class PropertyWidget extends StatefulWidget {
-  final Property selectedProperty;
-  final Function(Property) onPropertyUpdated;
+  final PropertyEntity selectedProperty;
+  final Function(PropertyEntity) onPropertyUpdated;
 
   const PropertyWidget({
     super.key,
@@ -29,7 +29,18 @@ class _PropertyWidgetState extends State<PropertyWidget> {
   }
 
   void _initializeProperty() {
-    _controller.text = widget.selectedProperty.value.toString();
+    if (widget.selectedProperty.type == PropertyType.date) {
+      try {
+        final parsedDate = DateTime.parse(widget.selectedProperty.value);
+        _controller.text = parsedDate.format() ?? "";
+      } catch (e) {
+        _controller.text = '';
+      }
+    } else if (widget.selectedProperty.type == PropertyType.phone) {
+      _controller.text = widget.selectedProperty.value['number'];
+    } else {
+      _controller.text = widget.selectedProperty.value.toString();
+    }
   }
 
   void _updateProperty(PropertyType type, dynamic value) {
@@ -105,6 +116,9 @@ class _PropertyWidgetState extends State<PropertyWidget> {
     switch (widget.selectedProperty.type.name) {
       case 'List' || 'Charts Data':
         return ListTextField(
+            initialValues: List<String>.from(
+              (widget.selectedProperty.value as List).map((e) => e['value'].toString()),
+            ),
             keyboardType:
                 widget.selectedProperty.type.name == PropertyType.list.name
                     ? TextInputType.text
@@ -183,4 +197,3 @@ extension DateExtensions on DateTime {
     return DateFormat('yyyy-MM-dd').format(this);
   }
 }
-

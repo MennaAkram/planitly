@@ -1,36 +1,5 @@
 import 'package:uuid/uuid.dart';
 
-class Property {
-  final String id;
-  final String name;
-  dynamic value;
-  final PropertyType type;
-
-  Property(
-      {required this.name,
-      required this.value,
-      required this.type,
-      required this.id});
-
-  Property.withoutId(
-      {required this.name, required this.value, required this.type})
-      : id = const Uuid().v4();
-
-  @override
-  String toString() {
-    return 'Property{id: $id, name: $name, value: $value, type: $type}';
-  }
-
-  Property copyWith({String? name, dynamic value, PropertyType? type}) {
-    return Property(
-      name: name ?? this.name,
-      value: value ?? this.value,
-      type: type ?? this.type,
-      id: id,
-    );
-  }
-}
-
 class WidgetDefinition {
   String id;
   final String name;
@@ -64,8 +33,6 @@ enum WidgetType {
   calender
 }
 
-enum PropertyType { string, number, boolean, list, intList, map, phone, date }
-
 extension WidgetsName on WidgetType {
   String get name {
     switch (this) {
@@ -87,29 +54,6 @@ extension WidgetsName on WidgetType {
         return 'Contact';
       case WidgetType.calender:
         return 'Calendar';
-    }
-  }
-}
-
-extension PropertiesName on PropertyType {
-  String get name {
-    switch (this) {
-      case PropertyType.string:
-        return 'Text';
-      case PropertyType.number:
-        return 'Number';
-      case PropertyType.boolean:
-        return 'Condition';
-      case PropertyType.list:
-        return 'List';
-      case PropertyType.intList:
-        return 'Charts Data';
-      case PropertyType.map:
-        return 'Map';
-      case PropertyType.phone:
-        return 'Phone';
-      case PropertyType.date:
-        return 'Date';
     }
   }
 }
