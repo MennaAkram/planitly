@@ -4,6 +4,7 @@ import 'package:planitly/features/home_screen/data/remote/user_stats_dto.dart';
 import 'package:planitly/features/home_screen/domain/entity/home_entity.dart';
 import 'package:planitly/shared/bases/base_mapper.dart';
 import 'connections_dto.dart';
+import 'finance_dto.dart';
 import 'habits_dto.dart';
 import 'most_visited_subject_dto.dart';
 
@@ -15,6 +16,7 @@ class HomeDto extends BaseMapper<HomeDto> {
   List<MostVisitedSubjectDto>? mostVisitedSubjects;
   List<RecentCategoriesDto>? recentCategories;
   TemplatesDto? templates;
+  FinanceDto? financeTracker;
 
   HomeDto({
     this.date,
@@ -24,6 +26,7 @@ class HomeDto extends BaseMapper<HomeDto> {
     this.mostVisitedSubjects,
     this.recentCategories,
     this.templates,
+    this.financeTracker,
   });
 
   @override
@@ -48,6 +51,9 @@ class HomeDto extends BaseMapper<HomeDto> {
       templates: json['templates'] != null
           ? TemplatesDto().fromJson(json['templates'] as Map<String, dynamic>)
           : null,
+      financeTracker: json['finance_tracker'] != null
+          ? FinanceDto().fromJson(json['finance_tracker'])
+          : null,
     );
   }
 
@@ -65,6 +71,7 @@ class HomeDto extends BaseMapper<HomeDto> {
         object.recentCategories!.firstWhere((category) => category.id == e.id, orElse: () => e),
       )).toList(),
       'templates': object.templates?.toJson(object.templates!),
+      'finance_tracker': object.financeTracker?.toJson(object.financeTracker!),
     };
   }
 
@@ -78,6 +85,7 @@ class HomeDto extends BaseMapper<HomeDto> {
       mostVisitedSubjects: mostVisitedSubjects?.map((e) => e.toEntity()).toList() ?? [],
       recentCategories: recentCategories?.map((e) => e.toEntity()).toList() ?? [],
       templates: templates?.toEntity() ?? TemplatesDto().toEntity(),
+      finance: financeTracker?.toEntity() ?? FinanceDto().toEntity(),
     );
   }
 }

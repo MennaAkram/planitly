@@ -175,7 +175,9 @@ Future<void> setupServiceLocator() async {
       ));
 
   getIt.registerFactory<HomeCubit>(() => HomeCubit(
-        getIt<HomeRepository>()
+        getIt<HomeRepository>(),
+        getIt<PagesRepository>(),
+        getIt<CategoriesRepository>(),
       ));
 
 }

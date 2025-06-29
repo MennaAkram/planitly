@@ -1,3 +1,4 @@
+import 'package:planitly/features/home_screen/domain/entity/finance_entity.dart';
 import 'package:planitly/features/home_screen/domain/entity/recent_categories_entity.dart';
 import 'package:planitly/features/home_screen/domain/entity/templates_entity.dart';
 import 'connections_entity.dart';
@@ -13,6 +14,7 @@ class HomeEntity {
   final List<MostVisitedSubjectEntity> mostVisitedSubjects;
   final List<RecentCategoriesEntity> recentCategories;
   final TemplatesEntity templates;
+  final FinanceEntity finance;
 
   HomeEntity({
     required this.date,
@@ -22,5 +24,6 @@ class HomeEntity {
     required this.mostVisitedSubjects,
     required this.recentCategories,
     required this.templates,
+    required this.finance,
   });
 }
