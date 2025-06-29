@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:planitly/design_system/theme.dart';
 
-class most_visited extends StatelessWidget {
+class TemplateCard extends StatelessWidget {
   final String name;
-  final VoidCallback? onPressed;
-  const most_visited({super.key, required this.name, this.onPressed});
+  final VoidCallback onPressed;
+  const TemplateCard({super.key, required this.name, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 4/5,
+      aspectRatio: 4/3,
       child: Container(
+        width: 100,
+        margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
             color: Theme.of(context).appColors.secondary,
             borderRadius: const BorderRadius.all(Radius.circular(16)),
@@ -19,14 +21,11 @@ class most_visited extends StatelessWidget {
         ),
         child: MaterialButton(
           onPressed: onPressed,
-          child: Text(
-              name,
+          child: Text(name,
               style: Theme.of(context)
                   .appTexts
                   .bodyMedium
-                  .copyWith(color: Theme.of(context).appColors.black60),
-            textAlign: TextAlign.center,
-          ),
+                  .copyWith(color: Theme.of(context).appColors.black60)),
         ),
       ),
     );
