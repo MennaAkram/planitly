@@ -62,4 +62,7 @@
   "signInGoogle": "Sign in with google",
   "addCustom": "Add custom",
   "templateName": "Template name"
+  "deviceLogout": "Device logout",
+  "shareWithAi": "Share With Ai",
+  "share": "Share"
 }
