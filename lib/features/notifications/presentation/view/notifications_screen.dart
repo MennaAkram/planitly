@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:planitly/app/di.dart';
 import 'package:planitly/design_system/theme.dart';
 import 'package:planitly/features/notifications/presentation/cubit/notifications_cubit.dart';
@@ -94,9 +95,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image(
-                                  image: AssetImage(
-                                      Assets.notificationPlaceholder),
+                                SvgPicture.asset(
+                                  Assets.notificationPlaceholder,
                                   width: 200,
                                   height: 200,
                                 ),

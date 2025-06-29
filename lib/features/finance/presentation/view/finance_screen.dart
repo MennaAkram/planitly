@@ -88,6 +88,7 @@ class _FinanceScreenState extends State<FinanceScreen> {
         },
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               BlocBuilder<FinanceCubit, BaseState>(
                 bloc: _cubit,
@@ -99,14 +100,39 @@ class _FinanceScreenState extends State<FinanceScreen> {
                     );
                   }
 
-                  return GraphWidget(
-                    data: _cubit.graphData,
-                    maxX: _cubit.graphData.isEmpty
-                        ? 1
-                        : _cubit.graphData.length - 1,
-                    miny: _cubit.minY,
-                    maxy: _cubit.maxY,
-                    isIncreasing: _cubit.isIncreasing,
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context).totalAmount,
+                              style: Theme.of(context).appTexts.titleSmall.copyWith(
+                                color: Theme.of(context).appColors.black60,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              _cubit.totalAmount.toStringAsFixed(2),
+                              style: Theme.of(context).appTexts.titleSmall.copyWith(
+                                color: Theme.of(context).appColors.black87,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      GraphWidget(
+                        data: _cubit.graphData,
+                        maxX: _cubit.graphData.isEmpty
+                            ? 1
+                            : _cubit.graphData.length - 1,
+                        miny: _cubit.minY,
+                        maxy: _cubit.maxY,
+                        isIncreasing: _cubit.isIncreasing,
+                      ),
+                    ],
                   );
                 },
               ),

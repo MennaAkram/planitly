@@ -7,6 +7,7 @@ class EndPoints {
   static const String forgotPassword = 'auth/forgot-password';
   static const String logout = 'auth/logout-device';
 
+  static const String home = 'home/';
   static const String notifications = 'notifications';
   static const String fcmToken = 'notifications/register-fcm-token';
 

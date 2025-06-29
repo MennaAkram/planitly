@@ -24,6 +24,17 @@ class FinanceCubit extends BaseCubit {
   bool get showIncomeTable => incomes.isNotEmpty;
   bool get showExpenseTable => expenses.isNotEmpty;
 
+  double get totalAmount {
+    double total = 0;
+    for (var income in incomes) {
+      total += income.amount;
+    }
+    for (var expense in expenses) {
+      total -= expense.amount;
+    }
+    return total;
+  }
+
   getFinance() async {
     emit(const LoadingState());
 

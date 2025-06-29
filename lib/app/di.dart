@@ -19,6 +19,8 @@ import 'package:planitly/features/category/presentation/cubit/category_cubit.dar
 import 'package:planitly/features/finance/data/repositories/finance_repo_impl.dart';
 import 'package:planitly/features/finance/domain/repositories/finance_repo.dart';
 import 'package:planitly/features/finance/presentation/cubit/finance_cubit.dart';
+import 'package:planitly/features/home_screen/domain/repositories/home_repo.dart';
+import 'package:planitly/features/home_screen/presentation/cubit/home_cubit.dart';
 import 'package:planitly/features/my_pages/data/repositories/pages_repo_impl.dart';
 import 'package:planitly/features/my_pages/domain/repositories/pages_repo.dart';
 import 'package:planitly/features/my_pages/presentation/cubit/pages_cubit.dart';
@@ -38,6 +40,7 @@ import 'package:planitly/shared/networking/app_interceptor.dart';
 import '../features/emails/presentation/cubit/emails_cubit.dart';
 import '../features/Chatbot/data/repositories/chatbot_repo_impl.dart';
 import '../features/Chatbot/presentation/cubit/chatbot_cubit.dart';
+import '../features/home_screen/data/repositories/home_repo_impl.dart';
 import '../shared/navigator_helper.dart';
 import '../shared/notification_service.dart';
 
@@ -125,6 +128,10 @@ Future<void> setupServiceLocator() async {
 
   getIt.registerSingleton<SubjectRepository>(
     SubjectRepositoryImpl(
+
+  getIt.registerSingleton<HomeRepository>(
+    HomeRepositoryImpl(
+
       getIt<Dio>(instanceName: planitlyService),
     ),
   );
@@ -177,4 +184,11 @@ Future<void> setupServiceLocator() async {
   getIt.registerFactory<SubjectCubit>(() => SubjectCubit(
         getIt<SubjectRepository>(),
       ));
+
+  getIt.registerFactory<HomeCubit>(() => HomeCubit(
+        getIt<HomeRepository>(),
+        getIt<PagesRepository>(),
+        getIt<CategoriesRepository>(),
+      ));
+
 }
