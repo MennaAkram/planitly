@@ -120,13 +120,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildPagesSection(context, _cubit),
                     if (_cubit.connections.totalToday > 0)
                     _buildTodayTasksSection(context),
-                    if (_cubit.userState.totalCategories > 0)
                     _buildCategoriesSection(context, _cubit),
                     _buildTemplatesSection(context, _cubit, () {_openAddTemplateDialog();}),
                     if (_cubit.habits.detailedProgress.isNotEmpty)
                     _buildTodayHabitsSection(context, _cubit),
-                    // if (_cubit.financeTracker.components.isNotEmpty)
-                    // _buildTodayExpensesSection(context, _cubit),
+                    if (_cubit.financeTracker.components.isNotEmpty)
+                    _buildTodayExpensesSection(context, _cubit),
                     if (isAdding == false)
                       const HomePlaceHolder()
                   ],
@@ -181,6 +180,32 @@ class _HomeScreenState extends State<HomeScreen> {
         key: formKey,
         child: CustomTextField(
           labelText: AppLocalizations.of(context).templateName,
+          controller: nameController,
+          validator: Validators.cantBeEmpty,
+        ),
+      ),
+    );
+  }
+
+  void _openAddCategoryDialog() {
+    context.alertDialog(
+      AppLocalizations.current.addNewCategory,
+      AppLocalizations.current.add,
+      AppLocalizations.current.cancel,
+      () async {
+        if (formKey.currentState?.validate() ?? false) {
+          _shouldScrollOnAdd = true;
+          await _cubit.addCategory(name: nameController.text);
+          await _cubit.getData();
+          nameController.clear();
+          NavigatorHelper.pop();
+        }
+      },
+      () => Navigator.of(context).pop(),
+      Form(
+        key: formKey,
+        child: CustomTextField(
+          labelText: AppLocalizations.current.categoryName,
           controller: nameController,
           validator: Validators.cantBeEmpty,
         ),
@@ -301,7 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Categories(name: subject.name, onPressed: () {});
                 },
               ),
-              _buildAddNewItemButton(context, "Add new category", () {}),
+              _buildAddNewItemButton(context, "Add new category", _openAddCategoryDialog),
             ],
           ),
         ),
@@ -312,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildTemplatesSection(BuildContext context, HomeCubit _cubit, VoidCallback onPressed) {
     return Column(
       children: [
-        CustomTitle(title: "Templates", onPressed: () {}),
+        CustomTitle(title: "Templates", onPressed: (){}),
         Container(
           margin: const EdgeInsets.only(bottom: 16),
           height: 85,
@@ -331,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return TemplateCard(name: template.name, onPressed: onPressed);
                 },
               ),
-              _buildAddNewItemButton(context, "Add custom", () {},
+              _buildAddNewItemButton(context, "Add custom", _openAddTemplateDialog,
                   aspectRatio: 4 / 3),
             ],
           ),

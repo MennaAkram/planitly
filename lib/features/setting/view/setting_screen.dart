@@ -147,23 +147,13 @@ class _settingState extends State<setting> {
                 child: Column(
                   children: [
                     SettingButtom(
-                        text: "macOS",
-                        iconPath: Assets.labIcon,
-                        onTap: () => _openLogoutDialog(context),
-                        address: 'Cairo, Egypt today at 3:55 AM'),
-                    SettingButtom(
-                        text: "Vivo V25e",
+                        text: "Medium Phone API 35",
                         iconPath: Assets.mobleIcon,
                         onTap: () => _openLogoutDialog(context),
-                        address: 'Cairo, Egypt today at 3:55 AM'),
-                    SettingButtom(
-                        text: "macOS",
-                        iconPath: Assets.labIcon,
-                        onTap: () => _openLogoutDialog(context),
-                        address: 'Cairo, Egypt today at 3:55 AM'),
+                        address: 'Cairo, Egypt yesterday at 12:43 AM'),
                     SettingButtom(
                         text: "Vivo V25e",
-                        iconPath: Assets.mobleIcon,
+                        iconPath: Assets.labIcon,
                         onTap: () => _openLogoutDialog(context),
                         address: 'Cairo, Egypt today at 3:55 AM'),
                   ],

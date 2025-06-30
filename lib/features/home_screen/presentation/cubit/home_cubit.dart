@@ -126,8 +126,7 @@ class HomeCubit extends BaseCubit {
 
     isAdding = true;
 
-    final result = await _categoriesRepo.addCategory(
-        name: name, pageIds: selectedPages.map((e) => e.id).toList());
+    final result = await _categoriesRepo.addCategory(name: name, pageIds: [for (var page in selectedPages) page.id]);
 
     result.fold(
           (NetworkException exception) {
